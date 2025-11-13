@@ -36,6 +36,15 @@ body, html {
     #splash img {
         transform: translateY(-7vh); /* 7% 위로 올림 */
     }
+    #intro-items {
+        gap: -10vh;          /* 간격을 조금 더 좁게 */
+        margin-top: 10vh;    /* 시작 위치를 더 위로 */
+    }
+
+    #intro-items img {
+        height: 40vh;        /* 화면에 비해 너무 크면 줄이기 */
+        margin-top: -10vh;   /* 겹침 정도도 비율 단위로 */
+    }
 }
 
 /* iPhone 안전영역 감안 */
@@ -57,18 +66,6 @@ body, html {
     max-width: 500px;
 }
 
-/* 모바일 전용 (세로 비율이 긴 화면에서 조정) */
-@media (max-width: 768px) {
-    #intro-items {
-        gap: -10vh;          /* 간격을 조금 더 좁게 */
-        margin-top: 10vh;    /* 시작 위치를 더 위로 */
-    }
-
-    #intro-items img {
-        height: 40vh;        /* 화면에 비해 너무 크면 줄이기 */
-        margin-top: -10vh;   /* 겹침 정도도 비율 단위로 */
-    }
-}
 #intro-items img {
     width: auto; height: 50vh; max-width: 80vw; opacity: 0;    margin-top: -200px; /* 겹치는 정도 조절 */
     object-fit: contain; object-position: center;
