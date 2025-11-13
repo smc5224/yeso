@@ -31,14 +31,31 @@ body, html {
     width: 80%; max-width: 1000px; height: auto;
     transition: transform 1s ease, opacity 1s ease;
 }
+
+#intro-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: -20vh;              /* 기존 -200px 대신 비율 단위 사용 */
+    margin-top: 15vh;        /* 위쪽 여백도 비율 단위 */
+    opacity: 0;
+    transition: opacity 1s ease;
+    width: 80%;
+    max-width: 500px;
+}
+
+#intro-items img {
+    width: auto; height: 50vh; max-width: 80vw; opacity: 0;    margin-top: -15vh; /* 겹치는 정도 조절 */
+    object-fit: contain; object-position: center;
+}
 /* 세로형 화면(아이폰 포함)일 때 살짝 위로 */
 @media (orientation: portrait) {
     #splash img {
         transform: translateY(-7vh); /* 7% 위로 올림 */
     }
     #intro-items {
-        gap: -10vh;          /* 간격을 조금 더 좁게 */
-        margin-top: 10vh;    /* 시작 위치를 더 위로 */
+        gap: -50vh;          /* 간격을 조금 더 좁게 */
+        margin-top: -20vh;    /* 시작 위치를 더 위로 */
     }
 
     #intro-items img {
@@ -52,23 +69,6 @@ body, html {
     #splash {
         padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
     }
-}
-
-#intro-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: -15vh;              /* 기존 -200px 대신 비율 단위 사용 */
-    margin-top: 15vh;        /* 위쪽 여백도 비율 단위 */
-    opacity: 0;
-    transition: opacity 1s ease;
-    width: 80%;
-    max-width: 500px;
-}
-
-#intro-items img {
-    width: auto; height: 50vh; max-width: 80vw; opacity: 0;    margin-top: -200px; /* 겹치는 정도 조절 */
-    object-fit: contain; object-position: center;
 }
 @keyframes fadeInUp {
     0% { opacity: 0; transform: translate3d(0, 100%, 0); }
