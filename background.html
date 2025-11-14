@@ -160,10 +160,10 @@ body.to-light{
   }
 }
 
-    /* ===== Section 1: 기존 말풍선 4장 (배치만 섹션 상대 좌표로 조정) ===== */
-    .s1 .bubble{
-      position:absolute; display:block;
-      filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
+/* ===== Section 1: 기존 말풍선 4장 (배치만 섹션 상대 좌표로 조정) ===== */
+.s1 .bubble{
+    position:absolute; display:block;
+    filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
       width:min(1200px, 92vw);
     }
     .s1 .bubble--top{ top:13%; left:55%; transform:translate(-50%, 0); width:min(1200px, 92vw); }
@@ -175,6 +175,41 @@ body.to-light{
     .s1 .bubble{ transform: translateY(40px); }
     .s1 .bubble.show{ transform: translateY(0); }
     .s1 .bubble--top.show{ transform: translate(-50%, 0); }
+    
+/* ✅ 모바일(세로 화면)일 때도 PC와 비슷한 비율 유지 */
+@media (max-width: 768px) and (orientation: portrait) {
+  .s1 .bubble {
+    width: 100%; /* 전체 크기 기준 비율 */
+    max-width: none;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,.4));
+  }
+
+  /* 각 말풍선 위치 및 크기 조정 */
+  .s1 .bubble--top {
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 95vw; /* 화면 폭 거의 꽉 채우기 */
+  }
+
+  .s1 .bubble--small-left {
+    top: 30%;
+    left: 8%;
+    width: 60vw; /* 크기 조금 키움 */
+  }
+
+  .s1 .bubble--bottom {
+    top: 55%;
+    right: 5%;
+    width: 90vw; /* 큰 말풍선이 화면을 꽉 채움 */
+  }
+
+  .s1 .bubble--small-right {
+    top: 45%;
+    right: 5%;
+    width: 55vw;
+  }
+}
 
     /* ===== Section 2: Research 스타일 한 장 + 텍스트 ===== */
     .s2 .board{
