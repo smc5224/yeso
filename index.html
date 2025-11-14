@@ -55,7 +55,7 @@ body, html {
     }
     #intro-items {
         gap: -50vh;          /* 간격을 조금 더 좁게 */
-        margin-top: 19vh;    /* 시작 위치를 더 위로 */
+        margin-top: 17vh;    /* 시작 위치를 더 위로 */
     }
 
     #intro-items img {
@@ -428,6 +428,28 @@ window.addEventListener('wheel', function(event) {
     if (!main.className.includes('expanded-') && !isScrolling) {
         isScrolling = true;
 
+        main.classList.add('fading-out');
+
+        setTimeout(() => {
+            window.location.href = 'background.html';
+        }, 1000);
+    }
+});
+
+// 📱 모바일 터치 감지 (위로 스와이프 시 background.html 이동)
+let touchStartY = 0;
+let touchEndY = 0;
+
+window.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+});
+
+window.addEventListener('touchend', function(e) {
+    touchEndY = e.changedTouches[0].clientY;
+
+    // 위로 스와이프 (touchStartY > touchEndY)
+    if (touchStartY - touchEndY > 50 && !isScrolling && !main.className.includes('expanded-')) {
+        isScrolling = true;
         main.classList.add('fading-out');
 
         setTimeout(() => {
