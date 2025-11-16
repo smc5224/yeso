@@ -20,18 +20,20 @@
             color: #333;
             line-height: 1.6;
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-
-            /* 👇 [해결] 이 코드를 추가하세요 */
             overflow-x: hidden; 
         }
 
-        /* ✨ 2. 아래로 사라지는 애니메이션 효과를 위한 클래스 추가 */
+        /* ... (중략) ... */
+        
         body.fade-out-down {
             opacity: 0;
-            transform: translateY(50px) ; /* 아래로 50px 이동 */
+            transform: translateY(50px) ;
+        }
+        body.fade-out-up {
+            opacity: 0;
+            transform: translateY(-50px);
         }
 
-        /* ----- 헤더 로고 스타일 ----- */
         .site-header {
             position: fixed;
             top: 20px;
@@ -44,7 +46,6 @@
             width: 150px;
         }
 
-        /* ----- 공통 섹션 스타일 ----- */
         .hero-section, .reversed-section {
             min-height: 100vh;
             width: 100%;
@@ -56,7 +57,6 @@
             scroll-snap-align: start;
         }
         
-        /* ----- 메인 콘텐츠 레이아웃 (Flexbox) ----- */
         .content-grid {
             display: flex;
             align-items: stretch; 
@@ -71,9 +71,7 @@
             align-items: flex-end; 
             justify-content: flex-start;
             aspect-ratio: 5 / 4; 
-
             transform: translateX(-30px) translateY(-30px) scale(1.15);
-
         }
 
         .main-video-container {
@@ -84,17 +82,15 @@
             aspect-ratio: 5 / 4; 
             border-radius: 16px;
             transform: translateX(-350px) translateY(-200px) scale(1.15);
-
         }
 
-        .main-image-container img{ /* 비디오 스타일 추가 */
+        .main-image-container img{
             width: 90%; 
             max-height: 75vh; 
             object-fit: cover;
             display: block;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
         }
 
         .main-video-container video {
@@ -104,9 +100,7 @@
             justify-content: flex-start;
             aspect-ratio: 5 / 4; 
             border-radius: 16px;
-
             transform: translateX(-20px) translateY(-30px) scale(0.8);
-
         }
 
         .right-info {
@@ -141,9 +135,7 @@
             max-width: 1500px;
             font-weight: 500;
             align-self: flex-start; 
-              line-height: 1.2;
-
-
+            line-height: 1.2;
             transform: translateX(-80px) translateY(10px) scale(1.2);
         }
 
@@ -153,18 +145,17 @@
             max-width: 1500px;
             font-weight: 500;
             align-self: flex-start; 
-              line-height: 1.2;
-
-
+            line-height: 1.2;
             transform: translateX(0px) translateY(-200px) scale(1.2);
         }
+
+        /* ... (이하 데스크탑 CSS 코드는 모두 동일) ... */
 
         .product-description h3 {
             font-size: 16px;
             margin-bottom: 8px;
         }
 
-        /* ----- 하단 스크롤 아이콘 ----- */
         .scroll-indicator {
             position: fixed;
             bottom: 30px;
@@ -172,7 +163,7 @@
             width: 70px;
             z-index: 10;
             transition: transform 0.3s ease-in-out;
-            cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
+            cursor: pointer;
         }
 
         .scroll-indicator img {
@@ -181,19 +172,14 @@
             display: block;
         }
         
-        /* ----- 반전 레이아웃 스타일 ----- */
         .main-image-container--reversed {
             justify-content: flex-end; 
         }
-        body.fade-out-up {
-            opacity: 0;
-            transform: translateY(-50px); /* 위로 50px 이동 */
-         }
+
         .product-shot--reversed {
             align-self: flex-start; 
         }
 
-        /* ----- 3번째 페이지 전용 스타일 ----- */
         .content-grid--no-gap {
             gap: 0;
         }
@@ -207,202 +193,293 @@
             width: 110%;
         }
 
-        /* ----- 반응형 디자인 (모바일 화면) ----- */
+        /* =====================================
+        ▼▼▼ 모바일 반응형 코드 (여기부터 수정) ▼▼▼
+        =====================================
+        */
         @media (max-width: 768px) {
             .site-header {
                 left: 20px;
             }
+            
+            /* [수정] 로고 크기 */
+            .site-header .logo img {
+                width: 100px; /* 120px -> 100px */
+            }
 
+            /* [수정] 스크롤 아이콘 */
             .scroll-indicator {
                 right: 20px;
+                bottom: 20px;
+                width: 45px; /* 50px -> 45px */
             }
 
+            /* [수정] 상하 패딩 */
             .hero-section, .reversed-section {
-                padding: 100px 20px;
+                padding: 80px 20px; /* 100px -> 80px */
             }
 
+            /* [수정] content-grid 갭 30px */
             .content-grid {
                 flex-direction: column;
                 align-items: center;
-                gap: 40px;
-                width: 90%;
+                gap: 30px; /* 40px -> 30px */
+                width: 100%; 
             }
 
             .content-grid--reversed {
                 flex-direction: column-reverse;
             }
             
+            /* [수정] right-info 너비 100% */
             .right-info {
                 align-items: center;
                 text-align: center;
                 margin-left: 0;
+                width: 100%; 
             }
 
+            /* [수정] Transform 리셋 + 비율 16/9 */
+            .main-image-container {
+                transform: none;
+                width: 100%;
+                aspect-ratio: 16 / 9; /* 16/10 -> 16/9 */
+                flex: 1; 
+            }
+            .main-image-container img {
+                width: 100%;
+                max-height: none; 
+            }
+
+            /* [수정] Transform 리셋 + 비율 16/9 */
+            .main-video-container {
+                transform: none;
+                width: 100%;
+                aspect-ratio: 16 / 9; /* 16/10 -> 16/9 */
+                flex: 1; 
+            }
+            .main-video-container video {
+                transform: none;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                aspect-ratio: auto;
+                flex: auto;
+            }
+
+            /* [수정] .product-shot 오른쪽 정렬 */
             .product-shot, .product-shot--reversed {
-                align-self: auto;
+                align-self: flex-end; 
+                transform: none; 
+                margin-bottom: 15px; /* 20px -> 15px */
+            }
+            .product-shot img {
+                max-width: 120px; /* 150px -> 120px */
+                transform: rotate(-90deg); 
             }
 
+            /* [수정] .product-shot2 중앙 정렬 및 크기 */
+            .product-shot2 {
+                align-self: auto;
+                transform: none;
+                margin-bottom: 0;
+            }
+            .product-shot2 img {
+                max-width: 220px; /* 250px -> 220px */
+            }
+
+            /* [수정] 텍스트 중앙 정렬 및 간격 */
             .product-description {
                 align-self: auto;
+                transform: none;
+                max-width: 100%;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            /* [신규] 텍스트 안 굵은 글씨 크기 조정 */
+            .product-description strong span {
+                font-size: 16px !important; /* 인라인 스타일 18px 덮어쓰기 */
+            }
+            
+            .product-description2 {
+                align-self: auto;
+                transform: none;
+                max-width: 100%;
+                font-size: 14px;
+                line-height: 1.5;
             }
 
             .third-section .right-info {
                 padding: 0;
             }
+
+            /* 퀵바/서랍 (크기 유지) */
+            .quickbar {
+                width: 45px;
+                height: auto;
+                padding: 15px 0;
+                border-radius: 10px 0 0 10px;
+                transform: translateY(-50%) translateX(0);
+                top: 50%;
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .qb-label {
+                font-size: 16px;
+            }
+            .drawer {
+                width: 90vw;
+                max-width: 90vw;
+            }
+            
+            /* [수정] 지그재그 리스트 768px로 병합 */
+            .zigzag-list {
+                gap: 16px;
+            }
+            .zigzag-list .zz-item:nth-child(odd),
+            .zigzag-list .zz-item:nth-child(even) {
+                transform: none;
+            }
+            .zz-img {
+                aspect-ratio: 1 / 1; /* 모바일에서 정사각형으로 맞추기 */
+            }
         }
+        /* ▲▲▲ 모바일 반응형 코드 (여기까지 수정) ▲▲▲ */
+
 
         .quickbar{
-  position: fixed; top: 40%; right: 0px;
-  transform: translateY(-50%) translateX(18px);
-  width: 70px; height: 700px; 
-  background: linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.35));
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  border: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 12px 24px rgba(0,0,0,.12);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; opacity: 0; pointer-events: none;
-  transition: opacity .35s ease, transform .35s ease, box-shadow .35s ease;
-  z-index: 30;
-  border-left: 4px solid var(--accent);
-    flex-direction: column;        /* 세로 방향 배치 */
-  justify-content: flex-start;   /* 위쪽 정렬 */
-  align-items: center;
-  padding-top: 30px;             /* 위쪽 여백 */
+            position: fixed; top: 40%; right: 0px;
+            transform: translateY(-50%) translateX(18px);
+            width: 70px; height: 700px; 
+            background: linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.35));
+            -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,.06);
+            box-shadow: 0 12px 24px rgba(0,0,0,.12);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; pointer-events: none;
+            transition: opacity .35s ease, transform .35s ease, box-shadow .35s ease;
+            z-index: 30;
+            border-left: 4px solid var(--accent);
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 30px;
+        }
+        .quickbar.visible{ opacity:1; pointer-events:auto; transform: translateY(-50%) translateX(0); }
+        .quickbar:hover{ box-shadow: 0 16px 32px rgba(0,0,0,.18); }
 
+        .qb-label{
+            writing-mode: vertical-rl;
+            font-weight: 700;
+            letter-spacing: .4px;
+            color:#000;
+            font-size: clamp(18px, 2.2vw, 24px);
+        }
 
-  
-}
-.quickbar.visible{ opacity:1; pointer-events:auto; transform: translateY(-50%) translateX(0); }
-.quickbar:hover{ box-shadow: 0 16px 32px rgba(0,0,0,.18); }
+        /* 슬라이드 패널 */
+        .drawer{
+            position: fixed; inset: 0 0 0 auto; width: 430px; max-width: 86vw;
+            transform: translateX(100%);
+            background: rgba(255,255,255,.82);
+            -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+            box-shadow: -24px 0 48px rgba(0,0,0,.18);
+            transition: transform .45s cubic-bezier(.22,.8,.2,1);
+            z-index: 40;
+            border-left: 6px solid var(--accent);
+        }
+        .drawer.open{ transform: translateX(0); }
+        .drawer-body{ padding: 24px 20px 48px; }
+        .drawer-close{
+            position:absolute; top:10px; right:12px;
+            font-size:28px; line-height:1; background:transparent; border:0; cursor:pointer;
+            color:#333;
+        }
 
-.qb-label{
-  writing-mode: vertical-rl;
-  font-weight: 700;
-  letter-spacing: .4px;
-  color:#000;
-  font-size: clamp(18px, 2.2vw, 24px); /* 글자 크게 */
-}
+        /* 어두운 스크림 */
+        .drawer-scrim{
+            position: fixed; inset: 0; background: rgba(187, 187, 187, 0.25);
+            opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 35;
+        }
+        .drawer-scrim.show{ opacity: 1; pointer-events: auto; }
+        
+        /* ... (이하 @keyframes, .ripple 등 나머지 CSS는 모두 동일) ... */
 
-/* 슬라이드 패널 */
-.drawer{
-  position: fixed; inset: 0 0 0 auto; width: 430px; max-width: 86vw;
-  transform: translateX(100%);
-  background: rgba(255,255,255,.82);
-  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-  box-shadow: -24px 0 48px rgba(0,0,0,.18);
-  transition: transform .45s cubic-bezier(.22,.8,.2,1);
-  z-index: 40;
-  border-left: 6px solid var(--accent);
-}
-.drawer.open{ transform: translateX(0); }
-.drawer-body{ padding: 24px 20px 48px; }
-.drawer-close{
-  position:absolute; top:10px; right:12px;
-  font-size:28px; line-height:1; background:transparent; border:0; cursor:pointer;
-  color:#333;
-}
+        @keyframes pulseBounce {
+            0% {
+                transform: scale(1);
+                box-shadow:
+                    0 0 10px 5px rgba(255,255,255,1),
+                    0 0 10px 30px rgba(255,255,255,0.75),
+                    0 0 10px 60px rgba(255,216,145,0.75),
+                    0 0 10px 90px rgba(255,216,145,0.8);
+            }
+            40% {
+                transform: scale(1.08);
+                box-shadow:
+                    0 0 15px 10px rgba(255,255,255,1),
+                    0 0 25px 50px rgba(255,255,255,0.75),
+                    0 0 20px 80px rgba(255,216,145,0.75),
+                    0 0 20px 110px rgba(255,216,145,0.8);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-/* 어두운 스크림 */
-.drawer-scrim{
-  position: fixed; inset: 0; background: rgba(187, 187, 187, 0.25);
-  opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 35;
-}
-.drawer-scrim.show{ opacity: 1; pointer-events: auto; }
+        .overlay.bounce::after {
+            animation: pulseBounce 0.7s ease-out;
+        }
 
-@keyframes pulseBounce {
-  0% {
-    transform: scale(1);
-    box-shadow:
-      0 0 10px 5px rgba(255,255,255,1),
-      0 0 10px 30px rgba(255,255,255,0.75),
-      0 0 10px 60px rgba(255,216,145,0.75),
-      0 0 10px 90px rgba(255,216,145,0.8);
-  }
-  40% {
-    transform: scale(1.08);
-    box-shadow:
-      0 0 15px 10px rgba(255,255,255,1),
-      0 0 25px 50px rgba(255,255,255,0.75),
-      0 0 20px 80px rgba(255,216,145,0.75),
-      0 0 20px 110px rgba(255,216,145,0.8);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+        @keyframes rippleWave {
+            0% { transform: scale(0.3); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
 
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,216,145,0.3) 40%, transparent 80%);
+            pointer-events: none;
+            transform: scale(0);
+            animation: rippleWave 1.2s ease-out forwards;
+            z-index: 9;
+        }
 
-.overlay.bounce::after {
-  animation: pulseBounce 0.7s ease-out;
-}
+        /* ----- 지그재그 이미지 리스트 ----- */
+        .zigzag-list {
+            display: grid;
+            gap: 0px;
+            margin-top: 20px;
+        }
 
-@keyframes rippleWave {
-  0% {
-    transform: scale(0.3);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.4;
-  }
-  100% {
-    transform: scale(1.8);
-    opacity: 0;
-  }
-}
+        .zz-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 5 / 3;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform .3s ease;
+            transform: scale(0.9);
+        }
 
-.ripple {
-  position: fixed;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,216,145,0.3) 40%, transparent 80%);
-  pointer-events: none;
-  transform: scale(0);
-  animation: rippleWave 1.2s ease-out forwards;
-  z-index: 9;
-}
+        .zz-item:hover .zz-img {
+            transform: scale(1.0);
+        }
 
-
-/* ----- 지그재그 이미지 리스트 ----- */
-.zigzag-list {
-  display: grid;
-  gap: 0px;
-  margin-top: 20px;
-
-}
-
-/* ----- 개별 카드 ----- */
-
-/* ----- 이미지 스타일 (비율/크기 조절 핵심 부분) ----- */
-.zz-img {
-  width: 100%;              /* 가로 크기 기준 */
-  height: auto;             /* 기본은 자동 비율 유지 */
-  aspect-ratio: 5 / 3;      /* 👉 원하는 비율로 설정 (예: 1/1, 16/9, 3/4 등) */
-  object-fit: cover;        /* 잘림 없이 꽉 차게 */
-  border-radius: 12px;
-  transition: transform .3s ease;
-  transform: scale(0.9);
-}
-
-/* hover 시 살짝 확대 효과 */
-.zz-item:hover .zz-img {
-  transform: scale(1.0);
-}
-
-
-
-/* ----- 모바일 대응 ----- */
-@media (max-width: 640px) {
-  .zigzag-list {
-    gap: 16px;
-  }
-  .zigzag-list .zz-item:nth-child(odd),
-  .zigzag-list .zz-item:nth-child(even) {
-    transform: none;
-  }
-  .zz-img {
-    aspect-ratio: 1 / 1; /* 모바일에서 정사각형으로 맞추기 */
-  }
-}
+        /* [수정] 640px 룰을 768px 미디어 쿼리 안으로 병합했습니다. */
+        @media (max-width: 768px) {
+            .zigzag-list {
+                gap: 16px;
+            }
+            .zigzag-list .zz-item:nth-child(odd),
+            .zigzag-list .zz-item:nth-child(even) {
+                transform: none;
+            }
+            .zz-img {
+                aspect-ratio: 1 / 1; /* 모바일에서 정사각형으로 맞추기 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -424,7 +501,7 @@
                 </div>
                 <p class="product-description">
                     아이들은을 
- <strong><span style="font-size: 18px;"> ROLL</span></strong>을 손에 끼우거나 굴리고, <br> 공중에서 돌리거나 비스듬하게 회전시키며 운동 에너지를 모읍니다.
+    <strong><span style="font-size: 18px;"> ROLL</span></strong>을 손에 끼우거나 굴리고, <br> 공중에서 돌리거나 비스듬하게 회전시키며 운동 에너지를 모읍니다.
                     <br><br>
                     익숙한 놀이 동작 속에서 발생하는 힘이 전기로 전환되어,<br>움직임 그 자체가 에너지 생성의 과정이 됩니다.
                 </p>
@@ -437,52 +514,50 @@
     <section class="reversed-section third-section">
         <div class="content-grid content-grid--no-gap">
 <div class="right-info">
-                <div class="product-shot2">
-                    <img src="images/move_image/arduino.png" alt="Top-down view of the solar device.">
-                </div>
-                <p class="product-description2">
-                    
-                </p>
+            <div class="product-shot2">
+                <img src="images/move_image/arduino.png" alt="Top-down view of the solar device.">
             </div>
-            
-            <div class="main-video-container ">
-                 <div class="video-frame">
-    <video autoplay loop muted playsinline>
-      <source src="images/move_process.mp4" type="video/mp4">
-    </video>
-  </div>
+            <p class="product-description2">
+                
+            </p>
+        </div>
+        
+        <div class="main-video-container ">
+            <div class="video-frame">
+                <video autoplay loop muted playsinline>
+                    <source src="images/move_process.mp4" type="video/mp4">
+                </video>
             </div>
+        </div>
         </div>
     </section>
 
-     <!-- 오른쪽 퀵바 + 슬라이드 패널 -->
-<button class="quickbar" id="quickBar" aria-controls="sideDrawer" aria-expanded="false">
-  <span class="qb-label">SCENARIO</span>
-</button>
+    <button class="quickbar" id="quickBar" aria-controls="sideDrawer" aria-expanded="false">
+        <span class="qb-label">SCENARIO</span>
+    </button>
 
-<aside class="drawer" id="sideDrawer" aria-hidden="true">
-  <button class="drawer-close" id="drawerClose" aria-label="Close">×</button>
-  <div class="drawer-body">
-  <h3 style="margin-bottom:10px;">SCENARIO</h3>
-  <div class="zigzag-list">
-    <figure class="zz-item">
-      <img class="zz-img" src="images/move_image/scenario1.png" alt="시나리오 1" loading="lazy">
-    </figure>
-    <figure class="zz-item">
-      <img class="zz-img" src="images/move_image/scenario2.png" alt="시나리오 2" loading="lazy">
-    </figure>
-    <figure class="zz-item">
-      <img class="zz-img" src="images/move_image/scenario3.png" alt="시나리오 3" loading="lazy">
-    </figure>
-    <figure class="zz-item">
-      <img class="zz-img" src="images/move_image/scenario4.png" alt="시나리오 4" loading="lazy">
-    </figure>
-  </div>
-</div>
-</aside>
+    <aside class="drawer" id="sideDrawer" aria-hidden="true">
+        <button class="drawer-close" id="drawerClose" aria-label="Close">×</button>
+        <div class="drawer-body">
+            <h3 style="margin-bottom:10px;">SCENARIO</h3>
+            <div class="zigzag-list">
+                <figure class="zz-item">
+                    <img class="zz-img" src="images/move_image/scenario1.png" alt="시나리오 1" loading="lazy">
+                </figure>
+                <figure class="zz-item">
+                    <img class="zz-img" src="images/move_image/scenario2.png" alt="시나리오 2" loading="lazy">
+                </figure>
+                <figure class="zz-item">
+                    <img class="zz-img" src="images/move_image/scenario3.png" alt="시나리오 3" loading="lazy">
+                </figure>
+                <figure class="zz-item">
+                    <img class="zz-img" src="images/move_image/scenario4.png" alt="시나리오 4" loading="lazy">
+                </figure>
+            </div>
+        </div>
+    </aside>
 
-<div class="drawer-scrim" id="drawerScrim"></div>
-
+    <div class="drawer-scrim" id="drawerScrim"></div>
 
     <div class="scroll-indicator">
         <img src="images/seekoo_image/seekoo_pentagon.png" alt="Scroll down indicator">
@@ -494,117 +569,88 @@
         let lastScrollY = window.scrollY;
 
         scrollIndicator.addEventListener('click', () => {
-            // 1. body에 애니메이션 클래스 추가
             document.documentElement.style.scrollSnapType = 'none';
             document.body.classList.add('fade-out-down');
-
-            // 2. 애니메이션 시간(0.8초)이 지난 후 페이지 이동
             setTimeout(() => {
                 window.location.href = 'index.html#main';
             }, 800); 
         });
     </script>
-<script>
-    // --- [NEW] 위로 스크롤 시 페이지 이동 ---
-    let isNavigatingUp = false; // 중복 실행 방지 플래그
+    <script>
+        let isNavigatingUp = false; 
 
-    window.addEventListener('wheel', function(event) {
-        
-        // 1. 아직 이동 중이 아니고,
-        // 2. 마우스 휠을 '위로' 굴렸으며 (event.deltaY < 0),
-        // 3. 페이지가 맨 위(스크롤 위치 0)에 있을 때
-        if (!isNavigatingUp && event.deltaY < 0 && window.scrollY === 0) {
+        window.addEventListener('wheel', function(event) {
             
-            isNavigatingUp = true; // 이동 시작, 플래그 설정
+            if (!isNavigatingUp && event.deltaY < 0 && window.scrollY === 0) {
+                
+                isNavigatingUp = true; 
+                document.documentElement.style.scrollSnapType = 'none';
+                document.body.classList.add('fade-out-up');
+                setTimeout(() => {
+                    window.location.href = 'move.html';
+                }, 800);
+            }
+        }, { passive: true });
 
-            // 4. 스크롤 스냅 기능 비활성화 (애니메이션이 자연스럽게 재생되도록)
-            document.documentElement.style.scrollSnapType = 'none';
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                isNavigatingUp = false;
+                document.body.classList.remove('fade-out-up');
+            }
+        });
 
-            // 5. CSS 애니메이션을 위해 body에 클래스 추가
-            document.body.classList.add('fade-out-up');
+        
+    </script>
+    <script>
+        const quickBar = document.getElementById('quickBar');
+        const showEdge = () => {
+            const threshold = innerWidth * 0.70;
+            quickBar.classList.toggle('visible', lastX >= threshold || 'ontouchstart' in window);
+        };
+        let lastX = 0;
+        addEventListener('mousemove', e => { lastX = e.clientX; showEdge(); }, {passive:true});
+        addEventListener('touchstart', () => { quickBar.classList.add('visible'); }, {passive:true});
 
-            // 6. CSS 애니메이션 시간(0.8초) 후에 페이지 이동
-            setTimeout(() => {
-                window.location.href = 'move.html';
-            }, 800); // body의 transition 시간(0.8s)과 일치
+        const drawer = document.getElementById('sideDrawer');
+        const scrim  = document.getElementById('drawerScrim');
+        const drawerClose = document.getElementById('drawerClose');
+
+        function openDrawer(){
+            drawer.classList.add('open');
+            scrim.classList.add('show');
+            quickBar.setAttribute('aria-expanded', 'true');
+            drawer.setAttribute('aria-hidden', 'false');
         }
-    }, { passive: true });
-
-    // '뒤로가기' 버튼으로 돌아왔을 때 버그 방지
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted) {
-            isNavigatingUp = false;
-            document.body.classList.remove('fade-out-up');
-            // '뒤로가기' 시 스크롤 스냅도 다시 활성화
+        function closeDrawer(){
+            drawer.classList.remove('open');
+            scrim.classList.remove('show');
+            quickBar.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
         }
-    });
+        quickBar.addEventListener('click', openDrawer);
+        drawerClose.addEventListener('click', closeDrawer);
+        scrim.addEventListener('click', closeDrawer);
+        addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+    </script>
+    <script>
+        document.addEventListener('click', (e) => {
+            const count = 3;
+            const delay = 150;
 
-    
-</script>
-
-<script>
-  // ----- 오른쪽 근처로 가면 퀵바 보이기 -----
-const quickBar = document.getElementById('quickBar');
-const showEdge = () => {
-  // 화면 오른쪽 30% 안으로 커서가 들어오면 표시 (모바일은 항상 표시)
-  const threshold = innerWidth * 0.70;
-  quickBar.classList.toggle('visible', lastX >= threshold || 'ontouchstart' in window);
-};
-let lastX = 0;
-addEventListener('mousemove', e => { lastX = e.clientX; showEdge(); }, {passive:true});
-addEventListener('touchstart', () => { quickBar.classList.add('visible'); }, {passive:true});
-
-// ----- 패널 열고 닫기 -----
-const drawer = document.getElementById('sideDrawer');
-const scrim  = document.getElementById('drawerScrim');
-const drawerClose = document.getElementById('drawerClose');
-
-function openDrawer(){
-  drawer.classList.add('open');
-  scrim.classList.add('show');
-  quickBar.setAttribute('aria-expanded', 'true');
-  drawer.setAttribute('aria-hidden', 'false');
-}
-function closeDrawer(){
-  drawer.classList.remove('open');
-  scrim.classList.remove('show');
-  quickBar.setAttribute('aria-expanded', 'false');
-  drawer.setAttribute('aria-hidden', 'true');
-}
-quickBar.addEventListener('click', openDrawer);
-drawerClose.addEventListener('click', closeDrawer);
-scrim.addEventListener('click', closeDrawer);
-addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
-
-
-
-</script>
-
-
-<script>
-document.addEventListener('click', (e) => {
-  const count = 3; // 몇 개의 원을 만들지 (물결 개수)
-  const delay = 150; // 물결 간 간격(ms)
-
-  for (let i = 0; i < count; i++) {
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-
-    const size = 200 + i * 60; // 바깥으로 갈수록 더 큼
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - size / 2}px`;
-    ripple.style.top = `${e.clientY - size / 2}px`;
-    ripple.style.animationDelay = `${i * delay}ms`;
-
-    document.body.appendChild(ripple);
-
-    // 애니메이션 끝나면 삭제
-    ripple.addEventListener('animationend', () => ripple.remove());
-  }
-});
-</script>
-
+            for (let i = 0; i < count; i++) {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                const size = 200 + i * 60;
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                ripple.style.left = `${e.clientX - size / 2}px`;
+                ripple.style.top = `${e.clientY - size / 2}px`;
+                ripple.style.animationDelay = `${i * delay}ms`;
+                document.body.appendChild(ripple);
+                ripple.addEventListener('animationend', () => ripple.remove());
+            }
+        });
+    </script>
 
 </body>
 </html>

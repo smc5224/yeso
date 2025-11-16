@@ -13,7 +13,7 @@
   }
 
   :root {
-    --r: 300px;
+    --r: 300px; /* ▼ 데스크탑 기본 크기 300px */
     --mx: 50vw;
     --my: 50vh;
     --overlay: #FF5F46;
@@ -30,13 +30,13 @@
     height: 100%;
   }
 
-  /* 아래쪽 페이지 */
+  /* ... (중간 CSS 코드는 이전과 동일) ... */
+  
   .under {
-      /* 기존 min-height, padding 유지 대신 중앙 정렬만 강제 */
-  min-height: 100vh;
-  display: flex;
-  align-items: center;       /* 세로 중앙 */
-  padding: 0 2rem 0 20vw;  
+    min-height: 100vh;
+    display: flex;
+    align-items: center;     /* 세로 중앙 */
+    padding: 0 2rem 0 20vw;
   }
 
   .under-logo {
@@ -44,8 +44,6 @@
     align-items: flex-start;
     gap: 30px;
     transform: translateY(20px);
-
-
   }
 
   .under-dot {
@@ -58,10 +56,9 @@
   .under-word {
     color: #FF5F46;
     font-family: "Almarai", sans-serif;
-    font-size: clamp(50px, 4vw, 44px);
+    font-size: clamp(44px, 4vw, 50px); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
     font-weight: 600;
     letter-spacing: .5px;
-
     transform: translateY(15px);
   }
 
@@ -69,20 +66,20 @@
     display: flex;
     align-items: flex-start;
     gap: 50px;
-
   }
-/* 1. 두 레이어에 부드러운 transition 적용 */
-.overlay, .under {
+  
+  /* 두 레이어에 부드러운 transition 적용 */
+  .overlay, .under {
     transition: opacity 0.8s ease;
-}
+  }
 
-/* 2. 페이지가 사라질 때 적용할 클래스 */
-body.page-fading-out .overlay,
-body.page-fading-out .under {
+  /* 페이지가 사라질 때 적용할 클래스 */
+  body.page-fading-out .overlay,
+  body.page-fading-out .under {
     opacity: 0;
     pointer-events: none; /* 사라지는 동안 클릭 방지 */
-}
-/* ▲▲▲ 여기까지 추가 ▲▲▲ */
+  }
+
   .under-text h1 {
     font-size: 32px;
     font-weight: 500;
@@ -111,17 +108,8 @@ body.page-fading-out .under {
     align-items: center;
     justify-content: flex-start;
     padding-left: 20vw;
-    transition: opacity .45s ease, transform .6s ease; /* ← transform 추가 */
-    opacity: 1;
-    transform: translateY(0); /* ← 초기 위치 */
     -webkit-mask: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 98%, black 100%);
     mask: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 98%, black 100%);
-  }
-
-  /* ← 위로 사라지는 효과용 클래스 */
-  .overlay.fade-up {
-    opacity: 0;
-    transform: translateY(-80px);
   }
 
   .overlay-logo {
@@ -140,7 +128,7 @@ body.page-fading-out .under {
   .overlay-word {
     color: #ffffff;
     font-family: "Almarai", sans-serif;
-    font-size: clamp(50px, 4vw, 44px);
+    font-size: clamp(44px, 4vw, 50px); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
     font-weight: 600;
     letter-spacing: .5px;
   }
@@ -188,6 +176,67 @@ body.page-fading-out .under {
     z-index: 9;
   }
 
+  /* =====================================
+  ▼▼▼ 모바일 반응형 코드 (수정) ▼▼▼
+  =====================================
+  */
+  @media (max-width: 768px) {
+    
+    /* ▼▼▼ 스포트라이트 크기 수정 ▼▼▼ */
+    :root {
+      --r: 150px; /* 모바일에서 스포트라이트 크기 150px로 줄임 */
+    }
+    /* ▲▲▲ 스포트라이트 크기 수정 ▲▲▲ */
+
+    /* 1. 패딩 변경 */
+    .under {
+      padding: 0 1.5rem;
+      padding-top: 15vh;
+      padding-bottom: 15vh;
+    }
+
+    .overlay {
+      padding-left: 1.5rem;
+    }
+
+    /* 2. 가로 배치(row) -> 세로 배치(column) */
+    .under-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 30px; 
+    }
+
+    /* 3. 로고 위치 조정 */
+    .under-logo {
+      transform: translateY(0);
+      /* 모바일에서 로고와 텍스트 SOLAR 사이 간격 조정 */
+      gap: 15px; 
+    }
+    
+    /* 4. 로고 점 크기 조정 (모바일) */
+    .under-dot, .overlay-dot {
+      width: 45px; /* 원 크기 줄임 */
+      height: 45px; /* 원 크기 줄임 */
+    }
+
+    /* 5. SOLAR 텍스트 크기 조정 (모바일) */
+    .under-word, .overlay-word {
+      font-size: 40px; /* 고정 크기로 지정 */
+      line-height: 1; /* 원과 텍스트의 세로 정렬을 위해 추가 */
+      transform: translateY(0); /* 기존 transform 제거 또는 초기화 */
+    }
+
+    /* 6. 텍스트 크기 및 너비 조정 */
+    .under-text h1 {
+      font-size: 18px; 
+    }
+
+    .under-text p {
+      font-size: 15px;
+      max-width: 100%; 
+    }
+  }
+
 </style>
 </head>
 
@@ -218,6 +267,8 @@ body.page-fading-out .under {
   </main>
 
 <script>
+  // --- 스포트라이트 효과 + 클릭 애니메이션 스크립트 ---
+  // ▼▼▼ 기존 터치 로직(touchmove)으로 복구 ▼▼▼
   const root = document.documentElement;
   const overlay = document.querySelector('.overlay');
 
@@ -226,13 +277,18 @@ body.page-fading-out .under {
     root.style.setProperty('--my', y + 'px');
   }
 
+  // 페이지 로드 시 중앙에서 시작 (원래 로직)
   setPos(window.innerWidth / 2, window.innerHeight / 2);
 
+  // 데스크탑 마우스 이동
   window.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY), { passive: true });
+  
+  // 모바일 터치 '이동' (touchmove)
   window.addEventListener('touchmove', (e) => {
     const t = e.touches[0];
     if (t) setPos(t.clientX, t.clientY);
   }, { passive: true });
+  // ▲▲▲ 기존 터치 로직(touchmove)으로 복구 ▲▲▲
 
   // --- Click animations ---
   document.addEventListener('click', (e) => {
@@ -256,54 +312,62 @@ body.page-fading-out .under {
     }
   });
 
-  // --- Scroll fade-up transition ---
-  let isTransitioning = false;
+</script>
 
-  window.addEventListener('scroll', () => {
-    if (isTransitioning) return;
+<script>
+  // --- 스크롤/스와이프 시 페이지 이동 스크립트 (통합본) ---
+  // (이 스크립트는 변경 사항 없음)
 
-    const scrollThreshold = 100; // 트리거 스크롤 위치
-    if (window.scrollY > scrollThreshold) {
-      isTransitioning = true;
+  let isNavigating = false; 
 
-      overlay.classList.add('fade-up'); // ← 위로 페이드아웃
+  function navigate() {
+    if (isNavigating) return; 
+    isNavigating = true; 
 
-      setTimeout(() => {
-        window.location.href = 'solar_2.html';
-      }, 600); // transform .6s ease; 와 일치
+    document.body.classList.add('page-fading-out');
+
+    setTimeout(() => {
+      window.location.href = 'solar_2.html';
+    }, 800); 
+  }
+
+  // 1. 데스크탑 (마우스 휠)
+  window.addEventListener('wheel', function(event) {
+    if (event.deltaY > 0) {
+      navigate();
+    }
+  }, { passive: true });
+
+  // 2. 모바일 (터치 스와이프)
+  let touchStartY = 0;
+  let touchHandled = false; 
+
+  window.addEventListener('touchstart', function(event) {
+    if (isNavigating) return;
+    touchStartY = event.touches[0].clientY;
+    touchHandled = false; 
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function(event) {
+    if (isNavigating || touchHandled) return;
+
+    const touchCurrentY = event.touches[0].clientY;
+    const deltaY = touchStartY - touchCurrentY; 
+
+    if (deltaY > 50) { 
+      touchHandled = true; 
+      navigate();
+    }
+  }, { passive: true });
+
+
+  // '뒤로가기' 버튼으로 돌아왔을 때 화면 복구
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      isNavigating = false;
+      document.body.classList.remove('page-fading-out');
     }
   });
-</script>
-<script>
-    // --- 스크롤 시 페이지 이동 스크립트 ---
-
-    let isNavigating = false; // 중복 실행 방지 플래그
-
-    window.addEventListener('wheel', function(event) {
-        
-        // 1. 아직 이동 중이 아니고, 마우스 휠을 '아래로' 굴렸을 때
-        if (!isNavigating && event.deltaY > 0) { 
-            
-            isNavigating = true; // 이동 시작, 플래그 설정
-
-            // 2. CSS 애니메이션을 위해 body에 클래스 추가
-            document.body.classList.add('page-fading-out');
-
-            // 3. CSS 애니메이션 시간(0.8초) 후에 페이지 이동
-            setTimeout(() => {
-                window.location.href = 'solar_2.html';
-            }, 800); // 800ms = 0.8s
-        }
-    }, { passive: true }); // 스크롤 성능 향상을 위해 passive 옵션 추가
-
-    // (선택 사항) '뒤로가기' 버튼으로 돌아왔을 때 화면이 
-    // 하얗게 나오는 버그 방지
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted) {
-            isNavigating = false;
-            document.body.classList.remove('page-fading-out');
-        }
-    });
 </script>
 </body>
 </html>

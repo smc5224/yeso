@@ -1,360 +1,234 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>SWITCH</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
-
-
     <style>
-
         body, html {
-
             margin: 0;
-
             padding: 0;
-
             width: 100%;
-
             height: 100%;
-
             background-color: #000000;
-
             color: #ffffff;
-
             font-family: 'Pretendard', sans-serif;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             overflow: hidden;
-
         }
-
-
-
-        /* --- ▼▼▼ 1. [수정] 불필요한 코드 삭제 --- */
-
-        /*            이전 파일에서 복사된 .overlay, .under, 
-
-           body.page-fading-out 규칙을 삭제했습니다.
-
-        */
-
-        /* --- ▲▲▲ 1. 수정 완료 --- */
-
-        
 
         .shapes-section {
-
             position: relative;
-
             width: 100vw;
-
             height: 250px; 
-
             margin-bottom: 40px;
-
         }
-
-
 
         .color-bar {
-
             position: fixed;
-
             bottom: 50%; 
-
             height: 9vh;
-
             width: 30%;
-
         }
-
-
 
         .shapes-container {
-
             position: fixed;
-
             bottom: 50%; 
-
             left: 50%; 
-
             transform: translateX(-50%);
-
             z-index: 1;
-
             display: flex;
-
             align-items: flex-end;
-
             gap: 90px;
-
         }
-
-
 
         .color-bar.left {
-
             left: 0;
-
             background-color: #FF5F46;
-
         }
-
-
 
         .color-bar.right {
-
             right: 0;
-
             background-color: #FFD891;
-
         }
-
         
-
         .shape {
-
             height: 18.6vh;
-
             width: auto;
-
             position: relative;
-
         }
-
         
-
         .left-shape {
-
             left: -20px;
-
         }
-
-
 
         .center-shape {
-
             margin-bottom: 0;
-
         }
-
         
-
         .right-shape {
-
             right: -20px;
-
         }
-
-
 
         .text-section {
-
             max-width: 650px;
-
             padding: 0 20px;
-
         }
-
-
 
         .text-section h1 {
-
             font-family: 'Almarai', sans-serif;
-
             font-size: 4.0rem;
-
             letter-spacing: 0rem;
-
             margin: 0;
-
             margin-bottom: 25px;
-
             font-weight: 500;
-
         }
         
-
-
-
         .text-section p {
-
             font-size: 1rem;
-
             line-height: 1.8;
-
             color: #cccccc;
-
         }
-
         .text-section p mark {
-    background: #ffffff;
-    color: #000000;
-    padding: .15em .35em;
-
-    font-weight: 600;
-  }
-
-        
-
-        .container {
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            text-align: center;
-
-            /* JS의 setTimeout(1000)과 시간을 맞춥니다 (1s) */
-
-            transition: opacity 1s ease-out, transform 1s ease-out;
-
+            background: #ffffff;
+            color: #000000;
+            padding: .15em .35em;
+            font-weight: 600;
         }
-
-
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
 
         /* JS의 .classList.add('fade-out')와 클래스 이름을 맞춥니다 */
-
         body.fade-out .container {
-
             opacity: 0;
-
             transform: translateY(-60px); /* 위로 60px 이동 */
-
         }
+        
+        /* =====================================
+        ▼▼▼ 모바일 반응형 코드 (여기부터 추가) ▼▼▼
+        =====================================
+        */
+        @media (max-width: 768px) {
+            .shapes-section {
+                height: 150px; /* 상단 빈 공간 줄이기 */
+                margin-bottom: 20px;
+            }
+            
+            .color-bar {
+                height: 4.7vh; /* 바 높이 줄이기 */
+                margin-bottom: 50px;
+                width: 20%;
+            }
+            
+            .shapes-container {
+                gap: 30px; /* 도형 간격 줄이기 */
+            }
+            
+            .shape {
+                height: 10vh; /* 도형 크기 줄이기 */
+                margin-bottom: 50px;
+            }
+            
+            .left-shape {
+                left: -10px;
+            }
+            .right-shape {
+                right: -10px;
+            }
+            
+            .text-section {
+                padding: 0 1.5rem; /* 좌우 여백 */
+            }
 
-
+            .text-section h1 {
+                font-size: 2.5rem; /* h1 폰트 크기 줄이기 */
+                margin-bottom: 20px;
+            }
+            
+            .text-section p {
+                font-size: 0.8rem; /* p 폰트 크기 줄이기 */
+                line-height: 1.7;
+            }
+        }
+        /* ▲▲▲ 모바일 반응형 코드 (여기까지 수정) ▲▲▲ */
 
     </style>
-
 </head>
-
 <body>
 
     <main class="container">
-
         <div class="shapes-section"></div>
 
-
-
         <div class="color-bar left"></div>
-
         <div class="color-bar right"></div>
-
         <div class="shapes-container">
-
             <img src="images/seekoo_image/seekoo_pentagon_left.png" alt="왼쪽 도형" class="shape left-shape">
-
             <img src="images/seekoo_image/seekoo_pentagon_mid.png" alt="중앙 도형" class="shape center-shape">
-
             <img src="images/seekoo_image/seekoo_pentagon_right.png" alt="오른쪽 도형" class="shape right-shape">
-
         </div>
-
         
-
         <div class="text-section">
-
             <h1>SWITCH</h1>
-
             <p>
-
                 SEEKOO는 스위치 모티브로 설계되어, 아이들이 접촉하는 면에 따라 놀이 방식이 달라집니다.<br>
-
                 집 모양의 본체는 아이들이 밖에서 탐험 후 돌아오는 <mark>BASE CAMP</mark> 역할을 합니다.<br>
-
                 모든 에너지를 집 안 놀이로 확장하며, 자연 속 탐험과 창의적 놀이가 이어집니다.
-
             </p>
-
         </div>
-
     </main>
 
-
-
 <script>
-
-    // --- 스크롤 시 페이지 이동 스크립트 ---
-
-
+    // --- 스크롤/터치 시 페이지 이동 스크립트 ---
 
     let isNavigating = false; // 중복 실행 방지 플래그
 
-
-
-    window.addEventListener('wheel', function(event) {
-
+    // 공통 이동 함수
+    function navigate() {
+        if (isNavigating) return; // 이미 이동 중이면 실행 안 함
         
+        isNavigating = true; // 이동 시작, 플래그 설정
+        document.body.classList.add('fade-out');
 
-        // 1. 아직 이동 중이 아니고, 마우스 휠을 '아래로' 굴렸을 때
+        // CSS 애니메이션 시간(1s)과 일치
+        setTimeout(() => {
+            window.location.href = 'seekoo_2.html';
+        }, 1000); 
+    }
 
-        if (!isNavigating && event.deltaY > 0) { 
-
-            
-
-            isNavigating = true; // 이동 시작, 플래그 설정
-
-
-
-            // 2. (수정) CSS와 일치하는 'fade-out' 클래스 추가
-
-            document.body.classList.add('fade-out');
-
-
-
-            // 3. (수정) CSS 애니메이션 시간(1s)과 일치하도록 1000ms로 변경
-
-            setTimeout(() => {
-
-                window.location.href = 'seekoo_2.html';
-
-            }, 1000); // 1000ms = 1s
-
+    // 1. 데스크탑 (마우스 휠)
+    window.addEventListener('wheel', function(event) {
+        // 마우스 휠을 '아래로' 굴렸을 때
+        if (event.deltaY > 0) { 
+            navigate();
         }
+    }, { passive: true });
+    
+    // 2. 모바일 (터치)
+    window.addEventListener('touchstart', function(event) {
+        navigate();
+    }, { passive: true });
 
-    }, { passive: true }); // 스크롤 성능 향상을 위해 passive 옵션 추가
 
-
-
-    // (선택 사항) '뒤로가기' 버튼으로 돌아왔을 때 버그 방지
-
+    // '뒤로가기' 버튼으로 돌아왔을 때 버그 방지
     window.addEventListener('pageshow', function(event) {
-
         if (event.persisted) {
-
             isNavigating = false;
-
-            // (수정) '뒤로가기' 시에도 'fade-out' 클래스 제거
-
             document.body.classList.remove('fade-out');
-
         }
-
     });
-
 </script>
 
 </body>
-
 </html>

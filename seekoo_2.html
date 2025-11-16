@@ -20,15 +20,18 @@
             color: #333;
             line-height: 1.6;
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-
-            /* 👇 [해결] 이 코드를 추가하세요 */
             overflow-x: hidden; 
         }
 
-        /* ✨ 2. 아래로 사라지는 애니메이션 효과를 위한 클래스 추가 */
         body.fade-out-down {
             opacity: 0;
-            transform: translateY(50px) ; /* 아래로 50px 이동 */
+            transform: translateY(50px) ;
+        }
+        
+        /* [추가] fade-out-up 정의 (스크립트에서 사용 중) */
+        body.fade-out-up {
+            opacity: 0;
+            transform: translateY(-50px);
         }
 
         /* ----- [추가] 슈퍼히어로 섹션 스타일 ----- */
@@ -46,7 +49,6 @@
             object-fit: cover; /* 이미지가 비율을 유지하며 꽉 차게 */
             display: block;
         }
-        /* ----- [추가] 여기까지 ----- */
 
         /* ----- 헤더 로고 스타일 ----- */
         .site-header {
@@ -82,10 +84,6 @@
             max-width: 1400px;
         }
 
-        /* * [변경점 1] 
-         * content-grid--no-gap 클래스에 gap: 20px; 를 정의하여 
-         * third-section의 기본 갭 80px를 20px로 줄였습니다.
-         */
         .content-grid--no-gap {
             gap: 20px;
         }
@@ -108,34 +106,25 @@
             transform: translateX(100px) translateY(-80px) scale(1.1);
         }
 
-        /* 수정된 부분: main-video-container 스타일을 두 개의 새로운 비디오 컨테이너에 적용 */
         .video-container-left, .video-container-right {
             flex: 2; 
             display: flex;
-            align-items: center; /* 영상이 세로 중앙에 오도록 */
-            justify-content: center; /* 영상이 가로 중앙에 오도록 */
+            align-items: center;
+            justify-content: center;
             aspect-ratio: 5 / 4; 
             border-radius: 16px;
-            overflow: hidden; /* 비디오가 컨테이너를 넘어가지 않게 */
+            overflow: hidden;
         }
 
-        /* * [변경점 1] 
-         * translateX 값을 -50px에서 -30px로 수정하여 
-         * 왼쪽 비디오를 오른쪽으로 20px 이동시켰습니다.
-         */
         .video-container-left {
-             transform: translateX(-30px) translateY(0px) scale(1);
+            transform: translateX(-30px) translateY(0px) scale(1);
         }
 
-        /* * [변경점 1] 
-         * translateX 값을 50px에서 30px로 수정하여 
-         * 오른쪽 비디오를 왼쪽으로 20px 이동시켰습니다.
-         */
         .video-container-right {
             transform: translateX(30px) translateY(0px) scale(1);
         }
 
-        .main-image-container img{ /* 비디오 스타일 추가 */
+        .main-image-container img{
             width: 90%; 
             max-height: 75vh; 
             object-fit: cover;
@@ -144,7 +133,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
-        .main-image-container2 img{ /* 비디오 스타일 추가 */
+        .main-image-container2 img{
             width: 90%; 
             max-height: 75vh; 
             object-fit: cover;
@@ -153,11 +142,10 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
-        /* 수정된 부분: 비디오 스타일 */
         .video-container-left video, .video-container-right video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 비디오가 컨테이너에 꽉 차도록 */
+            object-fit: cover;
             display: block;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -197,21 +185,19 @@
         }
         
         .product-description {
-
             letter-spacing:-1.2px;
-              line-height: 1.2;
+            line-height: 1.2;
             font-size: 14px;
             color: #555;
             max-width: 1500px;
             font-weight: 500;
             align-self: flex-start; 
-            
             transform: translateX(-80px) translateY(10px) scale(1.2);
         }
 
         .product-description2 {
             letter-spacing:-1.2px;
-              line-height: 1.2;
+            line-height: 1.2;
             font-size: 14px;
             color: #555;
             max-width: 1500px;
@@ -219,54 +205,20 @@
             align-self: flex-start; 
             transform: translateX(5px) translateY(-50px) scale(1.2);
         }
+        
+        /* .product-description3는 HTML에 없으므로 일단 둠 */
+        .product-description3 {
+            font-size: 14px;
+            color: #555;
+            max-width: 1500px;
+            font-weight: 500;
+            align-self: flex-start; 
+            transform: translateX(0px) translateY(-50px) scale(1.2);
+        }
 
         .product-description h3 {
             font-size: 16px;
             margin-bottom: 8px;
-        }
-
-        /* ----- 반응형 디자인 (모바일 화면) ----- */
-        @media (max-width: 768px) {
-            .site-header {
-                left: 20px;
-            }
-
-            .scroll-indicator {
-                right: 20px;
-            }
-
-            .hero-section, .reversed-section {
-                padding: 100px 20px;
-            }
-
-            .content-grid {
-                flex-direction: column;
-                align-items: center;
-                gap: 40px;
-                width: 90%;
-            }
-
-            .content-grid--reversed {
-                flex-direction: column-reverse;
-            }
-            
-            .right-info {
-                align-items: center;
-                text-align: center;
-                margin-left: 0;
-            }
-
-            .product-shot, .product-shot--reversed {
-                align-self: auto;
-            }
-
-            .product-description {
-                align-self: auto;
-            }
-
-            .third-section .right-info {
-                padding: 0;
-            }
         }
 
         /* ----- 하단 스크롤 아이콘 ----- */
@@ -277,7 +229,7 @@
             width: 70px;
             z-index: 10;
             transition: transform 0.3s ease-in-out;
-            cursor: pointer; /* 클릭할 수 있도록 커서 모양 변경 */
+            cursor: pointer;
         }
 
         .scroll-indicator img {
@@ -285,20 +237,8 @@
             height: auto;
             display: block;
         }
-
-        /* 퀵바 관련 CSS 제거됨 */
         
-        .product-description3 {
-
-            font-size: 14px;
-            color: #555;
-            max-width: 1500px;
-            font-weight: 500;
-            align-self: flex-start; 
-            transform: translateX(0px) translateY(-50px) scale(1.2);
-
-        }
-        
+        /* ... (이하 .ripple, @keyframes 등은 동일) ... */
         @keyframes pulseBounce {
             0% {
                 transform: scale(1);
@@ -350,7 +290,95 @@
             z-index: 9;
         }
 
-        /* 지그재그 리스트 관련 CSS 제거됨 */
+
+        /* =====================================
+        ▼▼▼ 모바일 반응형 코드 (여기부터 수정) ▼▼▼
+        =====================================
+        */
+        @media (max-width: 768px) {
+            .site-header {
+                left: 20px;
+            }
+            /* [수정] 로고 크기 */
+            .site-header .logo img {
+                width: 120px;
+            }
+
+            /* [수정] 스크롤 아이콘 크기/위치 */
+            .scroll-indicator {
+                right: 20px;
+                width: 50px;
+                bottom: 20px;
+            }
+
+            .hero-section, .reversed-section {
+                padding: 100px 20px;
+            }
+
+            .content-grid {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+                width: 90%;
+            }
+
+            .content-grid--reversed {
+                flex-direction: column-reverse;
+            }
+            
+            .right-info {
+                align-items: center;
+                text-align: center;
+                margin-left: 0;
+                width: 100%; /* [추가] 정렬 기준 너비 */
+            }
+            
+            /* [수정] 모든 컨테이너/샷/설명 Transform 리셋 */
+            .main-image-container,
+            .main-image-container2,
+            .video-container-left,
+            .video-container-right {
+                transform: none;
+                width: 100%;
+                aspect-ratio: 16 / 9; /* 비율 통일 */
+                flex: 1;
+            }
+
+            .product-shot, 
+            .product-shot2, 
+            .product-shot--reversed {
+                align-self: auto; /* 중앙 정렬로 복구 */
+                transform: none;
+                margin-bottom: 20px;
+            }
+            
+            .product-shot img, 
+            .product-shot2 img {
+                width: 50%;
+                max-width: 150px; /* 크기 줄이기 */
+                margin: 0 auto; /* 중앙 정렬 */
+            }
+
+            .product-description,
+            .product-description2,
+            .product-description3 {
+                align-self: auto;
+                transform: none;
+                max-width: 100%;
+                text-align: center;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+            /* [추가] 텍스트 내 굵은 글씨 크기 조정 */
+            .product-description strong span {
+                font-size: 16px !important;
+            }
+
+            .third-section .right-info {
+                padding: 0;
+            }
+        }
+        /* ▲▲▲ 모바일 반응형 코드 (여기까지 수정) ▲▲▲ */
 
     </style>
 </head>
@@ -360,9 +388,11 @@
             <img src="images/seekoo_image/seekoo_logo.png" alt="Seekoo Logo">
         </a>
     </header>
+    
     <section class="superhero-section">
         <img src="images/seekoo_image/seekoo_sampleimg1.png" alt="Seekoo device being used outdoors in a sunny environment.">
     </section>
+    
     <section class="hero-section">
         <div class="content-grid">
             <div class="main-image-container">
@@ -380,6 +410,7 @@
             </div>
         </div>
     </section>
+    
     <section class="reversed-section">
         <div class="content-grid">
             <div class="right-info">
@@ -409,7 +440,7 @@
                 </video>
             </div>
             <div class="video-container-right">
-                <video class="hover-video" loop playsinline disablepictureinpicture id="video-en">
+                <video class="hover-video" loop muted playsinline disablepictureinpicture id="video-en">
                     <source src="images/bonche_en.mp4" type="video/mp4">
                     브라우저가 비디오 태그를 지원하지 않습니다.
                 </video>
@@ -420,11 +451,56 @@
     <div class="scroll-indicator">
         <img src="images/seekoo_image/seekoo_pentagon.png" alt="Scroll down indicator">
     </div>
+    
     <script>
-        const scrollIndicator = document.querySelector('.scroll-indicator');
-        let scrollTimeout;
-        let lastScrollY = window.scrollY;
+        // --- '뒤로가기' 스크립트 ---
+        let isNavigatingUp = false; 
 
+        function navigateUp() {
+            if (isNavigatingUp || window.scrollY !== 0) return; // 맨 위가 아니면 실행 안 함
+            isNavigatingUp = true; 
+            document.documentElement.style.scrollSnapType = 'none';
+            document.body.classList.add('fade-out-up');
+            setTimeout(() => {
+                window.location.href = 'seekoo.html';
+            }, 800); 
+        }
+
+        // [데스크탑 휠]
+        window.addEventListener('wheel', function(event) {
+            if (event.deltaY < 0) { // 위로 휠
+                navigateUp();
+            }
+        }, { passive: true });
+
+        // [모바일 스와이프]
+        let touchStartY = 0;
+        window.addEventListener('touchstart', function(e) {
+            if (window.scrollY === 0) { // 맨 위에서만
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function(e) {
+            if (isNavigatingUp || window.scrollY !== 0) return;
+            const deltaY = e.touches[0].clientY - touchStartY;
+            if (deltaY > 50) { // 아래로 50px 이상 스와이프
+                navigateUp(); 
+            }
+        }, { passive: true });
+
+
+        // [페이지 복구]
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                isNavigatingUp = false;
+                document.body.classList.remove('fade-out-up');
+            }
+        });
+        
+        
+        // --- '다음(메인)'으로 가기 스크립트 (스크롤 아이콘 클릭) ---
+        const scrollIndicator = document.querySelector('.scroll-indicator');
         scrollIndicator.addEventListener('click', () => {
             document.documentElement.style.scrollSnapType = 'none';
             document.body.classList.add('fade-out-down');
@@ -433,32 +509,9 @@
             }, 800); 
         });
     </script>
-    <script>
-        let isNavigatingUp = false; 
-
-        window.addEventListener('wheel', function(event) {
-            if (!isNavigatingUp && event.deltaY < 0 && window.scrollY === 0) {
-                isNavigatingUp = true; 
-                document.documentElement.style.scrollSnapType = 'none';
-                document.body.classList.add('fade-out-up');
-                setTimeout(() => {
-                    window.location.href = 'seekoo.html';
-                }, 800); 
-            }
-        }, { passive: true });
-
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                isNavigatingUp = false;
-                document.body.classList.remove('fade-out-up');
-            }
-        });
-    </script>
     
     <script>
-        // [수정 2]
-        // 오디오 잠금을 해제하는 함수를 만듭니다.
-        // 'click' 이벤트가 발생하면 이 함수를 '한 번만' 실행합니다.
+        // --- 오디오 잠금 해제 및 물결 효과 스크립트 ---
         function audioUnlock() {
             console.log("오디오 잠금 해제 시도...");
             const videoEn = document.getElementById('video-en');
@@ -466,19 +519,15 @@
                 videoEn.muted = false; // 음소거 해제
                 console.log("video-en 음소거 해제 완료.");
             }
-            // 이 함수는 한 번만 실행되면 되므로, 이벤트 리스너를 제거합니다.
             document.body.removeEventListener('click', audioUnlock);
         }
         
-        // 사용자가 body를 클릭하면(물결효과든 뭐든) audioUnlock 함수를 실행합니다.
-        document.body.addEventListener('click', audioUnlock);
-
+        document.body.addEventListener('click', audioUnlock); // 첫 클릭 시 오디오 잠금 해제
 
         document.addEventListener('click', (e) => {
-            // 물결 효과 로직은 그대로 둡니다.
+            // 물결 효과
             const count = 3; 
             const delay = 150; 
-
             for (let i = 0; i < count; i++) {
                 const ripple = document.createElement('div');
                 ripple.className = 'ripple';
@@ -495,24 +544,36 @@
     </script>
 
     <script>
-        // ----- [NEW] 호버 시 비디오 재생 (오류 처리 포함) -----
+        // --- 호버 시 비디오 재생 스크립트 ---
         const hoverVideos = document.querySelectorAll('.hover-video');
 
         hoverVideos.forEach(video => {
-            video.addEventListener('mouseenter', async () => { // async 추가
+            // [수정] 모바일에서는 '호버'가 없으므로 '클릭'으로 재생/일시정지 토글
+            video.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play().catch(error => {
+                        console.warn("모바일 클릭 재생 오류:", error.name);
+                        // 소리 차단 시 음소거 후 재시도
+                        if (error.name === 'NotAllowedError' && !video.muted) {
+                            video.muted = true;
+                            video.play();
+                        }
+                    });
+                } else {
+                    video.pause();
+                }
+            });
+
+            // 데스크탑 호버 이벤트는 그대로 유지
+            video.addEventListener('mouseenter', async () => { 
                 try {
-                    // 비디오 재생 시도 (Promise 반환)
                     await video.play(); 
                 } catch (error) {
-                    // (bonche_en의 경우) 소리 있는 영상 재생이 차단될 수 있음 (아직 클릭 안 했을 때)
                     console.warn("비디오 재생 오류:", error.name);
-                    
-                    // [해결책] 만약 소리 때문에 재생이 차단된 것(NotAllowedError)이라면,
-                    // 일단 '음소거'하고 다시 재생을 시도합니다.
                     if (error.name === 'NotAllowedError' && !video.muted) {
                         console.log("소리 재생이 차단되어 '일시적'으로 음소거 재생합니다.");
-                        video.muted = true; // 음소거
-                        video.play(); // 다시 재생
+                        video.muted = true; 
+                        video.play();
                     }
                 }
             });
