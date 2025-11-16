@@ -1055,7 +1055,19 @@ font-family: "Almarai";
 .section.s11 .s11-mask-grid .mask{ background:#000; opacity:1; transition:opacity .25s ease; pointer-events:auto; }
 .section.s11 .s11-mask-grid .mask:hover{ opacity:0; }
 
-
+@media (max-width: 640px){
+  .s11 {
+  min-height: 50vh;
+  height: 50vh !important;  
+  }
+  .section.s11 .s11-mask-grid .mask {
+    background: #000;
+    opacity: 1;
+    transition: opacity .25s ease;
+    pointer-events: auto;
+    width: 200vh;
+  }
+}
 /* ===== Section 12 ===== */
 .s12 {
   background: #fff;
@@ -1890,6 +1902,7 @@ font-family: "Almarai";
       체험하고 지속가능한 성장을 이루어갑니다.
     `;
   }
+  
 </script>
 </body>
 </html>
