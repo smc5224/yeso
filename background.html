@@ -1112,9 +1112,11 @@ font-family: "Almarai";
   .s12{
     padding: 0;
   }
+  .s12-left{
+    transform: none;
+  }
   .s12-photo{
-    transform: translateX(-20px);
-    width: 50vh;
+    transform: none;
   }
 }
 
@@ -1125,21 +1127,25 @@ font-family: "Almarai";
   }
   .s12-logo-top img{ width: min(280px, 60%); }
   .s12-photo{ order: -1; } /* 모바일에서 사진을 위로 올리고 싶으면 주석 해제 */
+  .s12{
+    gap: 0;
+    transform: none;
+    margin: 28px 0;
+  }
+  .s12-logo-top img {
+    transform: translateX(14%) translateY(-20px) scale(1.7);
+  }
+  /* 상단 타이틀 자연스러운 교체 */
+  #pageTitle{
+    transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+    will-change: opacity, transform, filter;
+  }
+  #pageTitle.is-swapping{
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(2px);
+  }
 }
-/* 상단 타이틀 자연스러운 교체 */
-#pageTitle{
-  transition: opacity .35s ease, transform .35s ease, filter .35s ease;
-  will-change: opacity, transform, filter;
-}
-#pageTitle.is-swapping{
-  opacity: 0;
-  transform: translateY(6px);
-  filter: blur(2px);
-}
-
-
-
-
 
   </style>
 </head>
@@ -1814,20 +1820,12 @@ font-family: "Almarai";
   if (window.innerWidth <= 768) {
     const p = document.getElementById('branding-pc');
     p.innerHTML = `
-      에너지를 직접 만들어보는 놀이로<br>
-      아이들이 자연 속 탐험가가 됩니다.<br>
-      스스로 에너지를 만들며 환경의 소중함을 배우고<br>
-      지속가능한 성장을 경험합니다.
+      에너지를 '직접 만들어보는' 신체활동 놀이로<br>
+      아이들을 자연 속 '탐험가'로 이끌어냅니다.<br>
+      스스로 에너지를 발견하고 만들면서, 환경의 소중함을<br>
+      체험하고 지속가능한 성장을 이루어갑니다.
     `;
   }
 </script>
-
-
-
-
-
-
-
-
 </body>
 </html>
