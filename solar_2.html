@@ -23,6 +23,17 @@
         overflow-x: hidden;
       }
 
+      body.drawer-open {
+        overflow: hidden;
+        height: 100%;
+      }
+      .drawer-body {
+        max-height: 100vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        }
+
       /* ... (중략) ... */
 
       body.fade-out-down {
@@ -648,6 +659,54 @@
         { passive: true }
       );
 
+      // 🎯 모바일 전용: 위로 스와이프 시 solar.html로 이동
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        let startY = 0;
+        let endY = 0;
+        let isSwiping = false;
+
+        window.addEventListener(
+          "touchstart",
+          function (e) {
+            startY = e.touches[0].clientY;
+            isSwiping = true;
+          },
+          { passive: true }
+        );
+
+        window.addEventListener(
+          "touchmove",
+          function (e) {
+            // 손가락이 움직이는 동안에도 위치 추적
+            if (isSwiping) {
+              endY = e.touches[0].clientY;
+            }
+          },
+          { passive: true }
+        );
+
+        window.addEventListener(
+          "touchend",
+          function (e) {
+            if (!isSwiping) return;
+            isSwiping = false;
+
+            const deltaY = startY - endY;
+
+            // 위로 100px 이상 스와이프 시 solar.html로 이동
+            if (deltaY > 100 && window.scrollY === 0) {
+              document.documentElement.style.scrollSnapType = "none";
+              document.body.classList.add("fade-out-up");
+
+              setTimeout(() => {
+                window.location.href = "solar.html";
+              }, 800);
+            }
+          },
+          { passive: true }
+        );
+      }
+
       window.addEventListener("pageshow", function (event) {
         if (event.persisted) {
           isNavigatingUp = false;
@@ -690,12 +749,16 @@
         scrim.classList.add("show");
         quickBar.setAttribute("aria-expanded", "true");
         drawer.setAttribute("aria-hidden", "false");
+
+        document.body.classList.add("drawer-open");
       }
       function closeDrawer() {
         drawer.classList.remove("open");
         scrim.classList.remove("show");
         quickBar.setAttribute("aria-expanded", "false");
         drawer.setAttribute("aria-hidden", "true");
+        
+        document.body.classList.remove("drawer-open");
       }
       quickBar.addEventListener("click", openDrawer);
       drawerClose.addEventListener("click", closeDrawer);
