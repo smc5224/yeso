@@ -23,8 +23,6 @@
   font-weight: normal; font-style: normal; font-display: swap;
 }
 
-
-
 html, body{
   scroll-behavior: smooth;
   margin:0; height:100%;
@@ -57,47 +55,45 @@ body.to-light{
   color:#111;
 }
 
-    /* 상단 고정 타이틀 (보색 효과) */
-    h1{
-      position:fixed; inset:0 0 auto 0; width:100%;
-      margin:0; padding:1rem 2rem;
-      background:transparent;
-      font-weight:600; font-size:clamp(20px,1.6vw,36px);
-      letter-spacing:.2px; z-index:1000;
-      mix-blend-mode:difference; color:#fff;
-      border-bottom:0;
-    }
+/* 상단 고정 타이틀 (보색 효과) */
+h1{
+  position:fixed; inset:0 0 auto 0; width:100%;
+  margin:0; padding:1rem 2rem;
+  background:transparent;
+  font-weight:600; font-size:clamp(20px,1.6vw,36px);
+  letter-spacing:.2px; z-index:1000;
+  mix-blend-mode:difference; color:#fff;
+  border-bottom:0;
+}
 
-    main{ position:relative; }
+main{ position:relative; }
 
-    /* 공통 섹션 */
-    .section{
+/* 공통 섹션 */
+.section{
+  position:relative;
+  min-height:100vh;
+  padding-top:72px; /* 헤더 여백 */
+  box-sizing:border-box;
+  overflow:hidden;
+  transition: opacity 1s ease-in-out; /* 페이드 전환 */
+}
 
-      position:relative;
-      min-height:100vh;
+/* 공통 등장 애니메이션 대상 */
+.reveal{
+  opacity:0;
+  transform: translateY(40px) scale(.985);
+  transition:
+    opacity .9s ease-out var(--delay,0ms),
+    transform .9s cubic-bezier(.22,1,.36,1) var(--delay,0ms);
+  will-change: opacity, transform;
+}
 
-      padding-top:72px; /* 헤더 여백 */
-      box-sizing:border-box;
-      overflow:hidden;
-        transition: opacity 1s ease-in-out; /* 페이드 전환 */
+.reveal.show{
+  opacity:1;
+  transform: translateY(0) scale(1);
+  }
 
-    }
-
-    /* 공통 등장 애니메이션 대상 */
-    .reveal{
-      opacity:0;
-      transform: translateY(40px) scale(.985);
-      transition:
-        opacity .9s ease-out var(--delay,0ms),
-        transform .9s cubic-bezier(.22,1,.36,1) var(--delay,0ms);
-      will-change: opacity, transform;
-    }
-    .reveal.show{
-      opacity:1;
-      transform: translateY(0) scale(1);
-    }
-
-    .section3 {
+.section3 {
   position: relative;
 }
 .section3::after {
@@ -160,95 +156,123 @@ body.to-light{
   }
 }
 
-/* ===== Section 1: 기존 말풍선 4장 (배치만 섹션 상대 좌표로 조정) ===== */
-.s1 .bubble{
-    position:absolute; display:block;
-    filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
-      width:min(1200px, 92vw);
-    }
-    .s1 .bubble--top{ top:13%; left:55%; transform:translate(-50%, 0); width:min(1200px, 92vw); }
-    .s1 .bubble--small-left{ top:30%; left:7%; width:min(400px, 38vw); }
-    .s1 .bubble--bottom{ top:55%; right:12%; width:min(1000px, 82vw); }
-    .s1 .bubble--small-right{ top:45%; right:10%; width:min(400px, 36vw); }
-
-    /* s1만 방향감 있게 미세 슬라이드 */
-    .s1 .bubble{ transform: translateY(40px); }
-    .s1 .bubble.show{ transform: translateY(0); }
-    .s1 .bubble--top.show{ transform: translate(-50%, 0); }
-
+/* --- 💻 메인 화면 스타일 --- */
+.s1 .bubble {
+  position: absolute;
+  display: block;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.45));
+  width: min(1200px, 92vw);
+}
+.s1 .bubble--top {
+  top: 13%;
+  left: 55%;
+  transform: translate(-50%, 0);
+  width: min(1200px, 92vw);
+}
+.s1 .bubble--small-left {
+  top: 35%;
+  left: 7%;
+  width: min(400px, 38vw);
+}
+.s1 .bubble--bottom {
+  top: 55%;
+  right: 50%;
+  width: min(1000px, 82vw);
+}
+.s1 .bubble--small-right {
+  top: 45%;
+  right: 5%;
+  width: min(400px, 36vw);
+} /* s1만
+방향감 있게 미세 슬라이드 */
+.s1 .bubble--top {
+  transform: translateY(40px);
+}
+.s1 .bubble--top.show  {
+  transform: translate(-50%, 0);
+} 
+.s1 .bubble--bottom.show{
+  transform: translate(50%, 0);
+}
 /* 📱 모바일(세로 화면)에서도 .s1 카드 겹치게 */
 @media (max-width: 768px) and (orientation: portrait) {
   .s1 {
     overflow: visible !important;
     padding-bottom: 0;
   }
-
   .s1 .gallery {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0; /* 카드 간 간격 제거 */
-    margin-top: -5vh; /* 위쪽 카드와 살짝 겹치게 */
+    margin-top: -5vh;
+    /* 위쪽 카드와 살짝 겹치게 */
   }
-
   .s1 .card {
     position: relative;
     margin-top: -8vh; /* 서로 겹치도록 */
-    transform: scale(0.95); /* 살짝 축소해서 화면에 맞춤 */
+    transform: scale(0.95); /* 살짝 축소해서 화면에 맞춤
+*/
   }
-
   .s1 .card:first-child {
     margin-top: 0; /* 첫 번째 카드만 정상 위치 */
   }
-
   .s1 .card img {
     object-fit: contain !important;
     height: auto !important;
   }
-
   .s1 .label {
     bottom: -20px !important; /* 말풍선 label이 잘리지 않게 */
   }
+  .s1 .bubble--small-left{
+    transform: translateY(-16vh) scale(1);
+  }
+  .s1 .bubble--bottom.show {
+    transform: none;
+    transform: translate(50%, -10vh);
+  }
+  .s1 .bubble--small-right {
+    transform: translateY(-3vh) scale(1);
+  }
 }
-
-    /* ===== Section 2: Research 스타일 한 장 + 텍스트 ===== */
-    .s2 .board{
-      position:absolute; left:50%; top:50%;
-      transform:translate(-50%, -50%);
-      width:min(1200px, 92vw);
-    }
-    .s2 .label{
-      position:absolute; font-weight:700;
-      letter-spacing:.3px;
-      filter: drop-shadow(0 6px 16px rgba(0,0,0,.35));
-      mix-blend-mode:normal; /* 텍스트는 일반 색상으로 */
-    }
-    .s2 .label--change{
-      top:24%; left:48%;
-      transform:rotate(-10deg);
-      font-size:clamp(14px,1.2vw,22px);
-      background:#fff; color:#111;
-      padding:.35rem .7rem; border-radius:.35rem;
-    }
-    .s2 .label--outdoor{
-      bottom:8%; left:30%;
-      font-size:clamp(18px,1.6vw,28px);
-      color:#ff684f;
-    }
-    .s2 .label--minutes{
-      bottom:6.5%; left:52%;
-      font-size:clamp(18px,1.6vw,28px);
-      background:#ff684f; color:#111;
-      padding:.2rem .5rem; border-radius:.35rem;
-      font-weight:800;
-    }
-    .s2 .para{
-      position:absolute; left:6%; bottom:12%;
-      width:40ch; line-height:1.4; color:#cfcfcf;
-      font-size:clamp(12px,1vw,16px);
-      opacity:.9;
-    }
-    /* Section2 전용 말풍선 이미지 배치 */
+/* ===== Section 2: Research 스타일 한 장 + 텍스트 ===== */
+.s2 .board{
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%, -50%);
+  width:min(1200px, 92vw);
+}
+.s2 .label{
+  position:absolute; font-weight:700;
+  letter-spacing:.3px;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,.35));
+  mix-blend-mode:normal; /* 텍스트는 일반 색상으로 */
+}
+.s2 .label--change{
+  top:24%; left:48%;
+  transform:rotate(-10deg);
+  font-size:clamp(14px,1.2vw,22px);
+  background:#fff; color:#111;
+  padding:.35rem .7rem; border-radius:.35rem;
+}
+.s2 .label--outdoor{
+  bottom:8%; left:30%;
+  font-size:clamp(18px,1.6vw,28px);
+  color:#ff684f;
+}
+.s2 .label--minutes{
+  bottom:6.5%; left:52%;
+  font-size:clamp(18px,1.6vw,28px);
+  background:#ff684f; color:#111;
+  padding:.2rem .5rem; border-radius:.35rem;
+  font-weight:800;
+}
+.s2 .para{
+  position:absolute; left:6%; bottom:12%;
+  width:40ch; line-height:1.4; color:#cfcfcf;
+  font-size:clamp(12px,1vw,16px);
+  opacity:.9;
+}
+/* Section2 전용 말풍선 이미지 배치 */
 .s2 .bubble{
   position:absolute;
   filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
@@ -316,15 +340,29 @@ body.to-light{
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
-  .s2 {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
+  .s2{
+    padding: 0;
+  } 
+  .s2 .bubble--top-left {
+      top: 5%;
+      left: -12%;
+      width: 400px;
+  }
+  .s2 .bubble--bottom-left {
+    bottom: 37%;
+    left: -0%;
+    width: 500px;
+    z-index: 3;
+  }
+  .s2 .bubble--top-right {
+    top: 40%;
+    right: -10%;
+    width: 450px;
+  }
+  .s2 .bubble--bottom-right {
+    bottom: 32%;
+    right: 35%;
+    width: 50px;  
   }
 }
 /* ===== Section 3: 3장 갤러리 + 그라데이션 배경 ===== */
@@ -725,7 +763,7 @@ font-family: "Almarai";
   font-weight:600;
   letter-spacing:0.02em;
 
-  transform: translateX(-15px) translateY(-50px) scale(0.7);
+  transform: translateX(-15px) translateY(-47px) scale(0.7);
 
 }
 
@@ -764,7 +802,7 @@ font-family: "Almarai";
 @media (max-width: 768px){
   .s6-footnote{
     transform: none;
-  } 
+  }
 }
 
 /* 반응형(좁은 화면일수록 전체 스케일 살짝 줄임) */
@@ -774,9 +812,34 @@ font-family: "Almarai";
   .s6-product{ width:min(820px, 96%); }
 }
 @media (max-width: 640px){
-  .section6{ --focus-scale:.9; --roll-scale:.9; --logo-scale:.9; }
+  .section6{ --focus-scale:.9; --roll-scale:.9; --logo-scale:.9; min-height: auto; }
   .s6-stage{ min-height:400px; }
+  .s6-title img {
+    transform: translateX(35px) translateY(-20px) scale(0.4);
+  }
+  .s6-title span {
+    font-size: clamp(16px, 1.4vw, 30px);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transform: translateX(-26px) translateY(-18px) scale(0.7);
+  }
+  .s6-label.focus {
+    transform: translate(-100%, -570%);
+  }
+  .s6-label {
+    max-height: 3vh;
+  }
+  .s6-label.roll {
+    transform: translate(-100%, 200%) scale(2);
+  }
+  .s6-label.logo {
+    transform: translate(170%, -472%) scale(1.5);
+  }
+  .s6-footnote {
+    margin-top: 0;
+  }
 }
+
 
 /* ===== Section 7 ===== */
 .s7 .s7-title{
@@ -1134,7 +1197,7 @@ font-family: "Almarai";
   }
   .s12-logo-top img {
     transform: translateX(14%) translateY(-20px) scale(1.7);
-  }
+  } 
   /* 상단 타이틀 자연스러운 교체 */
   #pageTitle{
     transition: opacity .35s ease, transform .35s ease, filter .35s ease;
@@ -1161,7 +1224,6 @@ font-family: "Almarai";
     </div>
 
     <section class="section s1">
-        <section class="section s1" data-title="Background"></section>
       <img class="bubble bubble--top reveal js-reveal"
            src="images/Background/bg_1.png" alt="상단 말풍선" style="--delay:0ms;">
       <img class="bubble bubble--small-left reveal js-reveal"
@@ -1173,7 +1235,6 @@ font-family: "Almarai";
     </section>
 
     <section class="section s2">
-        <section class="section s2" data-title="Research"></section>
   <img
     class="bubble bubble--top-left reveal js-reveal"
     src="images/Background/bg_21.png"
@@ -1418,7 +1479,7 @@ font-family: "Almarai";
 
   </main>
 
-  <script>
+<script>
     // 뷰포트에 들어오면 show, 나가면 해제 → 스크롤 왕복마다 재생
     (function(){
       const targets = Array.from(document.querySelectorAll('.js-reveal'));
@@ -1815,7 +1876,6 @@ font-family: "Almarai";
   const observer = new MutationObserver(updateIndicatorColor);
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
-
   // 화면이 768px 이하 (모바일)이면 문구 교체
   if (window.innerWidth <= 768) {
     const p = document.getElementById('branding-pc');

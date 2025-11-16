@@ -1,463 +1,568 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>인트로 + 메인 확장형 화면 (페이드업 아웃 스크롤)</title>
-<style>
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <title>인트로 + 메인 확장형 화면 (페이드업 아웃 스크롤)</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
 
-/* 스플래시 및 인트로 스타일 (변경 없음) */
-#splash {
-    position: fixed; top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color:#fff;
-    display:flex; justify-content:center; align-items:center; z-index:9999;
-}
-#splash img {
-    width: 80%; max-width: 1000px; height: auto;
-    transition: transform 1s ease, opacity 1s ease;
-}
+      /* 스플래시 및 인트로 스타일 (변경 없음) */
+      #splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      #splash img {
+        width: 80%;
+        max-width: 1000px;
+        height: auto;
+        transition: transform 1s ease, opacity 1s ease;
+      }
 
-#intro-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: -20vh;              /* 기존 -200px 대신 비율 단위 사용 */
-    margin-top: 15vh;        /* 위쪽 여백도 비율 단위 */
-    opacity: 0;
-    transition: opacity 1s ease;
-    width: 80%;
-    max-width: 500px;
-}
+      #intro-items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: -20vh; /* 기존 -200px 대신 비율 단위 사용 */
+        margin-top: 15vh; /* 위쪽 여백도 비율 단위 */
+        opacity: 0;
+        transition: opacity 1s ease;
+        width: 80%;
+        max-width: 500px;
+      }
 
-#intro-items img {
-    width: auto; height: 50vh; max-width: 80vw; opacity: 0;    margin-top: -15vh; /* 겹치는 정도 조절 */
-    object-fit: contain; object-position: center;
-}
-/* 세로형 화면(아이폰 포함)일 때 살짝 위로 */
-@media (orientation: portrait) {
-    #splash img {
-        transform: translateY(-7vh); /* 7% 위로 올림 */
-    }
-    #intro-items {
-        gap: -50vh;          /* 간격을 조금 더 좁게 */
-        margin-top: 17vh;    /* 시작 위치를 더 위로 */
-    }
+      #intro-items img {
+        width: auto;
+        height: 50vh;
+        max-width: 80vw;
+        opacity: 0;
+        margin-top: -15vh; /* 겹치는 정도 조절 */
+        object-fit: contain;
+        object-position: center;
+      }
+      /* 세로형 화면(아이폰 포함)일 때 살짝 위로 */
+      @media (orientation: portrait) {
+        #splash img {
+          transform: translateY(-7vh); /* 7% 위로 올림 */
+        }
+        #intro-items {
+          gap: -50vh; /* 간격을 조금 더 좁게 */
+          margin-top: 17vh; /* 시작 위치를 더 위로 */
+        }
 
-    #intro-items img {
-        height: 40vh;        /* 화면에 비해 너무 크면 줄이기 */
-        margin-top: -20vh;   /* 겹침 정도도 비율 단위로 */
-    }
-}
+        #intro-items img {
+          height: 40vh; /* 화면에 비해 너무 크면 줄이기 */
+          margin-top: -20vh; /* 겹침 정도도 비율 단위로 */
+        }
+      }
 
-/* iPhone 안전영역 감안 */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-    #splash {
-        padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
-    }
-}
-@keyframes fadeInUp {
-    0% { opacity: 0; transform: translate3d(0, 100%, 0); }
-    100% { opacity: 1; transform: translateZ(0); }
-}
-.fadeInUp { animation: fadeInUp 2s forwards; }
-.fade-out { opacity: 0 !important; }
-@keyframes slideOutLeft {
-    0% { transform: translateX(0); opacity: 1; }
-    100% { transform: translateX(-100%); opacity: 0; }
-}
-@media (orientation: portrait) {
-    @keyframes slideOutLeft {
-        0% { transform: translate(-0%, -7vh); opacity: 1; }
-        100% { transform: translate(-100%, -7vh); opacity: 0; }
-    }
-}
-.slideOutLeft { animation: slideOutLeft 1s ease forwards; }
+      /* iPhone 안전영역 감안 */
+      @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        #splash {
+          padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+        }
+      }
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 100%, 0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateZ(0);
+        }
+      }
+      .fadeInUp {
+        animation: fadeInUp 2s forwards;
+      }
+      .fade-out {
+        opacity: 0 !important;
+      }
+      @keyframes slideOutLeft {
+        0% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+      }
+      @media (orientation: portrait) {
+        @keyframes slideOutLeft {
+          0% {
+            transform: translate(-0%, -7vh);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-100%, -7vh);
+            opacity: 0;
+          }
+        }
+      }
+      .slideOutLeft {
+        animation: slideOutLeft 1s ease forwards;
+      }
 
-/* --- 💻 메인 화면 스타일 --- */
+      #main {
+        opacity: 0;
+        pointer-events: none;
+        /* (수정) transform 애니메이션을 위해 transition 속성 추가 */
+        transition: opacity 1s ease, transform 1s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
 
-#main {
-    opacity: 0;
-    pointer-events: none;
-    /* (수정) transform 애니메이션을 위해 transition 속성 추가 */
-    transition: opacity 1s ease, transform 1s ease;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
+      #main.visible {
+        opacity: 1;
+      }
 
-#main.visible {
-    opacity: 1;
-}
+      /* (수정) 위로 올라가는 transform 속성 추가 */
+      #main.fading-out {
+        opacity: 0;
+        transform: translateY(-50px); /* 위로 50px 움직이며 사라짐 */
+      }
 
-/* (수정) 위로 올라가는 transform 속성 추가 */
-#main.fading-out {
-    opacity: 0;
-    transform: translateY(-50px); /* 위로 50px 움직이며 사라짐 */
-}
+      #top-panel {
+        flex: 1;
+        background-color: white;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 40px;
+        box-sizing: border-box;
+        position: relative;
+      }
 
+      #logo-img {
+        height: 60%;
+        width: auto;
 
-#top-panel {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 40px;
-    box-sizing: border-box;
-    position: relative;
-}
+        margin-left: -10px;
+      }
 
-#logo-img {
-    height: 60%;
-    width: auto;
+      #top-right-icon {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 50%;
+        width: auto;
+      }
 
-    margin-left:-10px;
-}
+      #bottom-panel {
+        flex: 3.5;
+        display: flex;
+        width: 100%;
+      }
 
-#top-right-icon {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 50%;
-    width: auto;
-}
+      .section {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        flex-grow: 1;
+        flex-basis: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        transition: flex-grow 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.8s ease;
+      }
+      .cover-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+      }
 
+      .section-icon {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        z-index: 3;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+      }
 
-#bottom-panel {
-    flex: 3.5;
-    display: flex;
-    width: 100%;
-}
+      #sec1 .section-icon {
+        width: 129.5px;
+        height: 60.9px;
+      }
+      #sec2 .section-icon {
+        width: 77px;
+        height: 60.2px;
+      }
+      #sec3 .section-icon {
+        width: 162.4px;
+        height: 39.2px;
+      }
 
-.section {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    flex-grow: 1;
-    flex-basis: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    transition: flex-grow 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.8s ease;
-}
-.cover-image {
-    position: absolute; width: 100%; height: 100%;
-    object-fit: cover; z-index: 1; opacity: 1;
-    transition: opacity 0.6s ease;
-}
+      #main[class*="expanded-"] .cover-image {
+        opacity: 0;
+        pointer-events: none;
+      }
 
-.section-icon {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    z-index: 3;
-    opacity: 1;
-    transition: opacity 0.6s ease;
-}
+      #main[class*="expanded-"] .section-icon {
+        opacity: 0;
+      }
 
-#sec1 .section-icon { width: 129.5px; height: 60.9px; }
-#sec2 .section-icon { width: 77px; height: 60.2px; }
-#sec3 .section-icon { width: 162.4px; height: 39.2px; }
+      #main.expanded-1 #sec1 .section-icon,
+      #main.expanded-2 #sec2 .section-icon,
+      #main.expanded-3 #sec3 .section-icon {
+        opacity: 1;
+      }
 
+      .section video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        z-index: 0;
+      }
+      .active video {
+        opacity: 1;
+      }
 
-#main[class*="expanded-"] .cover-image {
-    opacity: 0;
-    pointer-events: none;
-}
+      .rotating-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
 
-#main[class*="expanded-"] .section-icon { opacity: 0; }
+      .rotating-image.visible {
+        opacity: 1;
+      }
 
-#main.expanded-1 #sec1 .section-icon,
-#main.expanded-2 #sec2 .section-icon,
-#main.expanded-3 #sec3 .section-icon {
-    opacity: 1;
-}
+      .section span,
+      .section .content-text {
+        position: relative;
+        z-index: 2;
+        transition: opacity 0.5s ease;
+      }
+      .content-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        opacity: 0;
+        width: 90%;
+        height: 90%;
+        text-align: center;
+      }
+      .content-text h2 {
+        margin-top: 0;
+      }
 
-.section video {
-    position: absolute; width: 100%; height: 100%;
-    object-fit: cover; opacity: 0; transition: opacity 0.8s ease; z-index: 0;
-}
-.active video { opacity: 1; }
+      #main.expanded-1 #sec1 {
+        flex-grow: 8;
+      }
+      #main.expanded-1 #sec2 {
+        flex-grow: 4;
+        background-color: #ff5f46;
+      }
+      #main.expanded-1 #sec3 {
+        flex-grow: 1;
+        background-color: #000000;
+      }
+      #main.expanded-1 #sec2 span {
+        opacity: 0;
+      }
+      #main.expanded-1 #sec2 .content-text {
+        opacity: 1;
+      }
 
-.rotating-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-}
+      #main.expanded-2 #sec1 {
+        flex-grow: 2;
+        background-color: #000000;
+      }
+      #main.expanded-2 #sec2 {
+        flex-grow: 8;
+      }
+      #main.expanded-2 #sec3 {
+        flex-grow: 2;
+        background-color: #ffd891;
+      }
 
-.rotating-image.visible {
-    opacity: 1;
-}
-
-
-.section span, .section .content-text {
-    position: relative; z-index: 2;
-    transition: opacity 0.5s ease;
-}
-.content-text {
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    padding: 20px; box-sizing: border-box; opacity: 0;
-    width: 90%; height: 90%; text-align: center;
-}
-.content-text h2 { margin-top: 0; }
-
-#main.expanded-1 #sec1 { flex-grow: 8; }
-#main.expanded-1 #sec2 { flex-grow: 4; background-color: #FF5F46; }
-#main.expanded-1 #sec3 { flex-grow: 1; background-color: #000000; }
-#main.expanded-1 #sec2 span { opacity: 0; }
-#main.expanded-1 #sec2 .content-text { opacity: 1; }
-
-#main.expanded-2 #sec1 { flex-grow: 2; background-color: #000000; }
-#main.expanded-2 #sec2 { flex-grow: 8; }
-#main.expanded-2 #sec3 { flex-grow: 2; background-color: #FFD891; }
-
-#main.expanded-3 #sec1 { flex-grow: 1; background-color: #000000; opacity: 0.6; }
-#main.expanded-3 #sec2 { flex-grow: 3; background-color: #000000; }
-#main.expanded-3 #sec3 { flex-grow: 8; }
-
-</style>
-</head>
-<body>
-
-<div id="splash">
-    <img src="images/intro_logo.gif" alt="로고 애니메이션">
-</div>
-
-<div id="intro-items">
-    <img id="intro_focus" src="images/focus-1.gif" alt="Intro Focus">
-    <img id="intro_roll" src="images/roll-1.gif" alt="Intro Roll">
-    <img id="intro_play" src="images/play-1.gif" alt="Intro Play">
-</div>
-
-<div id="main">
-    <div id="top-panel">
-        <img src="images/main_logo.png" alt="로고" id="logo-img">
-        <img src="images/main_pentagon.png" alt="새로운 아이콘" id="top-right-icon">
+      #main.expanded-3 #sec1 {
+        flex-grow: 1;
+        background-color: #000000;
+        opacity: 0.6;
+      }
+      #main.expanded-3 #sec2 {
+        flex-grow: 3;
+        background-color: #000000;
+      }
+      #main.expanded-3 #sec3 {
+        flex-grow: 8;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <img src="images/intro_logo.gif" alt="로고 애니메이션" />
     </div>
 
-    <div id="bottom-panel">
+    <div id="intro-items">
+      <img id="intro_focus" src="images/focus-1.gif" alt="Intro Focus" />
+      <img id="intro_roll" src="images/roll-1.gif" alt="Intro Roll" />
+      <img id="intro_play" src="images/play-1.gif" alt="Intro Play" />
+    </div>
+
+    <div id="main">
+      <div id="top-panel">
+        <img src="images/main_logo.png" alt="로고" id="logo-img" />
+        <img
+          src="images/main_pentagon.png"
+          alt="새로운 아이콘"
+          id="top-right-icon"
+        />
+      </div>
+
+      <div id="bottom-panel">
         <div class="section" id="sec1">
-            <img src="images/focus_text.png" alt="아이콘1" class="section-icon">
-            <img src="images/main_focus.png" alt="1번 구역" class="cover-image">
-            <video src="images/focus_vid.mp4" muted loop></video>
+          <img src="images/focus_text.png" alt="아이콘1" class="section-icon" />
+          <img src="images/main_focus.png" alt="1번 구역" class="cover-image" />
+          <video src="images/focus_vid.mp4" muted loop></video>
         </div>
         <div class="section" id="sec2">
-            <img src="images/roll_text.png" alt="아이콘2" class="section-icon">
-            <img src="images/main_roll.png" alt="2번 구역" class="cover-image">
-            <video src="images/roll_vid.mp4" muted loop></video>
+          <img src="images/roll_text.png" alt="아이콘2" class="section-icon" />
+          <img src="images/main_roll.png" alt="2번 구역" class="cover-image" />
+          <video src="images/roll_vid.mp4" muted loop></video>
         </div>
         <div class="section" id="sec3">
-            <img src="images/seekoo_text.png" alt="아이콘3" class="section-icon">
-            <img src="images/main_seekoo.png" alt="3번 구역" class="cover-image">
-            <img src="images/main_seekooimg_right.png" alt="3번 구역 이미지1" class="rotating-image">
-            <img src="images/main_seekooimg_left.png" alt="3번 구역 이미지2" class="rotating-image">
+          <img
+            src="images/seekoo_text.png"
+            alt="아이콘3"
+            class="section-icon"
+          />
+          <img
+            src="images/main_seekoo.png"
+            alt="3번 구역"
+            class="cover-image"
+          />
+          <img
+            src="images/main_seekooimg_right.png"
+            alt="3번 구역 이미지1"
+            class="rotating-image"
+          />
+          <img
+            src="images/main_seekooimg_left.png"
+            alt="3번 구역 이미지2"
+            class="rotating-image"
+          />
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-window.addEventListener('load', function() {
-    const splash = document.getElementById('splash');
-    const splashImg = splash.querySelector('img');
-    const introDiv = document.getElementById('intro-items');
-    const main = document.getElementById('main');
-    const items = ['intro_focus', 'intro_roll', 'intro_play'];
+    <script>
+      window.addEventListener("load", function () {
+        const splash = document.getElementById("splash");
+        const splashImg = splash.querySelector("img");
+        const introDiv = document.getElementById("intro-items");
+        const main = document.getElementById("main");
+        const items = ["intro_focus", "intro_roll", "intro_play"];
 
-    setTimeout(() => {
-        splashImg.classList.add('slideOutLeft');
         setTimeout(() => {
-            splash.style.display = 'none';
+          splashImg.classList.add("slideOutLeft");
+          setTimeout(() => {
+            splash.style.display = "none";
             introDiv.style.opacity = 1;
 
             items.forEach((id, index) => {
-                setTimeout(() => {
-                    document.getElementById(id).classList.add('fadeInUp');
-                }, index * 3000);
+              setTimeout(() => {
+                document.getElementById(id).classList.add("fadeInUp");
+              }, index * 3000);
             });
 
             setTimeout(() => {
-                introDiv.classList.add('fade-out');
-                setTimeout(() => {
-                    introDiv.style.display = 'none';
-                    main.classList.add('visible'); 
-                    main.style.pointerEvents = 'auto';
-                }, 1000);
+              introDiv.classList.add("fade-out");
+              setTimeout(() => {
+                introDiv.style.display = "none";
+                main.classList.add("visible");
+                main.style.pointerEvents = "auto";
+              }, 1000);
             }, items.length * 3000 + 2000);
-        }, 1000);
-    }, 2500);
-});
+          }, 1000);
+        }, 2500);
+      });
 
-const main = document.getElementById('main');
-const sections = document.querySelectorAll('.section');
-let imageInterval = null;
+      const main = document.getElementById("main");
+      const sections = document.querySelectorAll(".section");
+      let imageInterval = null;
 
-
-sections.forEach((sec, index) => {
-    sec.addEventListener('click', () => {
-        const thisSectionClass = `expanded-${index + 1}`;
-        if (main.classList.contains(thisSectionClass)) {
+      sections.forEach((sec, index) => {
+        sec.addEventListener("click", () => {
+          const thisSectionClass = `expanded-${index + 1}`;
+          if (main.classList.contains(thisSectionClass)) {
             if (isScrolling) return;
             isScrolling = true;
-            main.classList.add('fading-out');
+            main.classList.add("fading-out");
 
-            let targetUrl = '';
+            let targetUrl = "";
 
-            if (sec.id === 'sec1') {
-
-                targetUrl = 'solar.html';
-
-            } else if (sec.id === 'sec2') {
-
-                targetUrl = 'move.html';
-
-            } else if (sec.id === 'sec3') {
-
-                targetUrl = 'seekoo.html';
-
+            if (sec.id === "sec1") {
+              targetUrl = "solar.html";
+            } else if (sec.id === "sec2") {
+              targetUrl = "move.html";
+            } else if (sec.id === "sec3") {
+              targetUrl = "seekoo.html";
             }
             setTimeout(() => {
-
-                window.location.href = targetUrl;
-
+              window.location.href = targetUrl;
             }, 1000);
-        } else if (main.className.includes('expanded-')) {
+          } else if (main.className.includes("expanded-")) {
             resetSections(); // 다른 섹션이 확장되어 있으면 일단 초기화
-        } else {
-            sec.classList.add('active');
-            if (sec.id === 'sec1' || sec.id === 'sec2') {
-                const vid = sec.querySelector('video');
-                if (vid) vid.play().catch(e => console.error("Video play error:", e));
+          } else {
+            sec.classList.add("active");
+            if (sec.id === "sec1" || sec.id === "sec2") {
+              const vid = sec.querySelector("video");
+              if (vid)
+                vid.play().catch((e) => console.error("Video play error:", e));
             }
-            if (sec.id === 'sec3') {
-                const images = sec.querySelectorAll('.rotating-image');
-                if (images.length > 0) {
-                    images[0].classList.add('visible');
-                    imageInterval = setInterval(() => {
-                        images[0].classList.toggle('visible');
-                        images[1].classList.toggle('visible');
-                    }, 5000);
-                }
+            if (sec.id === "sec3") {
+              const images = sec.querySelectorAll(".rotating-image");
+              if (images.length > 0) {
+                images[0].classList.add("visible");
+                imageInterval = setInterval(() => {
+                  images[0].classList.toggle("visible");
+                  images[1].classList.toggle("visible");
+                }, 5000);
+              }
             }
             main.classList.add(thisSectionClass);
-        }
-    });
-});
+          }
+        });
+      });
 
+      function resetSections() {
+        clearInterval(imageInterval);
+        main.className = "visible";
 
-
-function resetSections() {
-    clearInterval(imageInterval);
-    main.className = 'visible';
-    
-    sections.forEach(s => {
-        s.classList.remove('active');
-        const video = s.querySelector('video');
-        if (video) {
+        sections.forEach((s) => {
+          s.classList.remove("active");
+          const video = s.querySelector("video");
+          if (video) {
             video.pause();
             video.currentTime = 0;
-        }
-        
-        const rotatingImages = s.querySelectorAll('.rotating-image');
-        rotatingImages.forEach(img => img.classList.remove('visible'));
-    });
-}
+          }
 
-let isScrolling = false;
-window.addEventListener('load', function() {
-    const splash = document.getElementById('splash');
-    const splashImg = splash.querySelector('img');
-    const introDiv = document.getElementById('intro-items');
-    const main = document.getElementById('main');
-    const items = ['intro_focus', 'intro_roll', 'intro_play'];
-    if (window.location.hash === '#main') {
-        splash.style.display = 'none';
-        introDiv.style.display = 'none';
-        main.classList.add('visible'); 
-        main.style.pointerEvents = 'auto';
-    } else {
-        setTimeout(() => {
-            splashImg.classList.add('slideOutLeft');
+          const rotatingImages = s.querySelectorAll(".rotating-image");
+          rotatingImages.forEach((img) => img.classList.remove("visible"));
+        });
+      }
+
+      let isScrolling = false;
+      window.addEventListener("load", function () {
+        const splash = document.getElementById("splash");
+        const splashImg = splash.querySelector("img");
+        const introDiv = document.getElementById("intro-items");
+        const main = document.getElementById("main");
+        const items = ["intro_focus", "intro_roll", "intro_play"];
+        if (window.location.hash === "#main") {
+          splash.style.display = "none";
+          introDiv.style.display = "none";
+          main.classList.add("visible");
+          main.style.pointerEvents = "auto";
+        } else {
+          setTimeout(() => {
+            splashImg.classList.add("slideOutLeft");
             setTimeout(() => {
-                splash.style.display = 'none';
-                introDiv.style.opacity = 1;
-                items.forEach((id, index) => {
-                    setTimeout(() => {
-                        document.getElementById(id).classList.add('fadeInUp');
-                    }, index * 3000);
-                });
+              splash.style.display = "none";
+              introDiv.style.opacity = 1;
+              items.forEach((id, index) => {
                 setTimeout(() => {
-                    introDiv.classList.add('fade-out');
-                    setTimeout(() => {
-                        introDiv.style.display = 'none';
-                        main.classList.add('visible'); 
-                        main.style.pointerEvents = 'auto';
-                    }, 1000);
-                }, items.length * 3000 + 2000);
+                  document.getElementById(id).classList.add("fadeInUp");
+                }, index * 3000);
+              });
+              setTimeout(() => {
+                introDiv.classList.add("fade-out");
+                setTimeout(() => {
+                  introDiv.style.display = "none";
+                  main.classList.add("visible");
+                  main.style.pointerEvents = "auto";
+                }, 1000);
+              }, items.length * 3000 + 2000);
             }, 1000);
-        }, 2500);
-    }
-});
+          }, 2500);
+        }
+      });
 
-window.addEventListener('wheel', function(event) {
-    if (!main.className.includes('expanded-') && !isScrolling) {
-        isScrolling = true;
+      window.addEventListener("wheel", function (event) {
+        if (!main.className.includes("expanded-") && !isScrolling) {
+          isScrolling = true;
 
-        main.classList.add('fading-out');
+          main.classList.add("fading-out");
 
-        setTimeout(() => {
-            window.location.href = 'background.html';
-        }, 1000);
-    }
-});
+          setTimeout(() => {
+            window.location.href = "background.html";
+          }, 1000);
+        }
+      });
 
-// 📱 모바일 터치 감지 (위로 스와이프 시 background.html 이동)
-let touchStartY = 0;
-let touchEndY = 0;
+      // 📱 모바일 터치 감지 (위로 스와이프 시 background.html 이동)
+      let touchStartY = 0;
+      let touchEndY = 0;
 
-window.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-});
+      window.addEventListener("touchstart", function (e) {
+        touchStartY = e.touches[0].clientY;
+      });
 
-window.addEventListener('touchend', function(e) {
-    touchEndY = e.changedTouches[0].clientY;
+      window.addEventListener("touchend", function (e) {
+        touchEndY = e.changedTouches[0].clientY;
 
-    // 위로 스와이프 (touchStartY > touchEndY)
-    if (touchStartY - touchEndY > 50 && !isScrolling && !main.className.includes('expanded-')) {
-        isScrolling = true;
-        main.classList.add('fading-out');
+        // 위로 스와이프 (touchStartY > touchEndY)
+        if (
+          touchStartY - touchEndY > 50 &&
+          !isScrolling &&
+          !main.className.includes("expanded-")
+        ) {
+          isScrolling = true;
+          main.classList.add("fading-out");
 
-        setTimeout(() => {
-            window.location.href = 'background.html';
-        }, 1000);
-    }
-});
-</script>
-
-</body>
+          setTimeout(() => {
+            window.location.href = "background.html";
+          }, 1000);
+        }
+      });
+    </script>
+  </body>
 </html>
