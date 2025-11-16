@@ -235,6 +235,9 @@
       font-size: 15px;
       max-width: 100%; 
     }
+    .overlay-logo {
+    transform: translate(-2vh,-10vh);
+    }
   }
 
 </style>
@@ -338,27 +341,33 @@
     }
   }, { passive: true });
 
-  // 2. 모바일 (터치 스와이프)
+// 🎯 모바일 전용 스와이프 (빠른 flick일 때만 페이지 이동)
+if (/Mobi|Android/i.test(navigator.userAgent)) {
   let touchStartY = 0;
-  let touchHandled = false; 
+  let touchStartTime = 0;
+  let touchHandled = false;
 
-  window.addEventListener('touchstart', function(event) {
+  window.addEventListener("touchstart", function (event) {
     if (isNavigating) return;
     touchStartY = event.touches[0].clientY;
-    touchHandled = false; 
+    touchStartTime = Date.now();
+    touchHandled = false;
   }, { passive: true });
 
-  window.addEventListener('touchmove', function(event) {
+  window.addEventListener("touchend", function (event) {
     if (isNavigating || touchHandled) return;
 
-    const touchCurrentY = event.touches[0].clientY;
-    const deltaY = touchStartY - touchCurrentY; 
+    const touchEndY = event.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+    const timeDiff = Date.now() - touchStartTime;
 
-    if (deltaY > 50) { 
-      touchHandled = true; 
+    // 👇 빠르고 위로 flick할 때만 이동
+    if (deltaY > 80 && timeDiff < 400) {
+      touchHandled = true;
       navigate();
     }
   }, { passive: true });
+}
 
 
   // '뒤로가기' 버튼으로 돌아왔을 때 화면 복구
