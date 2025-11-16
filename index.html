@@ -336,21 +336,22 @@
       }
       @media (orientation: portrait) {
         #logo-img {
-            height: auto;
-            width: auto;
+          height: auto;
+          width: auto;
         }
         #top-right-icon {
           height: auto;
           width: auto;
-        } 
+        }
         #top-panel {
           max-height: 300px;
         }
-        #bottom-panel{
+        #bottom-panel {
           flex-direction: column;
         }
         .cover-image {
-          width: 70%;
+          width: 50%;
+        }
       }
     </style>
   </head>
@@ -580,6 +581,34 @@
             window.location.href = "background.html";
           }, 1000);
         }
+      });
+      // 🎬 모바일에서 영상이 끝나면 자동으로 다음 페이지로 이동
+      document.addEventListener("DOMContentLoaded", function () {
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (!isMobile) return; // 모바일이 아닐 때는 실행 X
+
+        const videos = document.querySelectorAll(
+          "#bottom-panel .section video"
+        );
+
+        videos.forEach((video) => {
+          video.addEventListener("ended", function () {
+            let targetUrl = "";
+            const parent = video.closest(".section");
+
+            if (parent.id === "sec1") targetUrl = "solar.html";
+            else if (parent.id === "sec2") targetUrl = "move.html";
+            else if (parent.id === "sec3") targetUrl = "seekoo.html";
+
+            if (targetUrl) {
+              // 부드럽게 사라지게
+              document.getElementById("main").classList.add("fading-out");
+              setTimeout(() => {
+                window.location.href = targetUrl;
+              }, 800);
+            }
+          });
+        });
       });
     </script>
   </body>
