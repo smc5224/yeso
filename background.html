@@ -1901,9 +1901,9 @@ font-family: "Almarai";
       체험하고 지속가능한 성장을 이루어갑니다.
     `;
   }
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  if (!isMobile) return; // 모바일 아닐 때는 실행 X
+  if (!isMobile) return; // 모바일이 아니면 실행 안 함
 
   const masks = Array.from(document.querySelectorAll(".s11-mask-grid .mask"));
   const container = document.querySelector(".s11-mask-grid");
@@ -1911,28 +1911,20 @@ font-family: "Almarai";
 
   if (!container || masks.length === 0) return;
 
-  // 한 번 터치 → 도미노처럼 순서대로 뒤집기
   container.addEventListener("touchstart", function (e) {
     e.preventDefault();
-    if (flipped) return;
-    flipped = true;
+
+    // 뒤집기 ↔ 복귀 토글
+    flipped = !flipped;
 
     masks.forEach((mask, index) => {
       setTimeout(() => {
-        mask.style.opacity = "0";
+        mask.style.opacity = flipped ? "0" : "0.92";
       }, index * 100); // 0.1초 간격 도미노
     });
   });
-
-  // 두 번 탭 시 다시 덮기 (선택사항)
-  container.addEventListener("dblclick", function () {
-    masks.forEach((mask) => {
-      mask.style.opacity = "0.92"; // 원래대로 복귀
-    });
-    flipped = false;
-  });
 });
-  
+
 </script>
 </body>
 </html>
