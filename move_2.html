@@ -412,7 +412,7 @@
         }
 
         /* [수정] 상하 패딩 */
-        .hero-section{
+        .hero-section {
           padding: 12vh 2ch 0;
           min-height: auto;
         }
@@ -497,7 +497,7 @@
           max-width: 100%;
           font-size: 12px;
           line-height: 1.5;
-          transform: translateY(-10vh)
+          transform: translateY(-10vh);
         }
         /* [신규] 텍스트 안 굵은 글씨 크기 조정 */
         .product-description strong span {
@@ -684,17 +684,51 @@
     <script>
       let isNavigatingUp = false;
 
-      // 🖱 데스크탑 휠: 위로 스크롤 시 이전 페이지 (맨 위일 때만)
+      function navigateUp() {
+        if (isNavigatingUp || window.scrollY !== 0) return; // 맨 위가 아니면 실행 안 함
+        isNavigatingUp = true;
+        document.documentElement.style.scrollSnapType = "none";
+        document.body.classList.add("fade-out-up");
+        setTimeout(() => {
+          window.location.href = "move.html";
+        }, 800);
+      }
+      function isDrawerOpen() {
+        const drawer = document.getElementById("sideDrawer");
+        return drawer.classList.contains("open"); // ✅ drawer가 열려있는지 여부 반환
+      }
+
       window.addEventListener(
         "wheel",
-        (event) => {
-          const drawerOpen = document.body.classList.contains("drawer-open");
-          if (isNavigating || drawerOpen) return; // 🚫 drawer 열렸을 때 차단
+        function (event) {
+          if (event.deltaY < 0) {
+            if (isDrawerOpen()) return; // ✅ SCENARIO 열려 있으면 차단
+            navigateUp();
+          }
+        },
+        { passive: true }
+      );
 
-          if (event.deltaY < 0 && window.scrollY <= 0) {
-            isNavigating = true;
-            document.body.classList.add("fade-out-up");
-            setTimeout(() => (window.location.href = "solar.html"), 800);
+      // [모바일 스와이프]
+      let touchStartY = 0;
+      window.addEventListener(
+        "touchstart",
+        function (e) {
+          if (window.scrollY === 0) {
+            touchStartY = e.touches[0].clientY;
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener(
+        "touchmove",
+        function (e) {
+          if (isDrawerOpen()) return; // ✅ SCENARIO 열려 있으면 차단
+          if (isNavigatingUp || window.scrollY !== 0) return;
+          const deltaY = e.touches[0].clientY - touchStartY;
+          if (deltaY > 50) {
+            navigateUp();
           }
         },
         { passive: true }
