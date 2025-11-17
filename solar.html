@@ -1,383 +1,463 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SOLAR Spotlight Reveal</title>
-<style>
-  @font-face {
-    font-family: 'Almarai';
-    src: url('./fonts/Almarai-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOLAR Spotlight Reveal</title>
+    <style>
+      @font-face {
+        font-family: "Almarai";
+        src: url("./fonts/Almarai-Regular.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
 
-  :root {
-    --r: 300px; /* ▼ 데스크탑 기본 크기 300px */
-    --mx: 50vw;
-    --my: 50vh;
-    --overlay: #FF5F46;
-    --under-offset: 255px;
-  }
+      :root {
+        --r: 300px; /* ▼ 데스크탑 기본 크기 300px */
+        --mx: 50vw;
+        --my: 50vh;
+        --overlay: #ff5f46;
+        --under-offset: 255px;
+      }
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-  html, body {
-    overflow: hidden !important;
-    height: 100%;
-    overscroll-behavior: none;
-    touch-action: none;
-  }
+      html,
+      body {
+        overflow: hidden !important;
+        height: 100%;
+        overscroll-behavior: none;
+        touch-action: none;
+      }
 
-  /* ... (중간 CSS 코드는 이전과 동일) ... */
-  
-  .under {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;     /* 세로 중앙 */
-    padding: 0 2rem 0 20vw;
-  }
+      /* ... (중간 CSS 코드는 이전과 동일) ... */
 
-  .under-logo {
-    display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    transform: translateY(20px);
-  }
+      .under {
+        min-height: 100vh;
+        display: flex;
+        align-items: center; /* 세로 중앙 */
+        padding: 0 2rem 0 20vw;
+      }
 
-  .under-dot {
-    width: 80px;
-    height: 80px;
-    border-radius: 70%;
-    background: radial-gradient(circle at center, rgba(255, 95, 70, .95) 0 40%, rgba(255, 95, 70, .75) 0% 55%, rgba(255, 95, 70, .4) 0% 100%);
-  }
+      .under-logo {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
 
-  .under-word {
-    color: #FF5F46;
-    font-family: "Almarai", sans-serif;
-    font-size: clamp(44px, 4vw, 50px); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
-    font-weight: 600;
-    letter-spacing: .5px;
-    transform: translateY(15px);
-  }
+      .under-dot {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 70%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 95, 70, 0.95) 0 40%,
+          rgba(255, 95, 70, 0.75) 0% 55%,
+          rgba(255, 95, 70, 0.4) 0% 100%
+        );
+      }
 
-  .under-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 50px;
-  }
-  
-  /* 두 레이어에 부드러운 transition 적용 */
-  .overlay, .under {
-    transition: opacity 0.8s ease;
-  }
+      .under-word {
+        color: #ff5f46;
+        font-family: "Almarai", sans-serif;
+        font-size: clamp(
+          44px,
+          4vw,
+          50px
+        ); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
 
-  /* 페이지가 사라질 때 적용할 클래스 */
-  body.page-fading-out .overlay,
-  body.page-fading-out .under {
-    opacity: 0;
-    pointer-events: none; /* 사라지는 동안 클릭 방지 */
-  }
+      .under-row {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+      /* 두 레이어에 부드러운 transition 적용 */
+      .overlay,
+      .under {
+        transition: opacity 0.8s ease;
+      }
 
-  .under-text h1 {
-    font-size: 32px;
-    font-weight: 500;
-    margin-bottom: 1rem;
-  }
+      /* 페이지가 사라질 때 적용할 클래스 */
+      body.page-fading-out .overlay,
+      body.page-fading-out .under {
+        opacity: 0;
+        pointer-events: none; /* 사라지는 동안 클릭 방지 */
+      }
 
-  .under-text h1 mark {
-    background: #FF5F46;
-    color: #ffffff;
-    padding: .15em .35em;
-  }
+      .under-text h1 {
+        font-size: 32px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
 
-  .under-text p {
-    max-width: 60ch;
-    line-height: 1.65;
-    margin-bottom: .75rem;
-  }
+      .under-text h1 mark {
+        background: #ff5f46;
+        color: #ffffff;
+        padding: 0.15em 0.35em;
+      }
 
-  /* 위쪽 오렌지 오버레이 */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    background: var(--overlay);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 20vw;
-    -webkit-mask: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 98%, black 100%);
-    mask: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 98%, black 100%);
-  }
+      .under-text p {
+        max-width: 60ch;
+        line-height: 1.65;
+        margin-bottom: 0.75rem;
+      }
 
-  .overlay-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 4vh;
-  }
+      /* 위쪽 오렌지 오버레이 */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        background: var(--overlay);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 20vw;
+        -webkit-mask: radial-gradient(
+          circle var(--r) at var(--mx) var(--my),
+          transparent 98%,
+          black 100%
+        );
+        mask: radial-gradient(
+          circle var(--r) at var(--mx) var(--my),
+          transparent 98%,
+          black 100%
+        );
+      }
 
-  .overlay-dot {
-    width: 80px;
-    height: 80px;
-    border-radius: 70%;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, .95) 0 40%, rgba(255, 255, 255, .75) 0% 55%, rgba(255, 255, 255, .4) 0% 100%);
-  }
+      .overlay-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 30px;
+      }
 
-  .overlay-word {
-    color: #ffffff;
-    font-family: "Almarai", sans-serif;
-    font-size: clamp(44px, 4vw, 50px); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
-    font-weight: 600;
-    letter-spacing: .5px;
-  }
+      .overlay-dot {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 70%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.95) 0 40%,
+          rgba(255, 255, 255, 0.75) 0% 55%,
+          rgba(255, 255, 255, 0.4) 0% 100%
+        );
+      }
 
-  .overlay::after {
-    content: "";
-    position: fixed;
-    left: calc(var(--mx) - var(--r));
-    top:  calc(var(--my) - var(--r));
-    width: calc(var(--r) * 2);
-    height: calc(var(--r) * 2);
-    border-radius: 70%;
-    background: radial-gradient(circle at center, rgba(255,255,255,1) 0%);
-    pointer-events: none;
-    box-shadow:
-      0 0 10px 5px rgba(255,255,255,1),
-      0 0 10px 30px rgba(255,255,255,0.75),
-      0 0 10px 60px rgba(255,210,200,0.75),
-      0 0 10px 90px rgba(255,170,150,0.8);
-  }
+      .overlay-word {
+        color: #ffffff;
+        font-family: "Almarai", sans-serif;
+        font-size: clamp(
+          44px,
+          4vw,
+          50px
+        ); /* 폰트 크기: 44px ~ 50px 범위로, 뷰포트 너비의 4% */
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
 
-  @keyframes pulseBounce {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-  }
+      .overlay::after {
+        content: "";
+        position: fixed;
+        left: calc(var(--mx) - var(--r));
+        top: calc(var(--my) - var(--r));
+        width: calc(var(--r) * 2);
+        height: calc(var(--r) * 2);
+        border-radius: 70%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 1) 0%
+        );
+        pointer-events: none;
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 1),
+          0 0 10px 30px rgba(255, 255, 255, 0.75),
+          0 0 10px 60px rgba(255, 210, 200, 0.75),
+          0 0 10px 90px rgba(255, 170, 150, 0.8);
+      }
 
-  .overlay.bounce::after {
-    animation: pulseBounce 0.7s ease-out;
-  }
+      @keyframes pulseBounce {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
 
-  @keyframes rippleWave {
-    0% { transform: scale(0.3); opacity: 0.9; }
-    50% { transform: scale(1.1); opacity: 0.4; }
-    100% { transform: scale(1.8); opacity: 0; }
-  }
+      .overlay.bounce::after {
+        animation: pulseBounce 0.7s ease-out;
+      }
 
-  .ripple {
-    position: fixed;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,200,180,0.6) 40%, transparent 80%);
-    pointer-events: none;
-    transform: scale(0);
-    animation: rippleWave 1.2s ease-out forwards;
-    z-index: 9;
-  }
+      @keyframes rippleWave {
+        0% {
+          transform: scale(0.3);
+          opacity: 0.9;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.4;
+        }
+        100% {
+          transform: scale(1.8);
+          opacity: 0;
+        }
+      }
 
-  /* =====================================
+      .ripple {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(255, 200, 180, 0.6) 40%,
+          transparent 80%
+        );
+        pointer-events: none;
+        transform: scale(0);
+        animation: rippleWave 1.2s ease-out forwards;
+        z-index: 9;
+      }
+
+      /* =====================================
   ▼▼▼ 모바일 반응형 코드 (수정) ▼▼▼
   =====================================
   */
-  @media (max-width: 768px) {
-    html, body {
-      overflow: hidden;
-      height: 100%;
-    }
-    
-    /* ▼▼▼ 스포트라이트 크기 수정 ▼▼▼ */
-    :root {
-      --r: 150px; /* 모바일에서 스포트라이트 크기 150px로 줄임 */
-    }
-    /* ▲▲▲ 스포트라이트 크기 수정 ▲▲▲ */
+      @media (max-width: 768px) {
+        html,
+        body {
+          overflow: hidden;
+          height: 100%;
+        }
 
-    /* 1. 패딩 변경 */
-    .under {
-      padding: 0 1.5rem;
-      padding-top: 15vh;
-      padding-bottom: 15vh;
-    }
+        /* ▼▼▼ 스포트라이트 크기 수정 ▼▼▼ */
+        :root {
+          --logo-left: 50%;
+          --logo-left: 20vw; /* 약간 위쪽 */
+          --r: 150px;
+        }
+        /* ▲▲▲ 스포트라이트 크기 수정 ▲▲▲ */
 
-    .overlay {
-      padding-left: 1.5rem;
-    }
+        /* 1. 패딩 변경 */
+        .under {
+          padding: 0 1.5rem;
+          padding-top: 15vh;
+          padding-bottom: 15vh;
+        }
 
-    /* 2. 가로 배치(row) -> 세로 배치(column) */
-    .under-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4vh; 
-      transform: translateY(-5vh);
-    }
+        .overlay {
+          padding: 0 1.5rem;
+          padding-top: 15vh;
+          padding-bottom: 15vh;
+        }
 
-    /* 3. 로고 위치 조정 */
-    .under-logo {
-      transform: translateY(0);
-      /* 모바일에서 로고와 텍스트 SOLAR 사이 간격 조정 */
-      gap: 30px;
-    }
-    
-    /* 4. 로고 점 크기 조정 (모바일) */
-    .under-dot, .overlay-dot {
-      width: 45px; /* 원 크기 줄임 */
-      height: 45px; /* 원 크기 줄임 */
-    }
+        /* 2. 가로 배치(row) -> 세로 배치(column) */
+        .under-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
 
-    /* 5. SOLAR 텍스트 크기 조정 (모바일) */
-    .under-word, .overlay-word {
-      font-size: 40px; /* 고정 크기로 지정 */
-      line-height: 1; /* 원과 텍스트의 세로 정렬을 위해 추가 */
-      transform: translateY(0); /* 기존 transform 제거 또는 초기화 */
-    }
+        /* 3. 로고 위치 조정 */
+        .under-logo, .overlay-logo{
+          position: absolute;
+          top: 30%;
+        }
 
-    /* 6. 텍스트 크기 및 너비 조정 */
-    .under-text h1 {
-      font-size: 18px; 
-    }
+        /* 4. 로고 점 크기 조정 (모바일) */
+        .under-dot,
+        .overlay-dot {
+          width: 50px; /* 원 크기 줄임 */
+          height: 50px; /* 원 크기 줄임 */
+        }
 
-    .under-text p {
-      font-size: 15px;
-      max-width: 100%; 
-    }
-    .overlay-logo {
-    transform: translate(0,-10vh);
-    }
-  }
+        /* 5. SOLAR 텍스트 크기 조정 (모바일) */
+        .under-word,
+        .overlay-word {
+          font-size: 40px; /* 고정 크기로 지정 */
+          line-height: 1; /* 원과 텍스트의 세로 정렬을 위해 추가 */
+          transform: translateY(0); /* 기존 transform 제거 또는 초기화 */
+        }
+        .under-text{
+          margin-top: 3vh;
+        }
+        /* 6. 텍스트 크기 및 너비 조정 */
+        .under-text h1 {
+          font-size: 18px;
+        }
 
-</style>
-</head>
+        .under-text p {
+          font-size: 15px;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
 
-<body>
-  <div class="overlay" id="overlay">
-    <div class="overlay-logo">
-      <span class="overlay-dot"></span>
-      <span class="overlay-word">SOLAR</span>
-    </div>
-  </div>
-
-  <main class="under">
-    <div class="under-row">
-      <div class="under-logo">
-        <span class="under-dot"></span>
-        <span class="under-word">SOLAR</span>
-      </div>
-
-      <div class="under-text">
-        <h1>
-          <mark>태양</mark>을 모으고, 빛으로 세상을 탐구하다<span style="color:#FF5F46;">!</span>
-        </h1>
-        <p>
-          태양은 모든 생명을 키워내는 근원이자, 우리 곁의 가장 따뜻한 에너지입니다. 아이들은 햇살 아래에서 놀며 자연의 순환과 환경의 소중함을 온몸으로 배웁니다.
-        </p>
+  <body>
+    <div class="overlay" id="overlay">
+      <div class="overlay-logo">
+        <span class="overlay-dot"></span>
+        <span class="overlay-word">SOLAR</span>
       </div>
     </div>
-  </main>
-<script>
-/* =============================
+
+    <main class="under">
+      <div class="under-row">
+        <div class="under-logo">
+          <span class="under-dot"></span>
+          <span class="under-word">SOLAR</span>
+        </div>
+
+        <div class="under-text">
+          <h1>
+            <mark>태양</mark>을 모으고, 빛으로 세상을 탐구하다<span
+              style="color: #ff5f46"
+              >!</span
+            >
+          </h1>
+          <p>
+            태양은 모든 생명을 키워내는 근원이자, 우리 곁의 가장 따뜻한
+            에너지입니다. 아이들은 햇살 아래에서 놀며 자연의 순환과 환경의
+            소중함을 온몸으로 배웁니다.
+          </p>
+        </div>
+      </div>
+    </main>
+    <script>
+      /* =============================
  🎇 Spotlight + Ripple 효과
 ============================= */
-const root = document.documentElement;
-const overlay = document.querySelector('.overlay');
+      const root = document.documentElement;
+      const overlay = document.querySelector(".overlay");
 
-// spotlight 위치 갱신
-function setPos(x, y) {
-  root.style.setProperty('--mx', x + 'px');
-  root.style.setProperty('--my', y + 'px');
-}
+      // spotlight 위치 갱신
+      function setPos(x, y) {
+        root.style.setProperty("--mx", x + "px");
+        root.style.setProperty("--my", y + "px");
+      }
 
-// 초기 중앙 위치 설정
-setPos(window.innerWidth / 2, window.innerHeight / 2);
+      // 초기 중앙 위치 설정
+      setPos(window.innerWidth / 2, window.innerHeight / 2);
 
-// 데스크탑 마우스 이동
-window.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY), { passive: true });
+      // 데스크탑 마우스 이동
+      window.addEventListener(
+        "mousemove",
+        (e) => setPos(e.clientX, e.clientY),
+        { passive: true }
+      );
 
-// 모바일 터치 이동
-window.addEventListener('touchmove', (e) => {
-  const t = e.touches[0];
-  if (t) setPos(t.clientX, t.clientY);
-}, { passive: true });
+      // 모바일 터치 이동
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches[0];
+          if (t) setPos(t.clientX, t.clientY);
+        },
+        { passive: true }
+      );
 
-// 클릭 시 ripple 효과
-document.addEventListener('click', (e) => {
-  overlay.classList.add('bounce');
-  setTimeout(() => overlay.classList.remove('bounce'), 700);
+      // 클릭 시 ripple 효과
+      document.addEventListener("click", (e) => {
+        overlay.classList.add("bounce");
+        setTimeout(() => overlay.classList.remove("bounce"), 700);
 
-  const count = 3;
-  const delay = 150;
-  for (let i = 0; i < count; i++) {
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    const size = 200 + i * 60;
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - size / 2}px`;
-    ripple.style.top = `${e.clientY - size / 2}px`;
-    ripple.style.animationDelay = `${i * delay}ms`;
-    document.body.appendChild(ripple);
-    ripple.addEventListener('animationend', () => ripple.remove());
-  }
-});
-</script>
+        const count = 3;
+        const delay = 150;
+        for (let i = 0; i < count; i++) {
+          const ripple = document.createElement("div");
+          ripple.className = "ripple";
+          const size = 200 + i * 60;
+          ripple.style.width = `${size}px`;
+          ripple.style.height = `${size}px`;
+          ripple.style.left = `${e.clientX - size / 2}px`;
+          ripple.style.top = `${e.clientY - size / 2}px`;
+          ripple.style.animationDelay = `${i * delay}ms`;
+          document.body.appendChild(ripple);
+          ripple.addEventListener("animationend", () => ripple.remove());
+        }
+      });
+    </script>
 
-<script>
-/* =============================
+    <script>
+      /* =============================
  🚫 스크롤 완전 차단
 ============================= */
-window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-window.addEventListener('scroll', () => window.scrollTo(0, 0));
-window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-</script>
+      window.addEventListener("wheel", (e) => e.preventDefault(), {
+        passive: false,
+      });
+      window.addEventListener("scroll", () => window.scrollTo(0, 0));
+      window.addEventListener("touchmove", (e) => e.preventDefault(), {
+        passive: false,
+      });
+    </script>
 
-<script>
-/* =============================
+    <script>
+      /* =============================
  📱 스와이프 / 💻 스크롤로 페이지 전환
 ============================= */
-let isNavigating = false;
-let touchStartY = 0;
-let touchEndY = 0;
+      let isNavigating = false;
+      let touchStartY = 0;
+      let touchEndY = 0;
 
-// 페이지 이동 함수
-function navigate() {
-  if (isNavigating) return;
-  isNavigating = true;
-  document.body.classList.add('page-fading-out');
-  setTimeout(() => {
-    window.location.href = 'solar_2.html';
-  }, 800);
-}
+      // 페이지 이동 함수
+      function navigate() {
+        if (isNavigating) return;
+        isNavigating = true;
+        document.body.classList.add("page-fading-out");
+        setTimeout(() => {
+          window.location.href = "solar_2.html";
+        }, 800);
+      }
 
-// 💻 데스크탑: 마우스 휠 아래로
-window.addEventListener('wheel', e => {
-  if (e.deltaY > 0 && !isNavigating) navigate();
-}, { passive: false });
+      // 💻 데스크탑: 마우스 휠 아래로
+      window.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.deltaY > 0 && !isNavigating) navigate();
+        },
+        { passive: false }
+      );
 
-// 📱 모바일: 위로 스와이프
-if (/Mobi|Android/i.test(navigator.userAgent)) {
-  window.addEventListener('touchstart', e => {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
+      // 📱 모바일: 위로 스와이프
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartY = e.touches[0].clientY;
+          },
+          { passive: true }
+        );
 
-  window.addEventListener('touchend', e => {
-    touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY - touchEndY;
-    if (deltaY > 100 && !isNavigating) { // 위로 100px 이상 스와이프 시
-      navigate();
-    }
-  }, { passive: true });
-}
+        window.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+            if (deltaY > 100 && !isNavigating) {
+              // 위로 100px 이상 스와이프 시
+              navigate();
+            }
+          },
+          { passive: true }
+        );
+      }
 
-// 🔁 뒤로가기 시 페이드 효과 복원
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted) {
-    isNavigating = false;
-    document.body.classList.remove('page-fading-out');
-  }
-});
-</script>
-
-</body>
+      // 🔁 뒤로가기 시 페이드 효과 복원
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          isNavigating = false;
+          document.body.classList.remove("page-fading-out");
+        }
+      });
+    </script>
+  </body>
 </html>

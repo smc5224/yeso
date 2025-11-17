@@ -40,9 +40,8 @@
 
       .under-logo {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 30px;
-        transform: translateY(35px);
       }
 
       .under-dot {
@@ -91,12 +90,11 @@
         font-size: clamp(44px, 6vw, 60px);
         font-weight: 600;
         letter-spacing: 0.5px;
-        transform: translateY(15px);
       }
 
       .under-row {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 50px;
       }
 
@@ -248,103 +246,6 @@
         filter: blur(1px);
       }
 
-      /* 오른쪽 퀵바 */
-      .quickbar {
-        position: fixed;
-        top: 70%;
-        right: 0px;
-        transform: translateY(-50%) translateX(18px);
-        width: 70px;
-        height: 1000px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.65),
-          rgba(255, 255, 255, 0.35)
-        );
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.35s ease, transform 0.35s ease,
-          box-shadow 0.35s ease;
-        z-index: 30;
-        border-left: 4px solid var(--accent);
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 30px;
-      }
-      .quickbar.visible {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(-50%) translateX(0);
-      }
-      .quickbar:hover {
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
-      }
-
-      .qb-label {
-        writing-mode: vertical-rl;
-        font-weight: 500;
-        letter-spacing: 0.4px;
-        color: #000;
-        font-size: clamp(18px, 2.2vw, 24px);
-      }
-
-      /* 슬라이드 패널 */
-      .drawer {
-        position: fixed;
-        inset: 0 0 0 auto;
-        width: 360px;
-        max-width: 86vw;
-        transform: translateX(100%);
-        background: rgba(255, 255, 255, 0.82);
-        -webkit-backdrop-filter: blur(14px);
-        backdrop-filter: blur(14px);
-        box-shadow: -24px 0 48px rgba(0, 0, 0, 0.18);
-        transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.2, 1);
-        z-index: 40;
-        border-left: 6px solid var(--accent);
-      }
-      .drawer.open {
-        transform: translateX(0);
-      }
-      .drawer-body {
-        padding: 24px 20px 48px;
-      }
-      .drawer-close {
-        position: absolute;
-        top: 10px;
-        right: 12px;
-        font-size: 28px;
-        line-height: 1;
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        color: #333;
-      }
-
-      /* 어두운 스크림 */
-      .drawer-scrim {
-        position: fixed;
-        inset: 0;
-        background: rgba(187, 187, 187, 0.25);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        z-index: 35;
-      }
-      .drawer-scrim.show {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
       @keyframes pulseBounce {
         0% {
           transform: scale(1);
@@ -405,7 +306,9 @@
   */
       @media (max-width: 768px) {
         :root {
-          --r: 150px; /* 스포트라이트 크기 줄이기 */
+          --logo-left: 50%;
+          --logo-left: 20vw; /* 약간 위쪽 */
+          --r: 150px;
         }
 
         .under {
@@ -415,24 +318,19 @@
         }
 
         .overlay {
-          padding-left: 1.5rem; /* 20vw 패딩 제거 */
+          padding: 0 1.5rem;
+          padding-top: 15vh;
+          padding-bottom: 15vh;
         }
-
+        
         .under-row {
           flex-direction: column; /* 세로 쌓기 */
-          gap: 4vh;
           align-items: flex-start;
         }
-
-        .under-logo {
-          transform: translateY(0); /* y축 이동 리셋 */
-          gap: 4vh;
+        .under-logo, .overlay-logo{
+          position: absolute;
+          top: 30%;
         }
-        .overlay-logo {
-          gap: 4vh;
-          transform: translateY(-10vh);
-        }
-
         /* 로고 원 크기 줄이기 */
         .under-dot,
         .overlay-dot {
@@ -457,7 +355,9 @@
           line-height: 1; /* 세로 정렬 맞추기 */
           transform: translateY(0);
         }
-
+        .under-text{
+          margin-top: 3vh;
+        }
         /* 본문 텍스트 */
         .under-text h1 {
           font-size: 20px;
@@ -506,7 +406,7 @@
       <div class="spot spot-trail2"></div>
     </div>
 
-    <main class="under">
+    <div class="under">
       <div class="under-row">
         <div class="under-logo">
           <span class="under-dot"></span>
@@ -528,19 +428,7 @@
           </p>
         </div>
       </div>
-    </main>
-    <aside class="drawer" id="sideDrawer" aria-hidden="true">
-      <button class="drawer-close" id="drawerClose" aria-label="Close">
-        ×
-      </button>
-      <div class="drawer-body">
-        <h3>Process Archive</h3>
-        <p>여기에 섹션별 컨텐츠, 링크, 이미지 등을 넣으면 돼.</p>
-      </div>
-    </aside>
-
-    <div class="drawer-scrim" id="drawerScrim"></div>
-
+    </div>
     <script>
       const root = document.documentElement;
       const overlay = document.querySelector(".overlay");
@@ -569,29 +457,6 @@
         { passive: true }
       );
 
-      // [삭제] 이 블록에 있던 touchmove 리스너를 삭제했습니다. (마지막 스크립트와 통합)
-    </script>
-
-    <script>
-      // --- IntersectionObserver 스크립트 ---
-      /*
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-            } else {
-              entry.target.classList.remove("is-visible");
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-
-      // .revealable 요소가 없어서 주석 처리 (오류 방지)
-      // document.querySelectorAll('.revealable').forEach(el => io.observe(el));
-    </script>
-    <script>
       // --- 클릭 리플 효과 스크립트 ---
       document.addEventListener("click", (e) => {
         const count = 3;
