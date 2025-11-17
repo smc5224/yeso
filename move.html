@@ -430,7 +430,7 @@
         }
         .overlay-logo {
           gap: 4vh;
-          transform: translateY(-17vh);
+          transform: translateY(-11vh);
         }
 
         /* 로고 원 크기 줄이기 */
@@ -543,7 +543,7 @@
 
     <script>
       const root = document.documentElement;
-const overlay = document.querySelector('.overlay');
+      const overlay = document.querySelector(".overlay");
 
       function setPos(x, y) {
         root.style.setProperty("--mx", x + "px");
@@ -634,6 +634,17 @@ const overlay = document.querySelector('.overlay');
         { passive: true }
       );
 
+      // 📱 모바일 터치 이동
+      addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches[0];
+          if (!t) return;
+          targetX = t.clientX;
+          targetY = t.clientY;
+        },
+        { passive: true }
+      );
       // [삭제] 이 블록에 있던 touchmove 리스너를 삭제했습니다. (마지막 스크립트와 통합)
 
       function setMaskCenter(x, y) {
@@ -675,6 +686,9 @@ const overlay = document.querySelector('.overlay');
         passive: false,
       });
       window.addEventListener("scroll", () => window.scrollTo(0, 0));
+      window.addEventListener("touchmove", (e) => e.preventDefault(), {
+        passive: false,
+      });
 
       /* =============================
  📱 스와이프 / 💻 스크롤로 페이지 전환
