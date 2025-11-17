@@ -430,7 +430,7 @@
         }
         .overlay-logo {
           gap: 4vh;
-          transform: translateY(-14vh);
+          transform: translateY(-17vh);
         }
 
         /* 로고 원 크기 줄이기 */
@@ -543,6 +543,8 @@
 
     <script>
       const root = document.documentElement;
+const overlay = document.querySelector('.overlay');
+
       function setPos(x, y) {
         root.style.setProperty("--mx", x + "px");
         root.style.setProperty("--my", y + "px");
@@ -572,6 +574,7 @@
 
     <script>
       // --- IntersectionObserver 스크립트 ---
+      /*
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -672,9 +675,7 @@
         passive: false,
       });
       window.addEventListener("scroll", () => window.scrollTo(0, 0));
-      window.addEventListener("touchmove", (e) => e.preventDefault(), {
-        passive: false,
-      });
+
       /* =============================
  📱 스와이프 / 💻 스크롤로 페이지 전환
 ============================= */
