@@ -124,7 +124,7 @@
       .product-shot {
         align-self: flex-end;
         margin-bottom: 25px;
-        transform: rotate(-90deg) translateX(30px) translateY(100px) scale(4);
+        transform: rotate(-90deg) translateX(-70px) translateY(10px) scale(4);
       }
 
       .product-shot2 {
@@ -412,11 +412,14 @@
         }
 
         /* [수정] 상하 패딩 */
-        .hero-section,
-        .reversed-section {
-          padding: 80px 20px; /* 100px -> 80px */
+        .hero-section{
+          padding: 12vh 2ch 0;
+          min-height: auto;
         }
 
+        .reversed-section {
+          min-height: auto;
+        }
         /* [수정] content-grid 갭 30px */
         .content-grid {
           flex-direction: column;
@@ -473,8 +476,8 @@
           margin-bottom: 15px; /* 20px -> 15px */
         }
         .product-shot img {
-          max-width: 120px; /* 150px -> 120px */
-          transform: rotate(-90deg);
+          max-width: 120%;
+          transform: translateX(60%) translateY(-20%) rotate(-90deg);
         }
 
         /* [수정] .product-shot2 중앙 정렬 및 크기 */
@@ -494,6 +497,7 @@
           max-width: 100%;
           font-size: 12px;
           line-height: 1.5;
+          transform: translateY(-10vh)
         }
         /* [신규] 텍스트 안 굵은 글씨 크기 조정 */
         .product-description strong span {
