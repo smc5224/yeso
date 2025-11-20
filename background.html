@@ -60,10 +60,18 @@ h1{
   position:fixed; inset:0 0 auto 0; width:100%;
   margin:0; padding:1rem 2rem;
   background:transparent;
-  font-weight:600; font-size:clamp(20px,1.6vw,36px);
+  font-weight:300; font-size:clamp(15px,1.0vw,36px);
   letter-spacing:.2px; z-index:1000;
   mix-blend-mode:difference; color:#fff;
   border-bottom:0;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(13px,1.0vw,36px);  
+    padding: 0.7rem 1.0rem;               
+    font-weight: 300;                     
+  }
 }
 
 main{ position:relative; }
@@ -93,17 +101,7 @@ main{ position:relative; }
   transform: translateY(0) scale(1);
   }
 
-.section3 {
-  position: relative;
-}
-.section3::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 120px;
-  pointer-events: none;
-  background: linear-gradient(transparent, rgba(0,0,0,0.25));
-}
+
 
 /* 섹션 4 본체 */
 .section4 {
@@ -194,179 +192,360 @@ main{ position:relative; }
 .s1 .bubble--bottom.show{
   transform: translate(50%, 0);
 }
-/* 📱 모바일(세로 화면)에서도 .s1 카드 겹치게 */
+
+.pc-only { display: block; }
+.mo-only { display: none; }
+
 @media (max-width: 768px) and (orientation: portrait) {
-  .s1 {
-    overflow: visible !important;
-    padding-bottom: 0;
-  }
-  .s1 .gallery {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0; /* 카드 간 간격 제거 */
-    margin-top: -5vh;
-    /* 위쪽 카드와 살짝 겹치게 */
-  }
-  .s1 .card {
-    position: relative;
-    margin-top: -8vh; /* 서로 겹치도록 */
-    transform: scale(0.95); /* 살짝 축소해서 화면에 맞춤
-*/
-  }
-  .s1 .card:first-child {
-    margin-top: 0; /* 첫 번째 카드만 정상 위치 */
-  }
-  .s1 .card img {
-    object-fit: contain !important;
-    height: auto !important;
-  }
-  .s1 .label {
-    bottom: -20px !important; /* 말풍선 label이 잘리지 않게 */
-  }
-  .s1 .bubble--small-left{
-    transform: translateY(-16vh) scale(1);
-  }
-  .s1 .bubble--bottom.show {
-    transform: none;
-    transform: translate(50%, -10vh);
-  }
-  .s1 .bubble--small-right {
-    transform: translateY(-3vh) scale(1);
-  }
+  .pc-only { display: none; }
+  .mo-only { display: block; }
 }
+/* 📱 모바일(세로 화면)에서도 .s1 카드 겹치게 */
+/* === 모바일 전용 s1 레이아웃 === */
+@media (max-width: 768px) and (orientation: portrait) {
+
+  .s1{
+    background:#000;               /* 이미 검정이면 생략 */
+    color:#fff;
+    padding: 3.5rem 1.5rem 4rem;
+  }
+
+  .s1-mo{
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .s1-mo-title{
+    font-size: 14px;
+    font-weight: 300;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+    
+  }
+
+  .s1-mo-main{
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .s1-mo-title-2{
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+
+    font-weight: 100;
+
+  }
+
+  .s1-mo-sub{
+    font-size: 10px;
+    line-height: 1.7;
+    color:#ddd;
+    margin-bottom: 1.8rem;
+    font-weight: 500;
+
+  }
+
+  .hl-orange{
+    background: #FFD891 ;
+    padding: 0.1rem 0.2rem;
+
+    font-weight: 600;
+    color:#000000;
+
+  }
+
+  .hl-orange-box{
+    background:#FF5F46;
+    padding: 0.1rem 0.2rem;
+    color:#000000;
+    font-weight: 600;
+
+
+  }
+
+  /* 말풍선 행 */
+  /* 모바일 버블 전체 */
+.s1-mobile {
+  padding: 2rem 1.4rem;
+  text-align: center;
+}
+
+/* 글자 스타일 */
+.s1-mobile-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.s1-mobile-title span {
+  color: #FFDB91;
+  font-weight: 700;
+}
+
+/* 버블 이미지 묶음 */
+.s1-mobile-bubbles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;              /* 위아래 간격은 개별 margin-top으로 조절 */
+}
+
+.m-bubble {
+  width: min(360px, 82vw);  /* 기본 사이즈 */
+  height: auto;
+  display: block;
+    position: relative;    /* ← z-index가 먹도록 */
+}
+
+/* 공통: 2번째 이후는 위 버블과 살짝 겹치도록 */
+.m-bubble + .m-bubble {
+  margin-top: clamp(-18px, -3vh, -6px);
+}
+
+/* 1번 버블(흰색) – 제일 위, 약간 크게, 왼쪽으로 살짝 치우치게 */
+.m-bubble:nth-child(1) {
+  margin-top: 0;
+  width: min(170px, 86vw);      /* 크기 조절 */
+  align-self: flex-start;       /* 컨테이너 왼쪽 기준 */
+  margin-left: 10%;              /* 더 왼쪽/오른쪽 조절하고 싶으면 여기 값 바꾸면 됨 */
+}
+
+/* 2번 버블(노랑) – 조금 작게, 오른쪽으로 치우치게 */
+.m-bubble:nth-child(2) {
+  width: min(170px, 80vw);      /* 크기 조절 */
+  align-self: flex-end;         /* 오른쪽으로 붙이기 */
+  margin-right: 15%;             /* 오른쪽 여백 미세 조정 */
+  margin-top: clamp(-10px, -3vh, -8px);  /* 위 버블과 겹치는 정도 */
+   z-index: 2;        
+}
+
+/* 3번 버블(코랄) – 가운데 아래, 살짝 작게 */
+.m-bubble:nth-child(3) {
+  width: min(100px, 70vw);      /* 크기 조절 */
+  align-self: center;           /* 가운데 정렬 */
+  margin-right: 30%; 
+  margin-top: clamp(-10px, 1vh, -10px);  /* 위 버블과 거리(겹치게 하고 싶으면 음수로) */
+  z-index: 1; 
+}
+
+.s1-mobile-bubbles-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-top: 3rem; /* 첫 번째 세트와 간격 */
+}
+
+.m-bubble-2 {
+  width: min(360px, 82vw);
+  height: auto;
+  display: block;
+  position: relative; /* z-index 사용 가능 */
+}
+
+/* 공통: 2 이후는 겹치기 */
+.m-bubble-2 + .m-bubble-2 {
+  margin-top: clamp(-18px, -3vh, -6px);
+}
+
+/* 4번 — 왼쪽 위 */
+.m-bubble-2:nth-child(1) {
+  margin-top: 0;
+  width: min(200px, 86vw);
+  align-self: flex-start;
+  margin-left: 40%;
+  z-index: 1;
+}
+
+/* 5번 — 오른쪽 위 */
+.m-bubble-2:nth-child(2) {
+  width: min(180px, 80vw);
+  align-self: flex-end;
+  margin-right: 45%;
+  margin-top: clamp(-12px, -2vh, -12px);
+  z-index: 2;
+}
+
+/* 6번 — 가운데 아래 (뒤로) */
+.m-bubble-2:nth-child(3) {
+  width: min(120px, 70vw);
+  align-self: center;
+  margin-top: clamp(0px, -2vh, 10px);
+  margin-right: -40%;     /* 위치 조절 */
+  z-index: 1;
+}
+
+}
+
 /* ===== Section 2: Research 스타일 한 장 + 텍스트 ===== */
-.s2 .board{
-  position:absolute; left:50%; top:50%;
-  transform:translate(-50%, -50%);
-  width:min(1200px, 92vw);
+/* -----------------------------------------------------
+   SECTION 2 (RESEARCH)
+----------------------------------------------------- */
+.s2 {
+  position: relative;
+  background: #000;
+  color: #fff;
+  padding: 5rem 2rem 6rem;
+  overflow: hidden;
 }
-.s2 .label{
-  position:absolute; font-weight:700;
-  letter-spacing:.3px;
-  filter: drop-shadow(0 6px 16px rgba(0,0,0,.35));
-  mix-blend-mode:normal; /* 텍스트는 일반 색상으로 */
+
+/* ---- 바닥 페이드아웃 (검 → 흰) ---- */
+.s2::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 280px;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 1)
+  );
+  z-index: 1;
 }
-.s2 .label--change{
-  top:24%; left:48%;
-  transform:rotate(-10deg);
-  font-size:clamp(14px,1.2vw,22px);
-  background:#fff; color:#111;
-  padding:.35rem .7rem; border-radius:.35rem;
+
+/* -----------------------------------------------------
+   텍스트 블록 공통
+----------------------------------------------------- */
+.research-text {
+  position: relative;
+  z-index: 3;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1.7;
+  font-family: "Pretendard", sans-serif;
 }
-.s2 .label--outdoor{
-  bottom:8%; left:30%;
-  font-size:clamp(18px,1.6vw,28px);
-  color:#ff684f;
+
+.research-text .research-p {
+  font-size: 16px;
+  margin-top: 1rem;
+  color: #ddd;
 }
-.s2 .label--minutes{
-  bottom:6.5%; left:52%;
-  font-size:clamp(18px,1.6vw,28px);
-  background:#ff684f; color:#111;
-  padding:.2rem .5rem; border-radius:.35rem;
-  font-weight:800;
-}
-.s2 .para{
-  position:absolute; left:6%; bottom:12%;
-  width:40ch; line-height:1.4; color:#cfcfcf;
-  font-size:clamp(12px,1vw,16px);
-  opacity:.9;
-}
-/* Section2 전용 말풍선 이미지 배치 */
-.s2 .bubble{
-  position:absolute;
+
+/* PC/모바일 분리 */
+.pc-only { display: block; }
+.mo-only { display: none; }
+
+/* -----------------------------------------------------
+   버블 이미지 공통
+----------------------------------------------------- */
+.s2 .bubble {
+  position: absolute;
   filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
-  opacity:0;
+  opacity: 0;
   transform: translateY(40px);
   transition:
     opacity .9s ease-out var(--delay,0ms),
     transform .9s cubic-bezier(.22,1,.36,1) var(--delay,0ms);
-  will-change: transform, opacity;
+  will-change: opacity, transform;
 }
 
-/* 각 이미지 위치 */
-.s2 .bubble--top-left{
-  top:15%;
-  left:7%;
-  width:700px;
-  
-}
-.s2 .bubble--top-right{
-  top:25%;
-  right:34%;
-  width:550px;
-
-
-}
-.s2 .bubble--bottom-left{
-  bottom:10%;
-  left:40%;
-  width:900px;
-}
-.s2 .bubble--bottom-right{
-  bottom:43%;
-  right:47%;
-  width:50px;
-}
-
-/* 등장 시 애니메이션 */
-.s2 .bubble.show{
-  opacity:1;
+.s2 .bubble.show {
+  opacity: 1;
   transform: translateY(0);
 }
 
-/* Research 텍스트 */
-.s2 .research-text{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-750px,300px);
-  text-align:left;
-  color:#f2f2f2;
-  max-width:800px;
-}
-.s2 .research-text h2{
-  font-size:clamp(20px,2vw,36px);
-  margin-bottom:.5rem;
-  font-weight:600;
-}
-.s2 .research-text p{
-
-  font-size:15px;
-               line-height: 1.2;
-
-  color:#ddd;
-  transform: translateY(100px);
+/* -----------------------------------------------------
+   PC 버블 위치
+----------------------------------------------------- */
+.s2 .bubble--top-left {
+  top: 16%;
+  left: 8%;
+  width: 700px;
 }
 
+.s2 .bubble--bottom-left {
+  bottom: 10%;
+  left: 40%;
+  width: 900px;
+}
+
+.s2 .bubble--top-right {
+  top: 25%;
+  right: 34%;
+  width: 550px;
+}
+
+.s2 .bubble--bottom-right {
+  bottom: 43%;
+  right: 47%;
+  width: 50px;
+}
+
+/* -----------------------------------------------------
+   MOBILE STYLES
+----------------------------------------------------- */
 @media (max-width: 768px) and (orientation: portrait) {
-  .s2{
-    padding: 0;
-  } 
-  .s2 .bubble--top-left {
-      top: 5%;
-      left: -12%;
-      width: 400px;
+
+  .pc-only { display: none; }
+  .mo-only { display: block; }
+
+  .s2 {
+    padding: 3rem 1.5rem 4rem;
   }
-  .s2 .bubble--bottom-left {
-    bottom: 37%;
-    left: -0%;
-    width: 500px;
-    z-index: 3;
-  }
-  .s2 .bubble--top-right {
-    top: 40%;
-    right: -10%;
-    width: 450px;
-  }
-  .s2 .bubble--bottom-right {
-    bottom: 32%;
-    right: 35%;
-    width: 50px;  
-  }
+
+  .s2-title{
+  text-align:center;
+  font-weight:700;
+  font-size:18px;
+
 }
+
+
+  .research-text {
+    max-width: 420px;
+    text-align: center;
+    line-height: 1.55;
+  }
+
+  .research-text .research-p {
+    font-size: 10px;
+  }
+
+  /* 버블 위치 수정 */
+  .s2 .bubble--top-left {
+    top: 22%;
+    left: 20%;
+    width: 300px;
+  }
+
+  .s2 .bubble--bottom-left {
+    bottom: 15%;
+    left: 20%;
+    width: 330px;
+    z-index: 4;
+  }
+
+  .s2 .bubble--top-right {
+    top: 45%;
+    right: 30%;
+    width: 250px;
+    z-index: 5;
+
+  }
+
+  .s2 .bubble--bottom-right {
+  bottom: 43%;
+  right: 47%;
+  width: 0px;
+}
+
+
+}
+
 /* ===== Section 3: 3장 갤러리 + 그라데이션 배경 ===== */
 
+.section3 {
+  position: relative;
+}
 
 /* 섹션 타이틀 */
 .s3 .s3-title{
@@ -413,15 +592,19 @@ main{ position:relative; }
 }
 
 /* 카드 하단 텍스트 라벨 */
-.s3 .label{
-  position:absolute;
-font-family: "Almarai";
-  left:27%; bottom:-15px;
-  font-weight:600;
-  letter-spacing:.06em;
+.s3 .label {
+  position: absolute;
+  font-family: "Almarai";
+  
+  left: 50%;
+  transform: translateX(-50%);
+
+  bottom: -10px;
+  font-weight: 500;
+  letter-spacing: 0em;
   font-size: clamp(30px, 5vw, 60px);
-  color:#fff;
-  pointer-events:none;
+  color: #fff;
+  pointer-events: none;
 }
 
 /* 설명 문단 */
@@ -436,47 +619,63 @@ font-family: "Almarai";
 
 }
 
+.s3 .desc.pc-only { display: block; }
+.s3 .desc.mo-only { display: none; }
+
 /* 📱 모바일(세로 화면)일 때만 section3 이미지·label 보정 */
 @media (max-width: 768px) and (orientation: portrait) {
-  .s3{
+  .s3 {
     padding-top: 0;
   }
-  .s3 .label {
-    transform: translateY(-1vh);
+
+  .s3 .gallery{
+    max-width:min(1500px, 100vw);
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(10px, 1vw, 15px);
+    align-items:center;
   }
+
+  .s3 .card{
+    position:relative;
+    border-radius:0px;
+    overflow:hidden;
+    aspect-ratio: 5.5 / 5.9;
+  }
+
+  .s3 .card img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    filter: grayscale(100%);
+  }
+
+  .s3 .label {
+    left: 50%;
+    transform: translate(-50%, -0.2vh);
+    font-size: clamp(40px, 5vw, 60px);
+    letter-spacing: .00em;
+  }
+
+  .s3 .desc.pc-only { display: none; }
+  .s3 .desc.mo-only { display: block; }
+
   .s3 .desc {
     margin: 16px 5vh 0;
+  font-size:clamp(9px, 1.05vw, 16px);
+
+    
   }
 }
 
 .s4 {
   position: relative;
   min-height: 100vh;
-  color: #fff;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-
-  /* 배경 이미지 설정 */
-  background-image: url("./images/Background/background.png.png"); /* 네 파일 경로 */
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-
-  /* 자연스러운 전환 효과 */
-  transition: background 3s ease;
-}
-
-.section4.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.branding-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
 }
 
 .branding-bg {
@@ -484,75 +683,63 @@ font-family: "Almarai";
   height: 100%;
   object-fit: cover;
 }
-
-.branding-overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 40%;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+/* 로고 + 문장 전체 박스 */
+.s4-inner{
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.branding-text {
-  position: absolute;
-  bottom: 4rem;
-  left: 3rem;
-  color: #fff;
-  text-align: left;
-
-  font-family: 'Noto Sans KR', sans-serif;
+.s4-title{
+  text-align: center;
 }
 
-.branding-text h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+/* 한 줄(문단) 스타일 */
+.branding-line{
+  margin: 0;
+  font-size: clamp(14px, 1.0vw, 18px);
+  line-height: 1.6;
+  color: #000;
 }
 
-.branding-text p {
-  font-size: 1rem;
-  line-height: 1.2;
-  color: #ddd;
-  max-width: 1000px;
+/* 문장 안에 들어가는 로고 이미지 */
+.inline-logo{
+  height: 0em;              /* 텍스트 높이에 맞추기 */
+  vertical-align: middle;     /* 글자랑 수직 가운데 정렬 */
+  margin-right: 0em;        /* 로고와 글자 사이 간격 */
 }
+
+/* PC/모바일 토글 */
+.pc-only { display: block; }
+.mo-only { display: none; }
+
 @media (max-width: 768px) {
-  .s4{
-    padding: 0;
-    min-height: 60vh;
+  .branding-line{
+    font-size: 0.9rem;
   }
 
-  .branding-container {
-    position: relative;
-    width: 100%;
-    height: 30vh;; /* 📌 화면 전체 높이에 맞춤 */
+  .inline-logo{
+    height: 1.3em;
   }
 
-  .branding-bg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 화면 꽉 채우기 유지 */
-    transform: translate(-50%, -50%) scale(1); /* 📌 더 많은 영역을 보기 위해 살짝 축소 */
-    object-position: center center; /* 중앙 기준 */
-  }
+  .pc-only { display: none; }
+  .mo-only { display: block; }
 
-  .branding-text {
-    position: absolute;
-    bottom: -30%; /* 📌 하단에서 살짝 위 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    text-align: center;
-    color: white;
-    line-height: 1.5;
-  }
-  .branding-text p{
-    font-size: 0.69rem;
-    margin: 0;
-  }
+  .branding-line{
+  margin: 0;
+  font-size: clamp(10px, 1.0vw, 18px);
+  line-height: 1.6;
+  color: #000;
 }
+
+/* 문장 안에 들어가는 로고 이미지 */
+.inline-logo{
+  height: 1.4em;              /* 텍스트 높이에 맞추기 */
+  vertical-align: middle;     /* 글자랑 수직 가운데 정렬 */
+  margin-right: 0.3em;        /* 로고와 글자 사이 간격 */
+}
+}
+
+
 
 /*section5*/
 /* 1) 좌/중앙/우 비율: 로고 영역을 더 넓게 */
@@ -569,7 +756,7 @@ font-family: "Almarai";
 /* 2단: 왼쪽(콘텐츠) / 오른쪽(팔레트) */
 .s5-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1.2fr; /* 비율 조정 */
+  grid-template-columns: 1.0fr 1.4fr; /* 비율 조정 */
   gap: 2.9rem;
   align-items: start;
 }
@@ -665,16 +852,6 @@ font-family: "Almarai";
   color: rgba(255,255,255,.9);
 }
 
-/* 반응형 */
-@media (max-width: 960px){
-  .s5-grid { grid-template-columns: 1fr; }
-  .s5-palette {
-    max-width: 240px;
-    height: 460px;
-    margin: 3rem auto 0;
-  }
-}
-
 /* 등장 애니메이션(자연스러움 유지, 과하지 않게) */
 .section5 .s5-grid > * {
   opacity: 0; 
@@ -683,34 +860,110 @@ font-family: "Almarai";
 .section5.is-inview .s5-grid > * { opacity: 1;  }
 
 @media (max-width: 768px){
+
   .section5{
-    padding: 6rem 4rem;
+    padding: 4rem 1.5rem;
     min-height: auto;
   }
-  .s5-center{
-    transform: translateX(-23%) translateY(10%) scale(0.7);
+
+  /* 한 컬럼(로고 위 / 팔레트 아래) */
+  .s5-grid{
+    grid-template-columns: 1fr;
+    gap: 0rem;
   }
+
+  .s5-left{
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  /* 로고 쪽 */
   .s5-logo{
     max-width: 100%;
-    transform: none;
+    transform: scale(0.5);
   }
-  .s5-logo img {
+  .s5-logo img{
     width: 100%;
     max-width: 100%;
   }
-  .s5-logo-guide {
-    transform: none;
-    transform: scale(1.7)
+  .s5-logo-guide{
+    transform: scale(1.25);
   }
-  .s5-roll{
-    transform: translateX(14%) translateY(-42%) scale(0.7);
+
+  /* focus/roll 원본은 모바일에서 숨김 */
+  .s5-center{
+    display: none;
   }
+
+  /* ✅ 팔레트를 화면 오른쪽으로 붙이기 */
   .s5-palette{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 260px;         /* 팔레트 실제 폭 */
+    margin: 0 0 2.5rem auto;  /* 오른쪽 정렬 (left: auto, right:0 느낌) */
+    height: auto;
+  }
+
+  .swatch{
+    position: relative;
+    width: 100%;
+    display: block;
+  }
+
+  /* 세로 비율 */
+  .swatch-coral{
+    background: #FF5F46;
+    padding-top: 120%;
+  }
+  .swatch-sand{
+    background: #FFDB91;
+    padding-top: 90%;
+  }
+  .swatch-black{
+    background: #000;
+    padding-top: 30%;
+  }
+
+  .hex{
     position: absolute;
-    transform: translateX(1px) translateY(-15px) scale(0.7);
-    right: 1%;
+    right: 12px;
+    bottom: 12px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,.9);
+  }
+
+  /* ✅ 코랄 끝 경계선 바로 왼쪽에 Focus */
+  .swatch-coral::after{
+    content: "";
+    position: absolute;
+    top: 100%;                 /* coral/sand 경계선 */
+    left: -50%;                /* 팔레트 폭의 65%만큼 왼쪽으로 */
+    transform: translateY(-70%) scale(70%);
+    width: 60%;                /* 글자 폭 */
+    height: 24%;
+    background: url("images/Background/focus.png") no-repeat right center;
+    background-size: contain;
+    pointer-events: none;
+  }
+
+  /* ✅ 샌드 끝 경계선 바로 왼쪽에 Roll */
+  .swatch-sand::after{
+    content: "";
+    position: absolute;
+    top: 100%;                 /* sand/black 경계선 */
+    left: -75%;
+    transform: translateY(-75%) scale(150%) ;
+    width: 60%;
+    height: 24%;
+    background: url("images/Background/roll.png") no-repeat right center;
+    background-size: contain;
+    pointer-events: none;
   }
 }
+
+
 
 /* 작은 화면 대응 */
 @media (max-width: 840px){
@@ -818,13 +1071,13 @@ font-family: "Almarai";
     transform: translateX(35px) translateY(-20px) scale(0.4);
   }
   .s6-title span {
-    font-size: clamp(16px, 1.4vw, 30px);
+    font-size: clamp(25px, 1.4vw, 30px);
     font-weight: 600;
     letter-spacing: 0.02em;
     transform: translateX(-26px) translateY(-18px) scale(0.7);
   }
   .s6-label.focus {
-    transform: translate(-100%, -570%);
+    transform: translate(-100%, -500%);
   }
   .s6-label {
     max-height: 3vh;
@@ -833,10 +1086,10 @@ font-family: "Almarai";
     transform: translate(-100%, 200%) scale(2);
   }
   .s6-label.logo {
-    transform: translate(170%, -472%) scale(1.5);
+    transform: translate(170%, -430%) scale(1.5);
   }
   .s6-footnote {
-    margin-top: 0;
+    margin-top: -30%;
   }
 }
 
@@ -846,6 +1099,27 @@ font-family: "Almarai";
   text-align:center;
   font-weight:700;
   font-size:clamp(18px, 1.6vw, 28px);
+}
+
+.branding-line{
+  margin: 0;
+  font-size: clamp(10px, 1.0vw, 18px);
+  line-height: 1.6;
+  color: #000;
+}
+
+/* 문장 안에 들어가는 로고 이미지 */
+.inline-logo{
+  height: 1.0em;              /* 텍스트 높이에 맞추기 */
+  vertical-align: middle;     /* 글자랑 수직 가운데 정렬 */
+  margin-right: 0.3em;        /* 로고와 글자 사이 간격 */
+}
+
+.inline-logo-main{
+  height: 1.0em;              /* 텍스트 높이에 맞추기 */
+  vertical-align: middle;     /* 글자랑 수직 가운데 정렬 */
+  margin-left: 0.3em;        /* 로고와 글자 사이 간격 */
+  transform: translateY( -2px);
 }
 
 .section7::after {
@@ -858,10 +1132,10 @@ font-family: "Almarai";
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
 }
 
-/* 가운데 3장 배치 */
+/* 가운데 3장 배치 (PC 기준) */
 .s7 .s7-gallery {
   max-width: min(1500px, 100vw);
-  margin: 3rem auto 2rem; /* 위 3rem, 좌우 auto, 아래 2rem */
+  margin: 3rem auto 2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(10px, 1vw, 50px);
@@ -890,21 +1164,64 @@ font-family: "Almarai";
   color:#333;
 }
 
+/* 공통: PC/모바일 전환용 */
+.pc-only { display: block; }
+.mo-only { display: none; }
 
-
-
-/* 반응형 */
+/* ---------- 반응형 ---------- */
 @media (max-width: 980px){
-  .s7-gallery{ grid-template-columns: 1fr 1fr; }
+  .s7 .s7-gallery{ grid-template-columns: 1fr 1fr; }
 }
+
+/* 📱 모바일 레이아웃 (네가 올린 이미지 구조) */
 @media (max-width: 640px){
-  .s7-gallery{ grid-template-columns: 1fr; }
-  .s7 { padding: 5rem 1.2rem 3rem; min-height: auto;}
-  .s7 .s7-desc {
-    margin-left: 6px;
-    margin-right: 6px;
+
+  .s7 { 
+    padding: 5rem 1.2rem 3rem; 
+    min-height: auto;
   }
+
+  /* 갤러리: 2열 2행, 카드1이 왼쪽을 전부 차지 */
+  .s7 .s7-gallery{
+    max-width: 100%;
+    margin: 2rem auto 1.5rem;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;   /* 왼쪽이 조금 더 넓게 */
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  /* 첫 번째 카드: 왼쪽 전체(2행 span) */
+  .s7 .s7-card:nth-child(1){
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    aspect-ratio: auto;       /* 높이 자동으로 맞추기 */
+  }
+
+  /* 두 번째 카드: 오른쪽 위 */
+  .s7 .s7-card:nth-child(2){
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    aspect-ratio: auto;
+  }
+
+  /* 세 번째 카드: 오른쪽 아래 */
+  .s7 .s7-card:nth-child(3){
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    aspect-ratio: auto;
+  }
+
+  .s7 .s7-desc {
+    margin: 1.5rem 6px 0;
+    font-size: 10px;
+  }
+
+  /* 텍스트: 모바일용만 보이게 */
+  .pc-only { display: none; }
+  .mo-only { display: block; }
 }
+
 
 .s8 {
   position: relative;
@@ -1059,8 +1376,8 @@ font-family: "Almarai";
 
 @media (max-width: 640px){
   .s11 {
-  min-height: 50vh;
-  height: 50vh !important;  
+  min-height: 30vh;
+  height: 30vh !important;  
   }
   .section.s11 .s11-mask-grid .mask {
     background: #000;
@@ -1139,6 +1456,7 @@ font-family: "Almarai";
 
 .s12-logo-bottom {
   margin-top: 1rem;
+
 }
 
 .s12-logo-bottom img {
@@ -1188,42 +1506,77 @@ font-family: "Almarai";
   filter: invert(0);
 }
 
-@media (max-width: 640px){
-  .s12{
-    padding: 0;
-    position: relative;
-    min-height: auto; /* 고정 높이 제거 */
-  }
-  .s12-left{
-    transform: scale(0.7) translate(-21%, -21%);
-  }
-  .s12-photo{
-    transform: none;
-  }
-}
-
-/* 반응형 */
+/* <= 960px : 한 컬럼 + 텍스트/로고만 왼쪽 여백, 사진은 맨 아래로 */
 @media (max-width: 960px){
-  .s12-inner{
-    grid-template-columns: 1fr;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    min-height: auto;
-  }
-  .s12-logo-top img{ width: min(280px, 60%); }
-  .s12-photo{ order: -1; } /* 모바일에서 사진을 위로 올리고 싶으면 주석 해제 */
   .s12{
+    padding: 0;                 /* 양옆 여백은 왼쪽 그룹에만 줄 거라 0 */
+    position: relative;
+    min-height: auto;
     gap: 0;
     transform: none;
-    margin-top: 28px;
-    max-height: 950px;
+    margin-top: 20%;
+    max-height: 950px;          /* 필요 없으면 none 으로 바꿔도 됨 */
+      background: #fff;
+  color: #111;
+  font-weight: 400;
+  font-size: 30px;
+  
   }
-  .s12-logo-top img {
-    transform: translateX(14%) translateY(-20px) scale(1.7);
-  } 
-  /* 상단 타이틀 자연스러운 교체 */
+
+  .s12-meta{
+    font-size: 10px;
+    margin-top: -15%;
+  }
+
+  .s12-team h3{
+    font-size: 12px;
+      margin-top: 5%;
+  }
+
+  .s12-team li{
+    font-size: 10px;
+      margin-top: 0%;
+  }
+
+
+
+
+  .s12-inner{
+    display: flex;
+    flex-direction: column;     /* 위: 텍스트, 아래: 사진 */
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-template-columns: 1fr; /* grid 값은 무시되지만 그대로 둬도 무방 */
+    min-height: auto;
+  }
+
+  .s12-left{
+    margin-left: 1rem;        /* ← 원하는 만큼 조절 */
+    width: auto;
+    transform: none;            /* 640px 이하에서 다시 덮어씀 */
+  }
+
+  .s12-logo-top img{
+    width: min(280px, 60%);
+    transform: translateX(-10%) translateY(-20px) scale(1.2);
+  }
+
+  .s12-logo-bottom img {
+  width: 64px;
+  height: auto;
+  display: block;
+  opacity: 0.9;
+  transform: translateX(-60%)scale(1.0);          /* 위치 이동은 빼고 크기만 유지 */
+
+}
+
+  .s12-photo{
+    order: 2;                   /* 텍스트보다 항상 아래 */
+    transform: none;
+    margin-top: 2rem;           /* 텍스트와 간격 */
+  }
+
+  /* 스크롤 인디케이터 (기존 내용 유지) */
   #pageTitle{
     transition: opacity .35s ease, transform .35s ease, filter .35s ease;
     will-change: opacity, transform, filter;
@@ -1239,6 +1592,9 @@ font-family: "Almarai";
   }
 }
 
+
+
+
   </style>
 </head>
 <body>
@@ -1252,8 +1608,12 @@ font-family: "Almarai";
         <img src="images/seekoo_image/seekoo_pentagon.png" alt="Scroll down indicator">
     </div>
 
-    <section class="section s1">
-      <img class="bubble bubble--top reveal js-reveal"
+
+  <section class="section s1" data-title="Background">
+
+  <!-- ✅ 기존 PC 레이아웃 전체를 여기 안으로 옮기기 -->
+  <div class="s1-pc pc-only">
+    <img class="bubble bubble--top reveal js-reveal"
            src="images/Background/bg_1.png" alt="상단 말풍선" style="--delay:0ms;">
       <img class="bubble bubble--small-left reveal js-reveal"
            src="images/Background/bg_2.png" alt="작은 좌측 말풍선" style="--delay:150ms;">
@@ -1261,9 +1621,55 @@ font-family: "Almarai";
            src="images/Background/bg_3.png" alt="하단 말풍선" style="--delay:0ms;">
       <img class="bubble bubble--small-right reveal js-reveal"
            src="images/Background/bg_4.png" alt="작은 우측 말풍선" style="--delay:200ms;">
-    </section>
+  </div>
 
-    <section class="section s2">
+  <!-- ✅ 모바일 전용 레이아웃 -->
+  <div class="s1-mo mo-only">
+
+    <p class="s1-mo-main">
+      <br><br>아이들은 <span class="hl-orange">환경 문제의 근본적인 원인</span>이나<br>
+      <span class="hl-orange">복잡한 해결책</span>에 대한 이해에 어려움
+    </p>
+
+    <p class="s1-mo-sub">
+      오염을 단순히 ‘길에 쓰레기를 버리는 행위’로만 이해하는 경향이 있으며,<br>
+      ‘산업 생산, 에너지 소비’와 같은 복합적 문제에 대한 이해에 어려움을 겪고 있습니다.<br><br>
+      또한 자신의 일상 행동이 환경에 미치는 광범위한 영향을 연결 짓기 어려워하고 있습니다.
+    </p>
+
+    <!-- 1번째 버블 세트 -->
+    <div class="s1-mobile-bubbles">
+      <img src="images/section1/1.png" class="m-bubble">
+      <img src="images/section1/2.png" class="m-bubble">
+      <img src="images/section1/3.png" class="m-bubble">
+    </div>
+
+    <h3 class="s1-mo-title-2">
+      <br><br><br>환경 문제에 대한 아이들의 <span class="hl-orange-box">‘인식 - 행동 격차’</span> 발생
+    </h3>
+
+    <p class="s1-mo-sub">
+      <br>실제 행동으로 옮기는 데에는 부족함이 발생하며,<br>
+      인식·행동 격차라는 문제가 나타나고 있습니다.<br>
+      이는 행동에 기억할 수 있는 경험이 부족하거나,
+      환경 인프라의 부족,<br> 혹은 공동체의 부재 등 여러 요인에서 비롯되고 있습니다.<br><br>
+      따라서 환경 교육은 단순히 지식 전달을 넘어,<br>
+      학생들이 경험 중심의 의무적/자발적 프로그램에 참여하고,<br>
+      구체적인 행동을 실천하도록 돕는데 초점을 맞춰야합니다.
+    </p>
+
+
+    <!-- 2번째 버블 세트 -->
+    <div class="s1-mobile-bubbles-2">
+  <img src="images/section1/4.png" class="m-bubble-2">
+  <img src="images/section1/5.png" class="m-bubble-2">
+  <img src="images/section1/6.png" class="m-bubble-2">
+</div>
+
+</section>
+
+
+<section class="section s2">
   <img
     class="bubble bubble--top-left reveal js-reveal"
     src="images/Background/bg_21.png"
@@ -1271,7 +1677,7 @@ font-family: "Almarai";
     style="--delay:0ms;"
   />
 
-    <img
+  <img
     class="bubble bubble--bottom-left reveal js-reveal"
     src="images/Background/bg_23.png"
     alt="_23"
@@ -1292,17 +1698,33 @@ font-family: "Almarai";
     style="--delay:400ms;"
   />
 
+  <!-- 텍스트 블록 -->
   <div class="research-text reveal js-reveal" style="--delay:500ms;">
-    <p>
-      아이들이 환경 문제의 심각성(93%)은 인지하지만, 부족한 야외 활동과 체험 기회로 인해 인식과 실천 사이의 격차가 발생하고 있습니다.<br>
-      
-따라서 환경을 놀이처럼 체감하고  능동적인 실천 감각을 키울 수 있는 새로운 형태의 교육 변화가 필요하다는 것을 발견했습니다.
+
+    <!-- PC용 텍스트 -->
+    <p class="research-p pc-only">
+      아이들이 환경 문제의 심각성(93%)은 인지하지만, 부족한 야외 활동과 체험 기회로 인해 인식과 실천 사이의 격차가 발생하고 있습니다.<br><br>
+      따라서 환경을 놀이처럼 체감하고, 능동적인 실천 감각을 키울 수 있는 새로운 형태의 교육 변화가 필요하다는 것을 발견했습니다.
     </p>
+
+    <!-- 모바일용 텍스트 -->
+
+    <h2 class="s2-title reveal js-reveal mo-only" style="--delay:0ms;">From Awareness to Action</h2>
+
+    <p class="research-p mo-only">
+      아이들이 환경 문제의 심각성(93%)은 인지하지만,<br>
+부족한 야외 활동과 체험 기회로 인해 인식과 실천 사이의 격차가 발생하고 있습니다.<br><br>
+
+따라서 환경을 놀이처럼 체감하고 <br>
+능동적인 실천 감각을 키울 수 있는 새로운 형태의 교육 변화가 필요하다는 것을 발견했습니다.
+    </p>
+
   </div>
 </section>
 
-    <section class="section s3" data-title="Motive">
-  <h2 class="s3-title reveal js-reveal" style="--delay:0ms;">Motive of SEEKOO</h2>
+
+<section class="section s3" data-title="Motive">
+  <h2 class="s3-title reveal js-reveal" style="--delay:0ms;"><br><br>Motive of SEEKOO</h2>
 
   <div class="gallery">
     <div class="card reveal js-reveal" style="--delay:120ms;">
@@ -1321,41 +1743,73 @@ font-family: "Almarai";
     </div>
   </div>
 
-  <p class="desc reveal js-reveal" style="--delay:260ms;">
-    아이들은 <strong><span style="color:#FFD891;">자연을 관찰</span></strong>하며 태양 에너지를 모으고, 다양한 <strong><span style="color:#FF5F46;">놀이 활동의 움직임</span></strong>을 통해
+  <!-- PC용 문단 -->
+  <p class="desc pc-only reveal js-reveal" style="--delay:260ms;">
+    아이들은 <strong><span style="color:#FFD891;">자연을 관찰</span></strong>하며 태양 에너지를 모으고,
+    다양한 <strong><span style="color:#FF5F46;">놀이 활동의 움직임</span></strong>을 통해
     운동 에너지를 직접 만들어냅니다.<br><br>
+    외부에서 생성된 에너지를 실내로 가져오면, <br>
+    아이들은 본체의 움직임을 활용해 두 에너지를 사용하고 탐험의 경험을 확장하게 됩니다.
+  </p>
+
+  <!-- 모바일용 문단 (문구 마음대로 수정해도 됨) -->
+  <p class="desc mo-only reveal js-reveal" style="--delay:260ms;">
+    아이들은 <strong><span style="color:#FFD891;">자연을 관찰</span></strong> 태양 에너지를 모으고,<br>
+    다양한 <strong><span style="color:#FF5F46;">놀이 활동의 움직임</span></strong>을 통해 운동 에너지를 만들어냅니다.<br><br>
     외부에서 생성된 에너지를 실내로 가져오면, <br>
     아이들은 본체의 움직임을 활용해 두 에너지를 사용하고 탐험의 경험을 확장하게 됩니다.
   </p>
 </section>
 
 
-    <section class="section s4" data-title="Brading">
+
+<section class="section s4" data-title="Brading">
   <div class="branding-container">
-    <img src="images/Background/background.png" alt="Seekoo Branding Background" class="branding-bg">
-    
-    <div class="branding-overlay"></div>
+    <picture>
+      <source srcset="images/branding_image.png" media="(max-width: 768px)">
+      <img src="images/Background/background.png"
+           alt="Seekoo Branding Background"
+           class="branding-bg">
+    </picture>
 
-    <div class="branding-text">
+    <div class="s4-inner">
+  <div class="s4-title">
+    <!-- PC용 문단 -->
+    <p class="branding-line pc-only">
+      <img src="images/main_logo.png" alt="Seekoo 로고" class="inline-logo">
+      는 에너지를 ‘직접 만드는’ 신체놀이로 아이들을 자연 속 ‘탐험가’로 이끌어냅니다.<br>
+      스스로 에너지를 발견하고 만들면서,<br>
+      환경의 소중함을 체험하고 지속가능한 성장을 이루어갑니다.
+    </p>
 
-      <p id="branding-pc">
-        에너지를 ‘직접 만들어보는’ 신체활동 놀이로 아이들을 자연 속 ‘탐험가’로 이끌어냅니다.<br>
-        스스로 에너지를 발견하고 만들면서, 환경의 소중함을 체험하고 지속가능한 성장을 이루어갑니다.<br>
-      </p>
-    </div>
+    <!-- 모바일용 문단 -->
+    <p class="branding-line mo-only">
+      <img src="images/main_logo.png" alt="Seekoo 로고" class="inline-logo">
+      는 에너지를 '직접 만드는' 신체놀이로 아이들을 자연 속 '탐험가'로 이끌어냅니다.<br>
+      스스로 에너지를 발견하고 만들면서,<br>
+      환경의 소중함을 체험하고 지속가능한 성장을 이루어갑니다.
+
+    </p>
+  </div>
+</div>
   </div>
 </section>
+
 
 
 <section class="section section5" data-title="Logo Design">
   <div class="s5-inner">
     <div class="s5-grid">
+      
+      <!-- 왼쪽 영역 -->
       <div class="s5-left">
-        </figure>
+
+        <!-- 로고 가이드 -->
         <figure class="s5-logo-guide">
           <img src="images/Background/logo_design.png" alt="로고 가이드">
         </figure>
 
+        <!-- PC 전용 focus/roll (모바일에서는 숨김) -->
         <div class="s5-center">
           <figure class="s5-focus">
             <img src="images/Background/focus.png" alt="Focus">
@@ -1366,14 +1820,17 @@ font-family: "Almarai";
         </div>
       </div>
 
+      <!-- 팔레트 -->
       <aside class="s5-palette" aria-label="Brand Color Palette">
         <div class="swatch swatch-coral"><span class="hex">#FF5F46</span></div>
         <div class="swatch swatch-sand"><span class="hex">#FFDB91</span></div>
         <div class="swatch swatch-black"><span class="hex">#000000</span></div>
       </aside>
+
     </div>
   </div>
 </section>
+
 
 
 <section class="section section6" data-title="Product Series">
@@ -1397,15 +1854,25 @@ font-family: "Almarai";
 </section>
 
 
-    <section class="section s7" data-title="Expectation" data-theme="light">
-  <div class="s7-inner">
-    <h2 class="s7-title reveal js-reveal">Expectation effect of <span class="logo">Seekoo.</span></h2>
 
-    <p class="s7-desc reveal js-reveal" style="--delay:120ms;">
+    <section class="section s7" data-title="Expectation" >
+  <div class="s7-inner">
+    <h2 class="s7-title reveal js-reveal">Expectation effect of       <img src="images/main_logo.png" alt="Seekoo 로고" class="inline-logo-main">
+</h2>
+
+    <p class="s7-desc pc-only" style="--delay:120ms;">
       <strong>Seekoo.</strong>는 놀이 기반 교육을 통해 <strong>환경 실천을 재미있는 일상 활동</strong>으로 만들고,
       아이들의 인식·행동 격차를 해소하는 새로운 변화를 제시합니다.<br>
       자연 탐험과 신체 활동으로 에너지를 직접 체험하며, <strong>지속가능한 삶의 가치를 내재화하는 성장의 출발점</strong>이 될 것입니다.
     </p>
+
+      <p class="s7-desc mo-only">
+      <img src="images/main_logo.png" alt="Seekoo 로고" class="inline-logo">
+
+    는 놀이 기반 교육을 통해 <strong>환경 실천을 재미있는 일상 활동</strong>으로 만들고,<br>
+      아이들의 인식·행동 격차를 해소하는 새로운 변화를 제시합니다.<br><br>
+      자연 탐험과 신체 활동으로 에너지를 직접 체험하며,<br> <strong>지속가능한 삶의 가치를 내재화하는 성장의 출발점</strong>이 될 것입니다.
+  </p>
 
     <div class="s7-gallery">
       <div class="s7-card reveal js-reveal" style="--delay:160ms;">
@@ -1423,7 +1890,7 @@ font-family: "Almarai";
     <section class="section s8" data-title="Product Series"></section>
     <section class="section s9" data-title="Product Series"></section>
     <section class="section s10" data-title="Product Series"></section>
-    <section class="section s11" id="section11" data-title=" ">
+    <section class="section s11" id="section11" data-title= "Behind Story">
   <div class="s11-stage">
     <div class="s11-image-grid">
       <figure><img src="images/section11/1.png"  alt=""></figure>
@@ -1464,7 +1931,7 @@ font-family: "Almarai";
 </section>
 
 
-    <section class="section s12" data-title=" ">
+    <section class="section s12" data-title="Behind Story">
   <div class="s12-inner">
     <aside class="s12-left">
       <figure class="s12-logo-top">
@@ -1574,40 +2041,49 @@ font-family: "Almarai";
 
   (function(){
     const body = document.body;
-    const s3 = document.querySelector('.s3');
-    const s5 = document.querySelector('.s5');
-    const s6 = document.querySelector('.s6');
-    const s7 = document.querySelector('.s7');
+    const s1 = document.querySelector('.s1');
+
+
+
+    
+    const s9 = document.querySelector('.s9');
+    const s10 = document.querySelector('.s10');
+    const s11 = document.querySelector('.s11');
     const s12 = document.querySelector('.s12');
 
 
 
 
-    let current = 'dark'; // 현재 상태
+
+    let current = 'light'; // 현재 상태
 
     const bgObserver = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         if(entry.isIntersecting){
+          if(current !== 'black'){
+            body.classList.add('to-dark');
+            body.classList.remove('to-light');
+            current = 'black';
+          }
+        } else {
           if(current !== 'light'){
             body.classList.add('to-light');
             body.classList.remove('to-dark');
             current = 'light';
           }
-        } else {
-          if(current !== 'dark'){
-            body.classList.add('to-dark');
-            body.classList.remove('to-light');
-            current = 'dark';
-          }
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
 
-    if(s3) bgObserver.observe(s3);
-    if(s5) bgObserver.observe(s5);
-    if(s6) bgObserver.observe(s6);
-    if(s7) bgObserver.observe(s7);
+
+    if(s1) bgObserver.observe(s1);
+
+    if(s8) bgObserver.observe(s8);
+    if(s9) bgObserver.observe(s9);
+    if(s10) bgObserver.observe(s10);
+    if(s11) bgObserver.observe(s11);
     if(s12) bgObserver.observe(s12);
+
 
 
 
@@ -1625,19 +2101,7 @@ font-family: "Almarai";
 
   </script>
 
-  <script>
-  // section4가 화면의 35% 정도 보이기 시작하면 천천히 등장
-  const sec4 = document.querySelector('.section4');
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) sec4.classList.add('is-inview');
-      });
-    },
-    { threshold: 0.35 }
-  );
-  io.observe(sec4);
-</script>
+
 
 <script>
   const s5 = document.querySelector('.section5');
