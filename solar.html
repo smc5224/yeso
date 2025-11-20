@@ -109,6 +109,8 @@
         line-height: 1.65;
         margin-bottom: 0.75rem;
       }
+      .pc { display: block; }
+      .mobile { display: none; }
 
       /* 위쪽 오렌지 오버레이 */
       .overlay {
@@ -298,6 +300,8 @@
           font-size: 15px;
           max-width: 100%;
         }
+        .pc { display: none; }
+        .mobile { display: block; }
       }
     </style>
   </head>
@@ -324,10 +328,13 @@
               >!</span
             >
           </h1>
-          <p>
-            태양은 모든 생명을 키워내는 근원이자, 우리 곁의 가장 따뜻한
-            에너지입니다. 아이들은 햇살 아래에서 놀며 자연의 순환과 환경의
-            소중함을 온몸으로 배웁니다.
+          <p class="pc">
+            태양은 모든 생명을 키워내는 근원이자, 우리 곁의 가장 따뜻한에너지입니다.<br>
+            아이들은 햇살 아래에서 놀며 자연의 순환과 환경의 소중함을 온몸으로 배웁니다.
+          </p>
+          <p class="mobile">
+            태양은 모든 생명을 키워내는 근원이자,<br> 우리 곁의 가장 따뜻한에너지입니다.<br>
+            아이들은 햇살 아래에서 놀며 자연의 순환과<br> 환경의 소중함을 온몸으로 배웁니다.
           </p>
         </div>
       </div>

@@ -240,6 +240,9 @@
         height: auto;
         display: block;
       }
+      .mobile {
+        display: none;
+      }
 
       /* ... (이하 .ripple, @keyframes 등은 동일) ... */
       @keyframes pulseBounce {
@@ -354,10 +357,10 @@
           flex: 1;
         }
         .main-image-container img {
-            width: 100%;
+          width: 100%;
         }
         .main-image-container2 img {
-            width: 100%;
+          width: 100%;
         }
 
         .video-container-left,
@@ -417,7 +420,9 @@
 
         .third-section .right-info {
           padding: 0;
-          
+        }
+        .mobile {
+          display: block;
         }
       }
       /* ▲▲▲ 모바일 반응형 코드 (여기까지 수정) ▲▲▲ */
@@ -456,9 +461,9 @@
             태양에너지 모듈을 위로 세워 각도를 조절하고, <br />
             밖에서 모은
             <strong><span style="font-size: 18px">FOCUS</span></strong
-            >를 키우면 아이가 만든 에너지만큼 조명이 커집니다. <br /><br />
-            빛의 세기와 그림자를 조절하며, 아이들은 자연의 원리를 놀이로
-            이어갑니다.
+            >를 키우면 아이가 만든 에너지만큼 조명이 커집니다. <br />
+            빛의 세기와 그림자를 조절하며,<br class="mobile" />아이들은 자연의
+            원리를 놀이로 이어갑니다.
           </p>
         </div>
       </div>
