@@ -464,7 +464,8 @@
             if (sec.id === "sec1") {
               targetUrl = "solar.html";
             } else if (sec.id === "sec2") {
-              targetUrl = "move.html";
+              const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+              targetUrl = isMobile ? "move_mobile.html" : "move.html";
             } else if (sec.id === "sec3") {
               targetUrl = "seekoo.html";
             }
