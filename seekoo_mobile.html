@@ -66,7 +66,7 @@
         position: fixed;
         width: 100%;
         z-index: 3;
-        max-height: 6vh
+        max-height: 6vh;
       }
 
       #logo-img {
@@ -130,7 +130,7 @@
       }
 
       .under-word {
-        color: #ffd891;
+        color: #000000;
         font-family: "Almarai", sans-serif;
         /* [수정] clamp(min, pref, max) 순서 수정 */
         font-size: clamp(44px, 6vw, 60px);
@@ -141,7 +141,6 @@
       .under-row {
         display: flex;
         align-items: center;
-        gap: 50px;
       }
 
       .under {
@@ -159,8 +158,8 @@
         display: none;
       }
 
-      .under-text h1 mark {
-        background: #ffd891;
+      .under-text p mark {
+        background: #000000;
         color: #ffffff;
         padding: 0.15em 0.35em;
       }
@@ -339,6 +338,7 @@
         justify-content: start;
         display: flex;
         flex-direction: column;
+        margin-bottom: 25vh;
       }
 
       .zz-img {
@@ -365,7 +365,7 @@
           margin-right: 1vh;
         }
         .image-section {
-          margin-top: 5vh;
+          margin-top: 20vh;
         }
         .main-image-container {
           display: grid;
@@ -376,27 +376,31 @@
         ._1 {
           grid-column: 1;
           grid-row: 1;
-        }
-        ._2 {
-          grid-column: 1;
-          grid-row: 2;
+          z-index: 1;
         }
         ._3 {
           grid-column: 1; /* 1~2열 전체 */
           grid-row: 1 / span 2;
-          width: 50% !important;
           align-self: center;
+          z-index: 0;
         }
         .main-image-container img {
           width: 90%;
         }
-        .moving-text p {
+        .seekoo-text {
+          margin-top: 25vh;
+        }
+        .seekoo-text p {
           text-align: right;
           margin: 8vh 2vh;
           font-size: clamp(14px, 3.5vw, 20px);
         }
 
-        .under {
+        .under-img {
+          width: 65%;
+        }
+        .under-img img {
+          width: 100%;
         }
         .under-row {
           flex-direction: column; /* 세로 쌓기 */
@@ -426,6 +430,7 @@
         }
         .under-text {
           margin-top: 3vh;
+          text-align: center;
         }
         /* 본문 텍스트 */
         .under-text h1 {
@@ -523,10 +528,10 @@
         }
         .scenario {
           font-size: clamp(25px, 3.5vw, 20px);
-          margin-left: 1.5vh;
           font-family: "Almarai";
           font-weight: 400;
-          margin-bottom: 5vh;
+          margin: 0;
+          margin-left: 1.5vh;
         }
         .zigzag-list .zz-item:nth-child(odd),
         .zigzag-list .zz-item:nth-child(even) {
@@ -556,21 +561,16 @@
           <div class="main-image-container">
             <img
               class="_1"
-              src="images/_image/Moving1.png"
-              alt="A child holding a yellow solar-powered device in a natural setting."
-            />
-            <img
-              class="_2"
-              src="images/move_image/Moving2.png"
+              src="images/seekoo_image/Seekoo1.png"
               alt="A child holding a yellow solar-powered device in a natural setting."
             />
             <img
               class="_3"
-              src="images/move_image/Moving3.png"
+              src="images/seekoo_image/Seekoo3.png"
               alt="A child holding a yellow solar-powered device in a natural setting."
             />
           </div>
-          <div class="moving-text">
+          <div class="seekoo-text">
             <p>
               아이들의 신나는 움직임을 에너지로 전환하고,<br />
               그 에너지로 즐거운 춤과 리듬을 창조하는 매개체로서,<br />
@@ -581,24 +581,27 @@
         </div>
       </section>
 
-      <section class="move">
+      <section class="seekoo">
         <div class="under">
           <div class="under-row">
+            <div class="under-img">
+              <img
+                src="images/seekoo_image/Seekoo.png"
+                alt="A child holding a yellow solar-powered device in a natural setting."
+              />
+            </div>
             <div class="under-logo">
-              <span class="under-dot"></span>
-              <span class="under-word">MOTION</span>
+              <span class="under-word">SWITCH</span>
             </div>
 
             <div class="under-text">
-              <h1>
-                <mark>움직임</mark>으로 에너지를 만들고,<br />놀이로 세상을
-                배우다<span style="color: #ffd891">!</span>
-              </h1>
               <p>
-                아이들에게 익숙한 놀이의 동작이 곧<br />
-                에너지를 만들어내는 힘이 됩니다.<br />
-                몸을 움직이는 즐거움 속에서 아이들은<br />
-                스스로 에너지의 원리를 배우고 탐구합니다.
+                SEEKOO는 스위치 모티브로 설계되어,<br />
+                아이들이 접촉하는 면에 따라 놀이 방식이 달라집니다. <br />
+                집 모양의 본체는 아이들이 밖에서<br />
+                탐험 후 돌아오는 <mark>BASE CAMP</mark> 역할을 합니다. <br />
+                모은 에너지를 집 안 놀이로 확장하며,<br />
+                자연 속 탐험과 창의적 놀이가 이어집니다.
               </p>
             </div>
           </div>
@@ -609,7 +612,7 @@
         <div class="hero-content-grid">
           <div class="main-image-container">
             <img
-              src="images/move_image/picture.png"
+              src="images/seekoo_image/seekoo_sampleimg1.png"
               alt="A child holding a yellow solar-powered device in a natural setting."
             />
           </div>
@@ -623,73 +626,33 @@
             <figure class="zz-item">
               <img
                 class="zz-img"
-                src="images/move_image/scenario1.png"
+                src="images/seekoo_image/shadow.png"
                 alt="시나리오 1"
                 loading="lazy"
               />
               <div>
-                <h1>Pick Up & Start Moving</h1>
+                <h1>Light & Shadow</h1>
                 <p>
-                  본체에서 ROLL 모듈을 꺼내 손에 쥐고,<br />
-                  걸으며 자연스럽게 움직임을 만들어냅니다.
+                  아이들이 모아온 <br>태양 에너지가 <br>조명으로 켜지며,<br />
+                  빛과 그림자를 탐색하는 감각 놀이로 확장됩니다.
                 </p>
               </div>
             </figure>
             <figure class="zz-item">
               <img
                 class="zz-img"
-                src="images/move_image/scenario2.png"
+                src="images/seekoo_image/dancesing.png"
                 alt="시나리오 2"
                 loading="lazy"
               />
               <div>
-                <h1>Shake & Swing</h1>
+                <h1>Music & Movement</h1>
                 <p>
-                  걷는 리듬에 따라 손에서 흔들리고<br />
-                  팔의 스윙으로 작은 운동 에너지가 축적됩니다.
+                  움직임으로 만든 에너지가 음악으로 변환되어,<br>
+                  아이들이 춤추고 <br>노래하며 놀이를 <br>이어갑니다.
                 </p>
               </div>
             </figure>
-            <figure class="zz-item">
-              <img
-                class="zz-img"
-                src="images/move_image/scenario3.png"
-                alt="시나리오 3"
-                loading="lazy"
-              />
-              <div>
-                <h1>Roll on the Ground</h1>
-                <p>
-                  바닥이나 잔디 위에 가볍게 굴리며<br />더 큰 운동 에너지를
-                  만들어냅니다.
-                </p>
-              </div>
-            </figure>
-            <figure class="zz-item">
-              <img
-                class="zz-img"
-                src="images/move_image/scenario4.png"
-                alt="시나리오 4"
-                loading="lazy"
-              />
-              <div>
-                <h1>Twist & Build Energy</h1>
-                <p>
-                  손으로 잡고 돌리거나 비틀며<br />운동 에너지를 만들어내는
-                  재미를 느낍니다.
-                </p>
-              </div>
-            </figure>
-          </div>
-          <div class="right-info">
-            <p class="scenario">Arduino Logic & Flow</p>
-            <div class="product-shot2">
-              <img
-                src="images/move_image/arduino.png"
-                alt="Top-down view of the solar device."
-              />
-            </div>
-            <p class="product-description2"></p>
           </div>
         </div>
       </section>
