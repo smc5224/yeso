@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seekoo.</title>
+    <style>
+      @font-face {
+        font-family: "Pretendard";
+        src: url("fonts/Pretendard-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+
+      @font-face {
+        font-family: "Pretendard";
+        src: url("fonts/Pretendard-Bold.woff2") format("woff2");
+        font-weight: 700;
+      }
+
+      @font-face {
+        font-family: "Almarai";
+        src: url("fonts/Almarai-Regular.ttf") format("truetype");
+        font-weight: 400;
+      }
+
+      @font-face {
+        font-family: "Almarai";
+        src: url("fonts/Almarai-Bold.ttf") format("truetype");
+        font-weight: 700;
+      }
+
+      /* ----- 전체 페이지 스타일 ----- */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #main {
+        /* (수정) transform 애니메이션을 위해 transition 속성 추가 */
+        transition: opacity 1s ease, transform 1s ease;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #top-panel {
+        flex: 1;
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        position: fixed;
+        width: 100%;
+        z-index: 3;
+        max-height: 6vh
+      }
+
+      #logo-img {
+        width: auto;
+      }
+
+      #top-right-icon {
+        width: auto;
+      }
+
+      /* 아래쪽 페이지 */
+      .under {
+        min-height: 50vh;
+        display: flex;
+        align-items: center; /* 세로 중앙 */
+        justify-content: center;
+      }
+
+      .under-logo {
+        display: flex;
+        gap: 7vh;
+      }
+
+      .under-dot {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 70%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 216, 145, 0.95) 0 40%,
+          rgba(255, 216, 145, 0.75) 55%,
+          rgba(255, 216, 145, 0.4) 100%
+        );
+      }
+
+      /* 왼쪽으로 이동한 복제 원들 */
+      .under-dot::before,
+      .under-dot::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 70%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 216, 145, 0.95) 0 40%,
+          rgba(255, 216, 145, 0.75) 55%,
+          rgba(255, 216, 145, 0.4) 100%
+        );
+        z-index: -1;
+      }
+
+      .under-dot::before {
+        transform: translateX(-25px);
+        opacity: 0.7;
+      }
+
+      .under-dot::after {
+        transform: translateX(-50px);
+        opacity: 0.4;
+      }
+
+      .under-word {
+        color: #ffd891;
+        font-family: "Almarai", sans-serif;
+        /* [수정] clamp(min, pref, max) 순서 수정 */
+        font-size: clamp(44px, 6vw, 60px);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .under-row {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .under {
+        transition: opacity 0.8s ease;
+      }
+
+      .under-text h1 {
+        font-size: 32px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
+      .mobile,
+      .mobile1,
+      .mobile2 {
+        display: none;
+      }
+
+      .under-text h1 mark {
+        background: #ffd891;
+        color: #ffffff;
+        padding: 0.15em 0.35em;
+      }
+
+      .under-text p {
+        max-width: 65ch;
+        line-height: 1.65;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-section,
+      .reversed-section {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        scroll-snap-align: start;
+      }
+
+      .content-grid {
+        display: flex;
+        align-items: stretch;
+        gap: 80px;
+        width: 95%;
+        max-width: 1400px;
+      }
+
+      .right-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .product-shot {
+        align-self: flex-end;
+        margin-bottom: 25px;
+        transform: rotate(-90deg) translateX(-70px) translateY(10px) scale(4);
+      }
+
+      .product-shot2 {
+        align-self: flex-end;
+        margin-bottom: 25px;
+        transform: translateX(-200px) translateY(-20px) scale(0.6);
+      }
+
+      .product-shot img {
+        width: 80%;
+        max-width: 200px;
+        height: auto;
+        display: block;
+      }
+
+      .product-description {
+        font-size: 14px;
+        color: #555;
+        max-width: 1500px;
+        font-weight: 500;
+        align-self: flex-start;
+        line-height: 1.2;
+        transform: translateX(-80px) translateY(10px) scale(1.2);
+      }
+
+      .product-description2 {
+        font-size: 14px;
+        color: #555;
+        max-width: 1500px;
+        font-weight: 500;
+        align-self: flex-start;
+        line-height: 1.2;
+        transform: translateX(0px) translateY(-200px) scale(1.2);
+      }
+
+      /* ... (이하 데스크탑 CSS 코드는 모두 동일) ... */
+
+      .product-description h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .scroll-indicator {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        width: 70px;
+        z-index: 10;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+      }
+
+      .scroll-indicator img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .main-image-container--reversed {
+        justify-content: flex-end;
+      }
+
+      .product-shot--reversed {
+        align-self: flex-start;
+      }
+
+      .content-grid--no-gap {
+        gap: 0;
+      }
+
+      .third-section .product-shot img {
+        max-width: 110%;
+        width: 110%;
+      }
+
+      /* ... (이하 @keyframes, .ripple 등 나머지 CSS는 모두 동일) ... */
+
+      @keyframes pulseBounce {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 10px 5px rgba(255, 255, 255, 1),
+            0 0 10px 30px rgba(255, 255, 255, 0.75),
+            0 0 10px 60px rgba(255, 216, 145, 0.75),
+            0 0 10px 90px rgba(255, 216, 145, 0.8);
+        }
+        40% {
+          transform: scale(1.08);
+          box-shadow: 0 0 15px 10px rgba(255, 255, 255, 1),
+            0 0 25px 50px rgba(255, 255, 255, 0.75),
+            0 0 20px 80px rgba(255, 216, 145, 0.75),
+            0 0 20px 110px rgba(255, 216, 145, 0.8);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .overlay.bounce::after {
+        animation: pulseBounce 0.7s ease-out;
+      }
+
+      @keyframes rippleWave {
+        0% {
+          transform: scale(0.3);
+          opacity: 0.9;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.4;
+        }
+        100% {
+          transform: scale(1.8);
+          opacity: 0;
+        }
+      }
+
+      .ripple {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(255, 216, 145, 0.3) 40%,
+          transparent 80%
+        );
+        pointer-events: none;
+        transform: scale(0);
+        animation: rippleWave 1.2s ease-out forwards;
+        z-index: 9;
+      }
+
+      /* ----- 지그재그 이미지 리스트 ----- */
+      .zigzag-list {
+        gap: 0px;
+        margin-top: 20px;
+        justify-content: start;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .zz-img {
+        width: 60%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+        transform: scale(0.9);
+      }
+
+      /* =====================================
+        ▼▼▼ 모바일 반응형 코드 (여기부터 수정) ▼▼▼
+        =====================================
+        */
+      @media (max-width: 768px) {
+        #logo-img {
+          height: 6vh;
+        }
+
+        #top-right-icon {
+          height: 6vh;
+          margin-top: 1vh;
+          margin-right: 1vh;
+        }
+        .image-section {
+          margin-top: 5vh;
+        }
+        .main-image-container {
+          display: grid;
+          justify-items: center;
+          grid-template-rows: auto auto;
+          z-index: 1;
+        }
+        ._1 {
+          grid-column: 1;
+          grid-row: 1;
+        }
+        ._2 {
+          grid-column: 1;
+          grid-row: 2;
+        }
+        ._3 {
+          grid-column: 1; /* 1~2열 전체 */
+          grid-row: 1 / span 2;
+          width: 50% !important;
+          align-self: center;
+        }
+        .main-image-container img {
+          width: 90%;
+        }
+        .moving-text p {
+          text-align: right;
+          margin: 8vh 2vh;
+          font-size: clamp(14px, 3.5vw, 20px);
+        }
+
+        .under {
+        }
+        .under-row {
+          flex-direction: column; /* 세로 쌓기 */
+          align-items: center;
+        }
+        .under-logo {
+        }
+        /* 로고 원 크기 줄이기 */
+        .under-dot {
+          width: 5vh;
+          height: 5vh;
+        }
+
+        /* 로고 원 트레일 간격 줄이기 */
+        .under-dot::before {
+          transform: translateX(25px);
+        }
+        .under-dot::after {
+          transform: translateX(50px);
+        }
+
+        /* 로고 텍스트 */
+        .under-word {
+          font-size: 40px;
+          line-height: 1; /* 세로 정렬 맞추기 */
+          transform: translateY(0);
+        }
+        .under-text {
+          margin-top: 3vh;
+        }
+        /* 본문 텍스트 */
+        .under-text h1 {
+          font-size: 20px;
+        }
+        .under-text p {
+          margin-top: 30px;
+          font-size: 14px;
+          max-width: 100%;
+        }
+
+        /* [수정] 스크롤 아이콘 */
+        .scroll-indicator {
+          right: 20px;
+          bottom: 20px;
+          width: 45px; /* 50px -> 45px */
+        }
+
+        /* [수정] 상하 패딩 */
+        .hero-section {
+          min-height: auto;
+          margin: 10vh 0;
+        }
+
+        .reversed-section {
+          min-height: auto;
+          margin-bottom: 5vh;
+        }
+        /* [수정] content-grid 갭 30px */
+        .hero-content-grid {
+          flex-direction: column;
+          align-items: center;
+          gap: 30px; /* 40px -> 30px */
+          width: 100%;
+        }
+        .content-grid {
+          flex-direction: column;
+          align-items: center;
+          gap: 20vh; /* 40px -> 30px */
+          width: 100%;
+        }
+
+        .content-grid--reversed {
+          flex-direction: column-reverse;
+        }
+
+        /* [수정] right-info 너비 100% */
+        .right-info {
+          width: 100%;
+        }
+
+        /* [수정] .product-shot 오른쪽 정렬 */
+        .product-shot,
+        .product-shot--reversed {
+          align-self: flex-end;
+          transform: none;
+          margin-bottom: 15px; /* 20px -> 15px */
+        }
+        .product-shot img {
+          max-width: 120%;
+          transform: translateX(60%) translateY(-20%) rotate(-90deg);
+        }
+
+        /* [수정] .product-shot2 중앙 정렬 및 크기 */
+        .product-shot2 {
+          transform: none;
+          margin-bottom: 0;
+          display: flex;
+          justify-content: center;
+        }
+        .product-shot2 img {
+          max-width: 80%;
+        }
+
+        /* [수정] 텍스트 중앙 정렬 및 간격 */
+        .product-description {
+          align-self: auto;
+          transform: none;
+          max-width: 100%;
+          font-size: 12px;
+          line-height: 1.5;
+          transform: translateY(-10vh);
+        }
+        /* [신규] 텍스트 안 굵은 글씨 크기 조정 */
+        .product-description strong span {
+          font-size: 16px !important; /* 인라인 스타일 18px 덮어쓰기 */
+        }
+
+        .product-description2 {
+          align-self: auto;
+          transform: none;
+          max-width: 100%;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+        .scenario {
+          font-size: clamp(25px, 3.5vw, 20px);
+          margin-left: 1.5vh;
+          font-family: "Almarai";
+          font-weight: 400;
+          margin-bottom: 5vh;
+        }
+        .zigzag-list .zz-item:nth-child(odd),
+        .zigzag-list .zz-item:nth-child(even) {
+          transform: none;
+        }
+        .zz-item {
+          margin: 0;
+          display: flex;
+        }
+      }
+      /* ▲▲▲ 모바일 반응형 코드 (여기까지 수정) ▲▲▲ */
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div id="top-panel">
+        <img src="images/main_logo.png" alt="로고" id="logo-img" />
+        <img
+          src="images/main_pentagon.png"
+          alt="새로운 아이콘"
+          id="top-right-icon"
+        />
+      </div>
+
+      <section class="image-section">
+        <div class="content-grimage">
+          <div class="main-image-container">
+            <img
+              class="_1"
+              src="images/_image/Moving1.png"
+              alt="A child holding a yellow solar-powered device in a natural setting."
+            />
+            <img
+              class="_2"
+              src="images/move_image/Moving2.png"
+              alt="A child holding a yellow solar-powered device in a natural setting."
+            />
+            <img
+              class="_3"
+              src="images/move_image/Moving3.png"
+              alt="A child holding a yellow solar-powered device in a natural setting."
+            />
+          </div>
+          <div class="moving-text">
+            <p>
+              아이들의 신나는 움직임을 에너지로 전환하고,<br />
+              그 에너지로 즐거운 춤과 리듬을 창조하는 매개체로서,<br />
+              아이들에게 스스로 만드는 에너지의 가치와 <br />
+              활동적인 성장의 경험을 선물합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="move">
+        <div class="under">
+          <div class="under-row">
+            <div class="under-logo">
+              <span class="under-dot"></span>
+              <span class="under-word">MOTION</span>
+            </div>
+
+            <div class="under-text">
+              <h1>
+                <mark>움직임</mark>으로 에너지를 만들고,<br />놀이로 세상을
+                배우다<span style="color: #ffd891">!</span>
+              </h1>
+              <p>
+                아이들에게 익숙한 놀이의 동작이 곧<br />
+                에너지를 만들어내는 힘이 됩니다.<br />
+                몸을 움직이는 즐거움 속에서 아이들은<br />
+                스스로 에너지의 원리를 배우고 탐구합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero-section">
+        <div class="hero-content-grid">
+          <div class="main-image-container">
+            <img
+              src="images/move_image/picture.png"
+              alt="A child holding a yellow solar-powered device in a natural setting."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="reversed-section third-section">
+        <div class="content-grid content-grid--no-gap">
+          <div class="zigzag-list">
+            <p class="scenario">Scenario</p>
+            <figure class="zz-item">
+              <img
+                class="zz-img"
+                src="images/move_image/scenario1.png"
+                alt="시나리오 1"
+                loading="lazy"
+              />
+              <div>
+                <h1>Pick Up & Start Moving</h1>
+                <p>
+                  본체에서 ROLL 모듈을 꺼내 손에 쥐고,<br />
+                  걸으며 자연스럽게 움직임을 만들어냅니다.
+                </p>
+              </div>
+            </figure>
+            <figure class="zz-item">
+              <img
+                class="zz-img"
+                src="images/move_image/scenario2.png"
+                alt="시나리오 2"
+                loading="lazy"
+              />
+              <div>
+                <h1>Shake & Swing</h1>
+                <p>
+                  걷는 리듬에 따라 손에서 흔들리고<br />
+                  팔의 스윙으로 작은 운동 에너지가 축적됩니다.
+                </p>
+              </div>
+            </figure>
+            <figure class="zz-item">
+              <img
+                class="zz-img"
+                src="images/move_image/scenario3.png"
+                alt="시나리오 3"
+                loading="lazy"
+              />
+              <div>
+                <h1>Roll on the Ground</h1>
+                <p>
+                  바닥이나 잔디 위에 가볍게 굴리며<br />더 큰 운동 에너지를
+                  만들어냅니다.
+                </p>
+              </div>
+            </figure>
+            <figure class="zz-item">
+              <img
+                class="zz-img"
+                src="images/move_image/scenario4.png"
+                alt="시나리오 4"
+                loading="lazy"
+              />
+              <div>
+                <h1>Twist & Build Energy</h1>
+                <p>
+                  손으로 잡고 돌리거나 비틀며<br />운동 에너지를 만들어내는
+                  재미를 느낍니다.
+                </p>
+              </div>
+            </figure>
+          </div>
+          <div class="right-info">
+            <p class="scenario">Arduino Logic & Flow</p>
+            <div class="product-shot2">
+              <img
+                src="images/move_image/arduino.png"
+                alt="Top-down view of the solar device."
+              />
+            </div>
+            <p class="product-description2"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      let isNavigatingUp = false;
+
+      function navigateUp() {
+        if (isNavigatingUp || window.scrollY !== 0) return; // 맨 위가 아니면 실행 안 함
+        isNavigatingUp = true;
+        document.documentElement.style.scrollSnapType = "none";
+        document.body.classList.add("fade-out-up");
+        setTimeout(() => {
+          window.location.href = "move.html";
+        }, 800);
+      }
+      function isDrawerOpen() {
+        const drawer = document.getElementById("sideDrawer");
+        return drawer.classList.contains("open"); // ✅ drawer가 열려있는지 여부 반환
+      }
+
+      window.addEventListener(
+        "wheel",
+        function (event) {
+          if (event.deltaY < 0) {
+            if (isDrawerOpen()) return; // ✅ SCENARIO 열려 있으면 차단
+            navigateUp();
+          }
+        },
+        { passive: true }
+      );
+
+      // [모바일 스와이프]
+      let touchStartY = 0;
+      window.addEventListener(
+        "touchstart",
+        function (e) {
+          if (window.scrollY === 0) {
+            touchStartY = e.touches[0].clientY;
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener(
+        "touchmove",
+        function (e) {
+          if (isDrawerOpen()) return; // ✅ SCENARIO 열려 있으면 차단
+          if (isNavigatingUp || window.scrollY !== 0) return;
+          const deltaY = e.touches[0].clientY - touchStartY;
+          if (deltaY > 50) {
+            navigateUp();
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+          isNavigatingUp = false;
+          document.body.classList.remove("fade-out-up");
+        }
+      });
+    </script>
+    <script>
+      /* ===========================
+ 📑 Drawer (SCENARIO)
+=========================== */
+      const quickBar = document.getElementById("quickBar");
+      const drawer = document.getElementById("sideDrawer");
+      const scrim = document.getElementById("drawerScrim");
+      const drawerClose = document.getElementById("drawerClose");
+
+      function openDrawer() {
+        drawer.classList.add("open");
+        scrim.classList.add("show");
+        document.body.classList.add("drawer-open");
+      }
+      function closeDrawer() {
+        drawer.classList.remove("open");
+        scrim.classList.remove("show");
+        document.body.classList.remove("drawer-open");
+      }
+
+      quickBar.addEventListener("click", openDrawer);
+      drawerClose.addEventListener("click", closeDrawer);
+      scrim.addEventListener("click", closeDrawer);
+      addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDrawer();
+      });
+
+      // 마우스 오른쪽 진입 시 QuickBar 표시
+      let lastX = 0;
+      addEventListener(
+        "mousemove",
+        (e) => {
+          lastX = e.clientX;
+          const threshold = innerWidth * 0.7;
+          quickBar.classList.toggle(
+            "visible",
+            lastX >= threshold || "ontouchstart" in window
+          );
+        },
+        { passive: true }
+      );
+      addEventListener("touchstart", () => quickBar.classList.add("visible"), {
+        passive: true,
+      });
+    </script>
+
+    <script>
+      document.addEventListener("click", (e) => {
+        const count = 3;
+        const delay = 150;
+
+        for (let i = 0; i < count; i++) {
+          const ripple = document.createElement("div");
+          ripple.className = "ripple";
+          const size = 200 + i * 60;
+          ripple.style.width = `${size}px`;
+          ripple.style.height = `${size}px`;
+          ripple.style.left = `${e.clientX - size / 2}px`;
+          ripple.style.top = `${e.clientY - size / 2}px`;
+          ripple.style.animationDelay = `${i * delay}ms`;
+          document.body.appendChild(ripple);
+          ripple.addEventListener("animationend", () => ripple.remove());
+        }
+      });
+      document
+        .getElementById("top-right-icon")
+        .addEventListener("click", () => {
+          window.location.href = "index.html#main";
+        });
+    </script>
+  </body>
+</html>

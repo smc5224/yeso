@@ -469,9 +469,9 @@
 
           if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             let targetUrl = "";
-            if (sec.id === "sec1") targetUrl = "solar.html";
+            if (sec.id === "sec1") targetUrl = "solar_mobile.html";
             if (sec.id === "sec2") targetUrl = "move_mobile.html";  
-            if (sec.id === "sec3") targetUrl = "seekoo.html";
+            if (sec.id === "sec3") targetUrl = "seekoo_mobile.html";
 
             // 부드럽게 페이드아웃 후 이동
             main.classList.add("fading-out");
@@ -489,13 +489,14 @@
 
             let targetUrl = "";
 
+            const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
             if (sec.id === "sec1") {
-              targetUrl = "solar.html";
+              targetUrl = isMobile ? "solar_mobile.html": "solar.html";
             } else if (sec.id === "sec2") {
-              const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
               targetUrl = isMobile ? "move_mobile.html" : "move.html";
             } else if (sec.id === "sec3") {
-              targetUrl = "seekoo.html";
+              targetUrl = isMobile ? "seekoo_mobile.html" : "seekoo.html";
             }
             setTimeout(() => {
               window.location.href = targetUrl;
