@@ -336,24 +336,37 @@
       }
       @media (orientation: portrait) {
         #logo-img {
-          height: auto;
-          width: auto;
+          height: 6vh;
+          margin: 0;
         }
         #top-right-icon {
-          height: auto;
-          width: auto;
+          height: 6vh;
+          position: relative;
+          transform: none;
+          right: 0;
+          top:0;
+          margin-top: 1vh;
+          margin-right: 1vh;
         }
         #top-panel {
-          max-height: 300px;
+          max-height: 6vh;
+          padding: 0;
+          justify-content: space-between;
         }
         #bottom-panel {
           flex-direction: column;
         }
         .cover-image {
-          width: 50%;
+          width: 70%;
+        }
+        .section{
+          justify-content: end;
         }
         .section .video {
           height: 80%;
+        }
+        .section-icon{
+          width: 10vh;
         }
       }
     </style>
@@ -453,6 +466,21 @@
 
       sections.forEach((sec, index) => {
         sec.addEventListener("click", () => {
+
+          if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            let targetUrl = "";
+            if (sec.id === "sec1") targetUrl = "solar.html";
+            if (sec.id === "sec2") targetUrl = "move_mobile.html";  
+            if (sec.id === "sec3") targetUrl = "seekoo.html";
+
+            // 부드럽게 페이드아웃 후 이동
+            main.classList.add("fading-out");
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 600);
+            return; // 🔥 여기서 종료 → 확대 단계 패스
+          }
+
           const thisSectionClass = `expanded-${index + 1}`;
           if (main.classList.contains(thisSectionClass)) {
             if (isScrolling) return;

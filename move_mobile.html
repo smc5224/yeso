@@ -65,6 +65,8 @@
         box-sizing: border-box;
         position: fixed;
         width: 100%;
+        z-index: 3;
+        max-height: 6vh
       }
 
       #logo-img {
@@ -362,7 +364,7 @@
           margin-top: 1vh;
           margin-right: 1vh;
         }
-        .image-section{
+        .image-section {
           margin-top: 5vh;
         }
         .main-image-container {
@@ -383,7 +385,7 @@
           grid-column: 1; /* 1~2열 전체 */
           grid-row: 1 / span 2;
           width: 50% !important;
-          align-self: center; 
+          align-self: center;
         }
         .main-image-container img {
           width: 90%;
@@ -816,6 +818,11 @@
           ripple.addEventListener("animationend", () => ripple.remove());
         }
       });
+      document
+        .getElementById("top-right-icon")
+        .addEventListener("click", () => {
+          window.location.href = "index.html#main";
+        });
     </script>
   </body>
 </html>
